@@ -17,7 +17,7 @@ export default function Topbar() {
         <Chip
           variant="filled"
           color="primary"
-          label={<Typography variant="body1">{user?.roleLabel}</Typography>}
+          label={<Typography variant="body1">{user?.role}</Typography>}
         />
       </div>
     </div>

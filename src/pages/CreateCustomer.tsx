@@ -8,18 +8,29 @@ import {
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import PageHeader from "../components/shared/PageHeader";
+import { useAppSelector } from "../hooks";
+import { useState } from "react";
+import { customerApi } from "../api/customer";
 
 interface Inputs {
   name: string;
   phoneNo: string;
   email: string;
-  type: string[];
-  project: string[];
-  csc: string;
+  type: number;
+  project: number;
+  csc: number;
   remarks: string;
 }
 
 export default function CreateCustomer() {
+  // states
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // react-redux
+  const { branches, projects, types } = useAppSelector(
+    (state) => state.inventory
+  );
+
   // react-hook-form
   const {
     register,
@@ -28,9 +39,44 @@ export default function CreateCustomer() {
     handleSubmit,
   } = useForm<Inputs>();
 
+  // select input array
+  const selectInputsArr: {
+    name: "project" | "csc" | "type";
+    label: string;
+    noOptionText: string;
+    options: { name: string; id: number }[];
+  }[] = [
+    {
+      name: "type",
+      label: "Select Customer Type",
+      noOptionText: "Sorry! No customer matching",
+      options: types,
+    },
+    {
+      name: "project",
+      label: "Select Project Name",
+      noOptionText: "Sorry! No project matching",
+      options: projects,
+    },
+    {
+      name: "csc",
+      label: "Select Branch",
+      noOptionText: "Sorry! No branch matching",
+      options: branches,
+    },
+  ];
+
   // add customer handler
-  const addCustomer: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const addCustomer: SubmitHandler<Inputs> = async (data) => {
+    try {
+      setLoading(true);
+      const res = await customerApi.create(data);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,84 +91,69 @@ export default function CreateCustomer() {
               error={Boolean(errors["name"])}
               {...register("name", { required: true })}
             />
+
             <TextField
               fullWidth
               label="Phone No"
               error={Boolean(errors["phoneNo"])}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">+880</InputAdornment>
+                  <InputAdornment position="start">+88</InputAdornment>
                 ),
               }}
-              {...register("phoneNo", { required: true })}
+              {...register("phoneNo", {
+                required: true,
+                pattern: {
+                  value: /^01[3-9]\d{8}$/,
+                  message: "invalid phone number",
+                },
+              })}
             />
 
             <TextField
               fullWidth
               label="Email"
               error={Boolean(errors["email"])}
-              {...register("email", { required: true })}
+              {...register("email", {
+                required: true,
+                pattern: {
+                  value:
+                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  message: "Invalid Email",
+                },
+              })}
             />
-            <Controller
-              control={control}
-              name="type"
-              rules={{ required: true }}
-              render={({ fieldState: { error } }) => (
-                <Autocomplete
-                  options={[]}
-                  noOptionsText="Customer Type Not Found"
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      error={Boolean(error)}
-                      fullWidth
-                      size="medium"
-                      label="Select Customer Type"
-                    />
-                  )}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="project"
-              rules={{ required: true }}
-              render={({ fieldState: { error } }) => (
-                <Autocomplete
-                  options={[]}
-                  noOptionsText="Project Not Found"
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      error={Boolean(error)}
-                      fullWidth
-                      size="medium"
-                      label="Select Project Name"
-                    />
-                  )}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="project"
-              rules={{ required: true }}
-              render={({ fieldState: { error } }) => (
-                <Autocomplete
-                  options={[]}
-                  noOptionsText="CSC Not Found"
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      error={Boolean(error)}
-                      fullWidth
-                      size="medium"
-                      label="Select CSC"
-                    />
-                  )}
-                />
-              )}
-            />
+
+            {selectInputsArr.map(({ name, label, noOptionText, options }) => (
+              <Controller
+                key={name}
+                control={control}
+                name={name}
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <Autocomplete
+                    options={options}
+                    getOptionLabel={(option) => option?.name}
+                    noOptionsText={noOptionText}
+                    value={options.find((i) => i.id === value) || null}
+                    onChange={(_, newVal) => onChange(newVal?.id || "")}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        error={Boolean(error)}
+                        fullWidth
+                        size="medium"
+                        label={label}
+                      />
+                    )}
+                  />
+                )}
+              />
+            ))}
+
             <div className="col-span-2">
               <TextField
                 fullWidth
@@ -135,12 +166,14 @@ export default function CreateCustomer() {
             </div>
           </div>
           <Divider className="!my-5" />
+
           <Button
             type="submit"
             variant="contained"
             fullWidth
             className="!py-3 !font-semibold"
             startIcon={<Add />}
+            disabled={loading}
           >
             Create Customer
           </Button>

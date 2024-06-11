@@ -1,8 +1,18 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/shared/Sidebar";
 import Topbar from "./components/shared/Topbar";
+import { useEffect } from "react";
+import { useAppDispatch } from "./hooks";
+import { fetchMetaData } from "./features/inventory/inventorySlice";
 
 export default function Layout() {
+  // react-redux
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMetaData());
+  }, []);
+
   return (
     <div className="w-screen h-screen flex">
       <Sidebar />
