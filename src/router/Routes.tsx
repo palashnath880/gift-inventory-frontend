@@ -14,6 +14,12 @@ import Customers from "../pages/Customers";
 import Allocate from "../pages/Allocate";
 import Redeem from "../pages/Redeem";
 import Gallery from "../pages/Gallery";
+import CSATPolicy from "../pages/CSATPolicy";
+import GiftStock from "../pages/gift/GiftStock";
+import GiftTransfer from "../pages/gift/GiftTransfer";
+import GiftReceive from "../pages/gift/GiftReceive";
+import MyApproval from "../pages/approval/MyApproval";
+import ReceiveApproval from "../pages/approval/ReceiveApproval";
 
 export default function Routes() {
   // react-redux
@@ -49,6 +55,30 @@ export default function Routes() {
         {
           path: "redeem/:redeemItem",
           element: <Redeem />,
+        },
+        {
+          path: "gift-stock",
+          element: <GiftStock />,
+        },
+        {
+          path: "gift-transfer",
+          element: <GiftTransfer />,
+        },
+        {
+          path: "gift-receive",
+          element: <GiftReceive />,
+        },
+        {
+          path: "my-approval",
+          element: <MyApproval />,
+        },
+        {
+          path: "receive-approval",
+          element: <ReceiveApproval />,
+        },
+        {
+          path: "csat-policy",
+          element: <CSATPolicy />,
         },
         {
           path: "gallery",

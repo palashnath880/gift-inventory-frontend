@@ -170,8 +170,8 @@ export default function Sidebar() {
       group: true,
       menus: [
         {
-          href: "/sent-approval",
-          label: "Sent Approval",
+          href: "/my-approval",
+          label: "My Approval",
           icon: <Send fontSize="small" />,
         },
         {
