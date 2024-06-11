@@ -1,26 +1,70 @@
 import {
+  Alert,
   Button,
   Pagination,
   Table,
   TableBody,
-  TableContainer,
   TableHead,
   TableRow,
 } from "@mui/material";
 import PageHeader from "../components/shared/PageHeader";
 import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import SearchInput from "../components/shared/SearchInput";
+import { useQuery } from "@tanstack/react-query";
+import { customerApi } from "../api/customer";
+import Loader from "../components/shared/Loader";
+
+interface Customer {
+  id: number;
+  name: string;
+  phoneNo: string;
+  email: string;
+  type: string;
+  project: string;
+  csc: string;
+  remarks: string;
+}
 
 export default function Customers() {
+  // search params
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { page, search } = {
+    page: searchParams.get("page") || "1",
+    search: searchParams.get("search") || "",
+  };
+
+  // react-query
+  const { data, isLoading, isSuccess } = useQuery<{
+    count: number;
+    data: Customer[];
+  }>({
+    queryKey: ["customers", page, search],
+    queryFn: async () => {
+      const res = await customerApi.getAll(parseInt(page), search);
+      return res.data;
+    },
+  });
+
   return (
     <div className="pb-10">
       <PageHeader title="Customers" />
       <div className="mb-5">
-        <SearchInput label="Search Customers by Name or Phone NO" />
+        <SearchInput
+          loading={isLoading}
+          value={search}
+          onSubmit={(value: string) =>
+            setSearchParams({ page: "1", search: value })
+          }
+          label="Search Customers by Name or Phone NO"
+        />
       </div>
-      <div>
-        <TableContainer>
+
+      {/* loading  */}
+      {isLoading && <Loader dataLoading />}
+
+      {isSuccess && data?.data?.length > 0 && (
+        <>
           <Table>
             <TableHead>
               <TableRow>
@@ -34,149 +78,60 @@ export default function Customers() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <StyledTableRow>
-                <StyledTableCell>Palash</StyledTableCell>
-                <StyledTableCell>pk@gmail.com</StyledTableCell>
-                <StyledTableCell>+8801304780828</StyledTableCell>
-                <StyledTableCell>Customer Type</StyledTableCell>
-                <StyledTableCell>Project</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>
-                  <Link to={"100"}>
-                    <Button
-                      variant="contained"
-                      className="!py-2.5 !font-medium"
-                    >
-                      Gift Allocate
-                    </Button>
-                  </Link>
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>Palash</StyledTableCell>
-                <StyledTableCell>pk@gmail.com</StyledTableCell>
-                <StyledTableCell>+8801304780828</StyledTableCell>
-                <StyledTableCell>Customer Type</StyledTableCell>
-                <StyledTableCell>Project</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>
-                  <Link to={"100"}>
-                    <Button
-                      variant="contained"
-                      className="!py-2.5 !font-medium"
-                    >
-                      Gift Allocate
-                    </Button>
-                  </Link>
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>Palash</StyledTableCell>
-                <StyledTableCell>pk@gmail.com</StyledTableCell>
-                <StyledTableCell>+8801304780828</StyledTableCell>
-                <StyledTableCell>Customer Type</StyledTableCell>
-                <StyledTableCell>Project</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>
-                  <Link to={"100"}>
-                    <Button
-                      variant="contained"
-                      className="!py-2.5 !font-medium"
-                    >
-                      Gift Allocate
-                    </Button>
-                  </Link>
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>Palash</StyledTableCell>
-                <StyledTableCell>pk@gmail.com</StyledTableCell>
-                <StyledTableCell>+8801304780828</StyledTableCell>
-                <StyledTableCell>Customer Type</StyledTableCell>
-                <StyledTableCell>Project</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>
-                  <Link to={"100"}>
-                    <Button
-                      variant="contained"
-                      className="!py-2.5 !font-medium"
-                    >
-                      Gift Allocate
-                    </Button>
-                  </Link>
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>Palash</StyledTableCell>
-                <StyledTableCell>pk@gmail.com</StyledTableCell>
-                <StyledTableCell>+8801304780828</StyledTableCell>
-                <StyledTableCell>Customer Type</StyledTableCell>
-                <StyledTableCell>Project</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>
-                  <Link to={"100"}>
-                    <Button
-                      variant="contained"
-                      className="!py-2.5 !font-medium"
-                    >
-                      Gift Allocate
-                    </Button>
-                  </Link>
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>Palash</StyledTableCell>
-                <StyledTableCell>pk@gmail.com</StyledTableCell>
-                <StyledTableCell>+8801304780828</StyledTableCell>
-                <StyledTableCell>Customer Type</StyledTableCell>
-                <StyledTableCell>Project</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>
-                  <Link to={"100"}>
-                    <Button
-                      variant="contained"
-                      className="!py-2.5 !font-medium"
-                    >
-                      Gift Allocate
-                    </Button>
-                  </Link>
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>Palash</StyledTableCell>
-                <StyledTableCell>pk@gmail.com</StyledTableCell>
-                <StyledTableCell>+8801304780828</StyledTableCell>
-                <StyledTableCell>Customer Type</StyledTableCell>
-                <StyledTableCell>Project</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>
-                  <span className="w-full flex justify-end gap-4">
-                    <Link to={"allocate/customerId/gift"}>
-                      <Button
-                        variant="contained"
-                        className="!py-2.5 !font-medium"
-                      >
-                        Gift Allocate
-                      </Button>
-                    </Link>
-                    <Link to={"allocate/customerId/voucher"}>
-                      <Button
-                        variant="contained"
-                        className="!py-2.5 !font-medium"
-                      >
-                        Voucher Allocate
-                      </Button>
-                    </Link>
-                  </span>
-                </StyledTableCell>
-              </StyledTableRow>
+              {data?.data?.map(
+                ({ id, csc, email, name, phoneNo, project, type }) => (
+                  <StyledTableRow key={id}>
+                    <StyledTableCell>{name}</StyledTableCell>
+                    <StyledTableCell>{email}</StyledTableCell>
+                    <StyledTableCell>{phoneNo}</StyledTableCell>
+                    <StyledTableCell>{type}</StyledTableCell>
+                    <StyledTableCell>{project}</StyledTableCell>
+                    <StyledTableCell>{csc}</StyledTableCell>
+                    <StyledTableCell>
+                      <span className="w-full flex justify-end gap-4">
+                        <Link to={`allocate/${id}/gift`}>
+                          <Button
+                            variant="contained"
+                            className="!py-2.5 !font-medium"
+                          >
+                            Gift Allocate
+                          </Button>
+                        </Link>
+                        <Link to={`allocate/${id}/voucher`}>
+                          <Button
+                            variant="contained"
+                            className="!py-2.5 !font-medium"
+                          >
+                            Voucher Allocate
+                          </Button>
+                        </Link>
+                      </span>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                )
+              )}
             </TableBody>
           </Table>
-        </TableContainer>
-        <div className="flex justify-center mt-5">
-          <Pagination />
+          <div className="flex justify-center mt-5">
+            <Pagination
+              color="primary"
+              count={Math.ceil(data?.count / 50)}
+              page={parseInt(page)}
+              onChange={(e, value) =>
+                setSearchParams({ search, page: value.toString() })
+              }
+            />
+          </div>
+        </>
+      )}
+
+      {isSuccess && data?.data?.length <= 0 && (
+        <div className="mt-5 shadow-lg">
+          <Alert severity="error">Customer Not Found</Alert>
         </div>
-      </div>
+      )}
+
+      <div></div>
     </div>
   );
 }

@@ -37,6 +37,7 @@ export default function CreateCustomer() {
     formState: { errors },
     control,
     handleSubmit,
+    reset,
   } = useForm<Inputs>();
 
   // select input array
@@ -70,8 +71,8 @@ export default function CreateCustomer() {
   const addCustomer: SubmitHandler<Inputs> = async (data) => {
     try {
       setLoading(true);
-      const res = await customerApi.create(data);
-      console.log(res.data);
+      await customerApi.create(data);
+      reset();
     } catch (err) {
       console.log(err);
     } finally {
