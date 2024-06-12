@@ -11,6 +11,7 @@ interface User {
   availableBal: number;
   assignedBal: number;
   issuedGift: number;
+  availableGift: number;
 }
 
 interface InitialState {

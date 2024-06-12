@@ -1,7 +1,12 @@
-import { Table, TableBody } from "@mui/material";
+import { Alert, Table, TableBody } from "@mui/material";
 import { StyledTableCell, StyledTableRow } from "./MUITable";
+import { useQuery } from "@tanstack/react-query";
+import { customerApi } from "../../api/customer";
+import { useParams } from "react-router-dom";
+import Loader from "./Loader";
+import { AxiosError } from "axios";
 
-interface CustomerProps {
+interface Customer {
   name: string;
   email: string;
   phoneNo: string;
@@ -10,7 +15,33 @@ interface CustomerProps {
   csc: string;
 }
 
-export default function Customer({ customer }: { customer: CustomerProps }) {
+export default function Customer() {
+  // get params
+  const { customerId } = useParams<{ customerId: string }>();
+
+  const {
+    data: customer,
+    isLoading,
+    isSuccess,
+    error,
+  } = useQuery<Customer>({
+    queryKey: ["customer", customerId],
+    queryFn: async () => {
+      const res = await customerApi.getCustomerById(customerId);
+      return res.data;
+    },
+  });
+
+  // loader
+  if (isLoading) {
+    return <Loader dataLoading />;
+  }
+
+  // error message
+  if (!isSuccess && error instanceof AxiosError) {
+    return <Alert severity="error">{error?.response?.data?.message}</Alert>;
+  }
+
   return (
     <Table>
       <TableBody>

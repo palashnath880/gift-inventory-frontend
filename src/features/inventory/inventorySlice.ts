@@ -14,6 +14,16 @@ interface InitialState {
     name: string;
     id: number;
   }[];
+  voucherCodes: {
+    name: string;
+    id: number;
+    amount: number;
+  }[];
+  skuCodes: {
+    name: string;
+    id: number;
+    gift_type: string | null;
+  }[];
   policyPdfUrl: string | null;
 }
 
@@ -22,6 +32,8 @@ const initialState: InitialState = {
   policyPdfUrl: null,
   projects: [],
   types: [],
+  voucherCodes: [],
+  skuCodes: [],
 };
 
 const fetchMetaData = createAsyncThunk("inventory/meta-data", async () => {
@@ -39,6 +51,7 @@ const inventorySlice = createSlice({
       state.policyPdfUrl = action.payload?.policyPdfUrl;
       state.projects = action.payload?.projects || [];
       state.types = action.payload?.types || [];
+      state.skuCodes = action.payload?.skuCodes || [];
     });
   },
 });
