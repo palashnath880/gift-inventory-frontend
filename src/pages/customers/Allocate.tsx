@@ -6,16 +6,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import PageHeader from "../components/shared/PageHeader";
 
-import Customer from "../components/shared/Customer";
 import { useParams } from "react-router-dom";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useAppSelector } from "../hooks";
 import { useState } from "react";
-import { allocateApi } from "../api/allocate";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { useAppSelector } from "../../hooks";
+import Customer from "../../components/shared/Customer";
+import PageHeader from "../../components/shared/PageHeader";
+import { allocateApi } from "../../api/allocate";
 
 interface Inputs {
   so: string;

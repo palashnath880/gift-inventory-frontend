@@ -7,13 +7,16 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import PageHeader from "../components/shared/PageHeader";
-import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
 import { Link, useSearchParams } from "react-router-dom";
-import SearchInput from "../components/shared/SearchInput";
 import { useQuery } from "@tanstack/react-query";
-import { customerApi } from "../api/customer";
-import Loader from "../components/shared/Loader";
+import { customerApi } from "../../api/customer";
+import PageHeader from "../../components/shared/PageHeader";
+import SearchInput from "../../components/shared/SearchInput";
+import Loader from "../../components/shared/Loader";
+import {
+  StyledTableCell,
+  StyledTableRow,
+} from "../../components/shared/MUITable";
 
 interface Customer {
   id: number;

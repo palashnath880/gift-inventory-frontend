@@ -9,9 +9,9 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import Loader from "../components/shared/Loader";
 import { useEffect } from "react";
 import { verifyUser } from "../features/auth/authSlice";
-import CreateCustomer from "../pages/CreateCustomer";
-import Customers from "../pages/Customers";
-import Allocate from "../pages/Allocate";
+import CreateCustomer from "../pages/customers/CreateCustomer";
+import Customers from "../pages/customers/Customers";
+import Allocate from "../pages/customers/Allocate";
 import Redeem from "../pages/Redeem";
 import Gallery from "../pages/Gallery";
 import CSATPolicy from "../pages/CSATPolicy";
@@ -20,6 +20,7 @@ import GiftTransfer from "../pages/gift/GiftTransfer";
 import GiftReceive from "../pages/gift/GiftReceive";
 import MyApproval from "../pages/approval/MyApproval";
 import ReceiveApproval from "../pages/approval/ReceiveApproval";
+import AllocatedItems from "../pages/AllocatedItems";
 
 export default function Routes() {
   // react-redux
@@ -53,7 +54,11 @@ export default function Routes() {
           element: <Allocate />,
         },
         {
-          path: "redeem/:redeemItem",
+          path: "allocated/:allocatedItem",
+          element: <AllocatedItems />,
+        },
+        {
+          path: "allocated/:redeemItem/redeem",
           element: <Redeem />,
         },
         {

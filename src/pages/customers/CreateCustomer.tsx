@@ -7,10 +7,11 @@ import {
   TextField,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import PageHeader from "../components/shared/PageHeader";
-import { useAppSelector } from "../hooks";
 import { useState } from "react";
-import { customerApi } from "../api/customer";
+import { useAppSelector } from "../../hooks";
+import PageHeader from "../../components/shared/PageHeader";
+import { customerApi } from "../../api/customer";
+import toast from "react-hot-toast";
 
 interface Inputs {
   name: string;
@@ -72,6 +73,7 @@ export default function CreateCustomer() {
     try {
       setLoading(true);
       await customerApi.create(data);
+      toast.success("Customer Added");
       reset();
     } catch (err) {
       console.log(err);

@@ -137,7 +137,7 @@ export default function Sidebar() {
       group: true,
       menus: [
         {
-          href: "/redeem/gift",
+          href: "/allocated/gift",
           label: "Gift Redeem",
           icon: <Remove fontSize="small" />,
         },
@@ -160,7 +160,7 @@ export default function Sidebar() {
     },
     {
       label: "Voucher Redeem",
-      href: "redeem/voucher",
+      href: "/allocated/voucher",
       icon: <Paid fontSize="small" />,
     },
     {
