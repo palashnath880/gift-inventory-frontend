@@ -17,7 +17,7 @@ import {
 import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
 import moment from "moment";
 
-interface AllocatedItem {
+export interface AllocatedItem {
   created_at: string;
   creator_id: string;
   cus_email: string;

@@ -6,4 +6,7 @@ export const allocateApi = {
     instance.get(
       `/allocate/get-all/?type=${type}&page=${page}&search=${search}`
     ),
+  getItemById: (itemId: string) => instance.get(`/allocate/${itemId}`),
+  redeemItem: (itemId: number | undefined, data: any) =>
+    instance.put(`/allocate/redeem/${itemId}`, data),
 };

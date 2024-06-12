@@ -1,19 +1,51 @@
 import { useParams } from "react-router-dom";
 import PageHeader from "../components/shared/PageHeader";
-import { Button, Divider, Typography } from "@mui/material";
-import { Send } from "@mui/icons-material";
-import OTPInput from "react-otp-input";
-import { useState } from "react";
+import { Alert, Divider, Table, TableBody, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { allocateApi } from "../api/allocate";
+import Loader from "../components/shared/Loader";
+import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
+import type { AllocatedItem } from "./AllocatedItems";
+import moment from "moment";
+import RedeemButtons from "../components/Redeem/RedeemButtons";
+
+const MyRow = ({ label, value }: { label: string; value: string | number }) => {
+  return (
+    <StyledTableRow>
+      <StyledTableCell>{label}</StyledTableCell>
+      <StyledTableCell>{value}</StyledTableCell>
+    </StyledTableRow>
+  );
+};
 
 export default function Redeem() {
-  // states
-  const [otp, setOtp] = useState("");
+  // get params
+  const { redeemItem, allocatedItemId } = useParams<{
+    redeemItem: "gift" | "voucher";
+    allocatedItemId: string;
+  }>();
 
-  // get redeem item
-  const { redeemItem } = useParams<{ redeemItem: "gift" | "voucher" }>();
+  // get allocated item
+  const { data, isLoading, isSuccess, refetch } = useQuery<AllocatedItem>({
+    queryKey: ["allocatedItem", allocatedItemId],
+    queryFn: async () => {
+      if (!allocatedItemId) {
+        return;
+      }
+      const res = await allocateApi.getItemById(allocatedItemId);
+      return res.data;
+    },
+  });
+
+  const status =
+    data?.status === "open"
+      ? "Allocated"
+      : data?.status === "rejected"
+      ? "Rejected"
+      : "Redeemed";
 
   return (
-    <div>
+    <div className="pb-10">
       <PageHeader
         title={redeemItem === "gift" ? "Gift Redeem" : "Voucher Redeem"}
       />
@@ -23,43 +55,57 @@ export default function Redeem() {
             Allocation Details
           </Typography>
           <Divider className="!mb-4 !mt-2 !bg-primary" />
-        </div>
-        <div className="bg-white px-5 py-7 rounded-lg shadow-md">
-          <div className="mb-6">
-            <Button
-              variant="outlined"
-              color="secondary"
-              className="!py-2.5 !px-7"
-              endIcon={<Send />}
-            >
-              Send OTP
-            </Button>
-            <Typography>Verify OTP</Typography>
-            <Divider className="!mb-2" />
-            <OTPInput
-              value={otp}
-              onChange={setOtp}
-              numInputs={4}
-              renderSeparator={<span>-</span>}
-              renderInput={(params) => (
-                <input
-                  {...params}
-                  className="!aspect-square !w-12 !border-primary !border-4 !outline-none !rounded-lg !text-2xl"
+
+          {/* loader */}
+          {isLoading && <Loader dataLoading />}
+
+          {/* error message  */}
+          {isSuccess && !data && (
+            <Alert severity="error">
+              <Typography>Allocated Item Not Found</Typography>
+            </Alert>
+          )}
+
+          {isSuccess && data && (
+            <Table>
+              <TableBody>
+                <MyRow label="Name" value={data.cus_name} />
+                <MyRow label="Phone" value={data.cus_phone} />
+                <MyRow label="Email" value={data.cus_email} />
+
+                {redeemItem === "gift" && (
+                  <>
+                    <MyRow label="Gift SKU" value={data.gift_sku_code} />
+                    <MyRow label="Gift Type" value={data.gift_type} />
+                    <MyRow label="Gift Quantity" value={data.gift_quantity} />
+                  </>
+                )}
+                {redeemItem === "voucher" && (
+                  <>
+                    <MyRow label="Voucher Code" value={data.voucher_code} />
+                    <MyRow label="Voucher Amount" value={data.voucher_amount} />
+                  </>
+                )}
+
+                <MyRow label="SO" value={data.so} />
+                <MyRow label="Status" value={status} />
+                <MyRow
+                  label="Allocated At"
+                  value={moment(data.created_at).format("lll")}
                 />
-              )}
-            />
-          </div>
-          <div className="flex gap-5 justify-between">
-            <Button variant="contained" className="flex-1 !py-3">
-              Redeem With OTP
-            </Button>
-            <Button
-              variant="contained"
-              className="flex-1 !py-3"
-              color="success"
-            >
-              Redeem Manually
-            </Button>
+                {data.status !== "open" && (
+                  <MyRow
+                    label={`${status} Date`}
+                    value={moment(data.end_date).format("lll")}
+                  />
+                )}
+              </TableBody>
+            </Table>
+          )}
+        </div>
+        <div>
+          <div className="bg-white px-5 py-7 rounded-lg shadow-md sticky top-2">
+            <RedeemButtons item={data} refetch={refetch} />
           </div>
         </div>
       </div>

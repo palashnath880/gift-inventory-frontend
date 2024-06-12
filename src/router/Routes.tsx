@@ -58,7 +58,7 @@ export default function Routes() {
           element: <AllocatedItems />,
         },
         {
-          path: "allocated/:redeemItem/redeem",
+          path: "allocated/:redeemItem/:allocatedItemId/redeem",
           element: <Redeem />,
         },
         {
