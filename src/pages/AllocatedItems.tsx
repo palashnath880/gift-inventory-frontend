@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import PageHeader from "../components/shared/PageHeader";
 import { useQuery } from "@tanstack/react-query";
 import SearchInput from "../components/shared/SearchInput";
@@ -6,16 +6,17 @@ import { allocateApi } from "../api/allocate";
 import Loader from "../components/shared/Loader";
 import {
   Alert,
-  Button,
   Chip,
   Divider,
   Table,
   TableBody,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
 import moment from "moment";
+import ActionButtons from "../components/Allocate/ActionButtons";
 
 export interface AllocatedItem {
   created_at: string;
@@ -35,6 +36,8 @@ export interface AllocatedItem {
   status: "open" | "rejected" | "closed";
   voucher_amount: number;
   voucher_code: string;
+  branch: string;
+  allocated_by: string;
 }
 
 interface AllocatedQuery {
@@ -54,7 +57,7 @@ export default function AllocatedItems() {
   };
 
   // fetch allocated items
-  const { data, isSuccess, isLoading } = useQuery<AllocatedQuery>({
+  const { data, isSuccess, isLoading, refetch } = useQuery<AllocatedQuery>({
     queryKey: ["allocatedItems", page, search, allocatedItem],
     queryFn: async () => {
       const res = await allocateApi.getAllocatedItems(
@@ -110,6 +113,8 @@ export default function AllocatedItems() {
                     <>
                       <StyledTableCell>Voucher Amount</StyledTableCell>
                       <StyledTableCell>Voucher Code</StyledTableCell>
+                      <StyledTableCell>Allocated By</StyledTableCell>
+                      <StyledTableCell>Branch</StyledTableCell>
                     </>
                   )}
 
@@ -145,6 +150,8 @@ export default function AllocatedItems() {
                       <>
                         <StyledTableCell>{item.voucher_amount}</StyledTableCell>
                         <StyledTableCell>{item.voucher_code}</StyledTableCell>
+                        <StyledTableCell>{item.allocated_by}</StyledTableCell>
+                        <StyledTableCell>{item.branch}</StyledTableCell>
                       </>
                     )}
 
@@ -162,16 +169,11 @@ export default function AllocatedItems() {
                     </StyledTableCell>
                     <StyledTableCell>
                       {item.status === "open" && (
-                        <span className="flex justify-end gap-2">
-                          <Link to={`${item.id}/redeem`}>
-                            <Button variant="contained" color="success">
-                              Redeem
-                            </Button>
-                          </Link>
-                          <Button variant="contained" color="error">
-                            Cancel
-                          </Button>
-                        </span>
+                        <ActionButtons
+                          refetch={refetch}
+                          itemId={item?.id}
+                          itemType={allocatedItem}
+                        />
                       )}
                     </StyledTableCell>
                   </StyledTableRow>
@@ -183,7 +185,9 @@ export default function AllocatedItems() {
           {/* error message */}
           {data?.data?.length <= 0 && (
             <div className="!mt-5 shadow-md">
-              <Alert severity="error">No Allocated Items</Alert>
+              <Alert severity="error">
+                <Typography>No Allocated Items</Typography>
+              </Alert>
             </div>
           )}
         </>

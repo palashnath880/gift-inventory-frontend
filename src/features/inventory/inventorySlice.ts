@@ -1,11 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { inventoryApi } from "../../api/inventory";
+import type { Branch, SKUCode, VoucherCode } from "../../types";
 
 interface InitialState {
-  branches: {
-    name: string;
-    id: number;
-  }[];
+  branches: Branch[];
   projects: {
     name: string;
     id: number;
@@ -14,16 +12,8 @@ interface InitialState {
     name: string;
     id: number;
   }[];
-  voucherCodes: {
-    name: string;
-    id: number;
-    amount: number;
-  }[];
-  skuCodes: {
-    name: string;
-    id: number;
-    gift_type: string | null;
-  }[];
+  voucherCodes: VoucherCode[];
+  skuCodes: SKUCode[];
   policyPdfUrl: string | null;
 }
 
@@ -52,6 +42,7 @@ const inventorySlice = createSlice({
       state.projects = action.payload?.projects || [];
       state.types = action.payload?.types || [];
       state.skuCodes = action.payload?.skuCodes || [];
+      state.voucherCodes = action.payload?.voucherCodes || [];
     });
   },
 });

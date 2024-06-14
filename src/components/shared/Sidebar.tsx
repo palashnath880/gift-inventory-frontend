@@ -22,6 +22,8 @@ import { Collapse, Divider, List, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.webp";
+import { useAppDispatch } from "../../hooks";
+import { logOut } from "../../features/auth/authSlice";
 
 interface NavMenuType {
   href: string;
@@ -113,6 +115,8 @@ const NavMenuItem = ({
 };
 
 export default function Sidebar() {
+  const dispatch = useAppDispatch();
+
   // nav menus
   const menus: NavMenuType[] = [
     {
@@ -211,7 +215,10 @@ export default function Sidebar() {
         </div>
         <div className="px-3">
           <Divider />
-          <div className="rounded-md mt-2 flex cursor-pointer items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 bg-primary text-white hover:text-primary">
+          <div
+            onClick={() => dispatch(logOut())}
+            className="rounded-md mt-2 flex cursor-pointer items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 bg-primary text-white hover:text-primary"
+          >
             <Logout fontSize="small" />
             <Typography variant="body1">Logout</Typography>
           </div>

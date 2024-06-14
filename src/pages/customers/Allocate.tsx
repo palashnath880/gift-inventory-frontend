@@ -20,8 +20,13 @@ import { allocateApi } from "../../api/allocate";
 interface Inputs {
   so: string;
   quantity?: number;
-  voucherCode?: string;
-  skuCode: null | {
+  voucherCode?: null | {
+    voucher_code: string;
+    amount: number;
+    id: number;
+    exp_days: number;
+  };
+  skuCode?: null | {
     name: string;
     gift_type: string;
     id: number;
@@ -39,8 +44,14 @@ export default function Allocate() {
     ...code,
     label: `${code.name} - ${code.gift_type}`,
   }));
-  const availableGift = useAppSelector(
-    (state) => state.auth.user?.availableGift
+
+  const user = useAppSelector((state) => state.auth.user);
+  const availableBal: number = user?.availableBal || 0;
+
+  // vouchers codes
+  const voucherCodes = useAppSelector((state) => state.inventory.voucherCodes);
+  const vouchersOptions = voucherCodes.filter(
+    (item) => item.amount <= availableBal
   );
 
   // get params
@@ -66,7 +77,8 @@ export default function Allocate() {
       const formData = {
         so: data.so,
         quantity: data.quantity,
-        voucherCode: data.voucherCode,
+        voucherCode: data.voucherCode?.voucher_code,
+        voucherAmount: data.voucherCode?.amount,
         skuCode: data.skuCode?.name,
         customerId: customerId,
         redeemType: allocateItem === "gift" ? "gift" : "voucher",
@@ -98,6 +110,7 @@ export default function Allocate() {
           <Divider className="!mb-4 !mt-2 !bg-primary" />
           <Customer />
         </div>
+
         <div className="bg-white px-5 py-7 rounded-lg shadow-md">
           <form onSubmit={handleSubmit(allocateHandler)}>
             <div className="flex flex-col gap-4">
@@ -141,13 +154,13 @@ export default function Allocate() {
                   <TextField
                     fullWidth
                     type="number"
-                    disabled={availableGift === 0}
+                    disabled={user?.availableGift === 0}
                     error={Boolean(errors["quantity"])}
                     label="Gift Quantity"
                     {...register("quantity", {
                       required: true,
                       min: 1,
-                      max: availableGift,
+                      max: user?.availableGift,
                     })}
                   />
                   <Typography variant="body1" className="!pl-3 !text-primary">
@@ -162,10 +175,19 @@ export default function Allocate() {
                     control={control}
                     name="voucherCode"
                     rules={{ required: true }}
-                    render={({ fieldState: { error } }) => (
+                    render={({
+                      field: { onChange, value },
+                      fieldState: { error },
+                    }) => (
                       <Autocomplete
-                        options={[]}
+                        options={vouchersOptions}
                         noOptionsText="No Voucher Code Matched"
+                        getOptionLabel={(option) => option.voucher_code}
+                        isOptionEqualToValue={(option, value) =>
+                          option.id === value.id
+                        }
+                        value={value || null}
+                        onChange={(e, val) => onChange(val)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -188,7 +210,7 @@ export default function Allocate() {
                 className="!py-3"
                 variant="contained"
                 fullWidth
-                disabled={availableGift === 0 || loading}
+                disabled={user?.availableGift === 0 || loading}
                 startIcon={
                   loading && <CircularProgress color="inherit" size={20} />
                 }
@@ -196,12 +218,17 @@ export default function Allocate() {
                 Gift Allocate
               </Button>
             )}
+
             {allocateItem === "voucher" && (
               <Button
+                fullWidth
                 type="submit"
                 className="!py-3"
                 variant="contained"
-                fullWidth
+                disabled={loading}
+                startIcon={
+                  loading && <CircularProgress color="inherit" size={20} />
+                }
               >
                 Voucher Allocate
               </Button>

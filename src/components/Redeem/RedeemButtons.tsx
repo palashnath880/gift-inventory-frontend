@@ -55,10 +55,26 @@ export default function RedeemButtons({
   const sendOtp = async () => {
     try {
       setSending(true);
-      const genOtp = generateOTP();
-      await messageApi.send(item?.cus_phone, genOtp);
-      toast.success("OTP sent successfully");
-      setSentOtp(genOtp);
+
+      if (item?.redeem_type === "gift") {
+        const message: string = `Hello Sir/Madam, 
+                   
+                  Thank you for being a valued customer. As a token of our appreciation, we have a special gift for you. Please collect our gift from our front executive. Thank you for your continued trust in us.
+
+                  Best wishes,
+                  1000FiX Services Limited`;
+        await messageApi.send(item?.cus_phone, message);
+        await redeemItem("otp");
+        toast.success("Notification sent successfully");
+      } else {
+        const genOtp = generateOTP();
+        const message: string = `Dear Valued Customer,
+
+                        Use this OTP for redemption ${genOtp} to get a Discount on your current service.`;
+        await messageApi.send(item?.cus_phone, message);
+        toast.success("OTP sent successfully");
+        setSentOtp(genOtp);
+      }
     } catch (err) {
       toast.error("OTP couldn't be sent");
     } finally {
@@ -101,7 +117,54 @@ export default function RedeemButtons({
       )}
 
       <div className="mb-6">
-        {!sentOtp && (
+        {/* otp function */}
+        {item?.redeem_type === "voucher" && (
+          <>
+            {!sentOtp && (
+              <Button
+                variant="contained"
+                color="secondary"
+                className="!py-2.5 !px-7"
+                endIcon={<Send />}
+                onClick={sendOtp}
+                disabled={sending}
+              >
+                Send OTP for Redeem
+              </Button>
+            )}
+
+            {sentOtp && (
+              <div className="flex items-center gap-3 flex-col">
+                <Typography
+                  variant="h6"
+                  className="!font-semibold !text-primary"
+                >
+                  Verify OTP
+                </Typography>
+                <OTPInput
+                  value={otp}
+                  onChange={setOtp}
+                  numInputs={4}
+                  renderSeparator={<span>-</span>}
+                  renderInput={(params) => (
+                    <input
+                      {...params}
+                      className="!aspect-square !w-12 !border-primary !border-4 !outline-none !rounded-lg !text-2xl"
+                    />
+                  )}
+                />
+                {otp.length === 4 && otp !== sentOtp && (
+                  <Typography className="text-red-500">
+                    OTP does not matched
+                  </Typography>
+                )}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* notification for gift */}
+        {item?.redeem_type === "gift" && (
           <Button
             variant="contained"
             color="secondary"
@@ -110,78 +173,56 @@ export default function RedeemButtons({
             onClick={sendOtp}
             disabled={sending}
           >
-            Send OTP for Redeem
+            Send Notification with Gift Redeem
           </Button>
-        )}
-        {sentOtp && (
-          <div className="flex items-center gap-3 flex-col">
-            <Typography variant="h6" className="!font-semibold !text-primary">
-              Verify OTP
-            </Typography>
-            <OTPInput
-              value={otp}
-              onChange={setOtp}
-              numInputs={4}
-              renderSeparator={<span>-</span>}
-              renderInput={(params) => (
-                <input
-                  {...params}
-                  className="!aspect-square !w-12 !border-primary !border-4 !outline-none !rounded-lg !text-2xl"
-                />
-              )}
-            />
-            {otp.length === 4 && otp !== sentOtp && (
-              <Typography className="text-red-500">
-                OTP does not matched
-              </Typography>
-            )}
-          </div>
         )}
       </div>
 
       <Divider className="!my-5 !bg-primary" />
-      <PopupState variant="popover">
-        {(popupState) => (
-          <>
-            <Button
-              {...bindTrigger(popupState)}
-              variant="contained"
-              className="flex-1 !py-3"
-              color="success"
-            >
-              Redeem Manually
-            </Button>
-            <Popover {...bindPopover(popupState)}>
-              <div className="w-[200px] px-2 py-5">
-                <Typography className="!text-primary !font-semibold !text-center !text-sm">
-                  Are you sure to redeem it manually?
-                </Typography>
-                <div className="flex justify-between gap-2 mt-3">
-                  <Button
-                    variant="contained"
-                    color="error"
-                    className="flex-1"
-                    onClick={popupState.close}
-                  >
-                    No
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    className="flex-1"
-                    onClick={() => {
-                      redeemItem("manual");
-                      popupState.close();
-                    }}
-                  >
-                    Yes
-                  </Button>
+      <div className="">
+        <PopupState variant="popover">
+          {(popupState) => (
+            <>
+              <Button
+                {...bindTrigger(popupState)}
+                variant="contained"
+                className="flex-1 !py-3"
+                color="success"
+              >
+                Redeem Manually
+              </Button>
+              <Popover {...bindPopover(popupState)}>
+                <div className="w-[200px] px-2 py-5">
+                  <Typography className="!text-primary !font-semibold !text-center !text-sm">
+                    Are you sure to redeem it manually?
+                  </Typography>
+                  <div className="flex justify-between gap-2 mt-3">
+                    <Button
+                      variant="contained"
+                      color="error"
+                      className="flex-1"
+                      onClick={popupState.close}
+                    >
+                      No
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      className="flex-1"
+                      onClick={() => {
+                        redeemItem("manual");
+                        popupState.close();
+                      }}
+                    >
+                      Yes
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </Popover>
-          </>
-        )}
-      </PopupState>
+              </Popover>
+            </>
+          )}
+        </PopupState>
+      </div>
     </div>
   );
 }

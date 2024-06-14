@@ -3,9 +3,11 @@ import { authApi } from "../../api/auth";
 import Cookies from "js-cookie";
 
 interface User {
+  id: number;
   name: string;
   email: string;
   branch: string;
+  branch_id: string;
   role: string;
   roleLabel: string;
   availableBal: number;
@@ -16,7 +18,7 @@ interface User {
 
 interface InitialState {
   loading: boolean;
-  user: null | User;
+  user: User | null;
   login: {
     loading: boolean;
     data: null | { token: string };
