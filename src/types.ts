@@ -1,3 +1,17 @@
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  branch: string;
+  branch_id: string;
+  role: string;
+  roleLabel: string;
+  availableBal: number;
+  assignedBal: number;
+  issuedGift: number;
+  availableGift: number;
+};
+
 export type VoucherCode = {
   voucher_code: string;
   id: number;
@@ -46,4 +60,33 @@ export type ApprovalFormInputs = {
   approver_1?: number;
   approver_2?: number | null;
   customer_id?: number;
+};
+
+export type ApprovalItem = {
+  appro_1_note: string;
+  appro_2_note: string;
+  appro_end_by: number;
+  appro_end_date: string;
+  appro_ender_name: string;
+  approver_1: number;
+  approver_1_name: string;
+  approver_2: number;
+  approver_2_name: string;
+  created_at: string;
+  customer_id: number;
+  customer_name: string;
+  customer_phone_no: string;
+  description: string;
+  id: number;
+  redeemed_date: string;
+  redeemer_id: number;
+  redeemer_name: string;
+  sender_id: number;
+  sender_name: string;
+  branch_id: number;
+  branch_name: string;
+  status: "open" | "approved" | "rejected" | "transferred" | "redeemed";
+  voucher_amount: number;
+  voucher_code: string;
+  transferred_date: string;
 };

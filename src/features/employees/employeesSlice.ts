@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import type { Employee } from "../../types";
+import { employeeApi } from "../../api/employee";
 
 interface InitialState {
   loading: boolean;
@@ -11,10 +13,25 @@ const initialState: InitialState = {
 };
 
 // fetch employee
+const fetchEmployees = createAsyncThunk("employees", async () => {
+  const res = await employeeApi.getAll();
+  return res.data;
+});
 
 const employeesSlice = createSlice({
   name: "customers",
   initialState,
   reducers: {},
-  extraReducers(builder) {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchEmployees.pending, (state) => {
+        return { ...state, loading: true };
+      })
+      .addCase(fetchEmployees.fulfilled, (state, action) => {
+        return { loading: false, employees: action.payload };
+      });
+  },
 });
+
+export { fetchEmployees };
+export default employeesSlice.reducer;

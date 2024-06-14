@@ -1,20 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authApi } from "../../api/auth";
 import Cookies from "js-cookie";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  branch: string;
-  branch_id: string;
-  role: string;
-  roleLabel: string;
-  availableBal: number;
-  assignedBal: number;
-  issuedGift: number;
-  availableGift: number;
-}
+import type { User } from "../../types";
 
 interface InitialState {
   loading: boolean;

@@ -15,17 +15,14 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { approvalApi } from "../../api/approval";
 import { customerApi } from "../../api/customer";
-import { useQuery } from "@tanstack/react-query";
-import { employeeApi } from "../../api/employee";
-import type { ApprovalFormInputs, Customer, Employee } from "../../types";
+import type { ApprovalFormInputs, Customer } from "../../types";
 import { useAppSelector } from "../../hooks";
 
 export default function ApprovalForm({
   close,
   open,
   refetch,
-}: //   refetch,
-{
+}: {
   open: boolean;
   close: () => void;
   refetch: () => void;
@@ -38,6 +35,8 @@ export default function ApprovalForm({
   // react-redux
   const voucherCodes = useAppSelector((state) => state.inventory.voucherCodes);
   const user = useAppSelector((state) => state.auth.user);
+  let approvers = useAppSelector((state) => state.employees.employees);
+  approvers = approvers.filter((i) => i?.id !== user?.id);
 
   // react-hook-form
   const {
@@ -52,19 +51,6 @@ export default function ApprovalForm({
   const handleClose = () => {
     close();
   };
-
-  // fetch employees for approver
-  const { data: approvers = [] } = useQuery<Employee[]>({
-    queryKey: ["employees"],
-    queryFn: async () => {
-      const res = await employeeApi.getAll();
-      if (Array.isArray(res.data)) {
-        const filteredEmployees = res.data?.filter((i) => i?.id !== user?.id);
-        return filteredEmployees;
-      }
-      return [];
-    },
-  });
 
   // fetch customers
   const fetchCustomers = async (e: any) => {

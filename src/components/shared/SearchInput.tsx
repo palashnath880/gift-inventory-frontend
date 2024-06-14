@@ -53,11 +53,7 @@ export default function SearchInput({
             }}
           />
         </div>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={Boolean(!input) || loading}
-        >
+        <Button type="submit" variant="contained" disabled={loading}>
           Search
         </Button>
       </div>

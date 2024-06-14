@@ -4,6 +4,9 @@ import { useState } from "react";
 import {
   Alert,
   Button,
+  Chip,
+  Divider,
+  Link,
   Pagination,
   Table,
   TableBody,
@@ -20,24 +23,8 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from "../../components/shared/MUITable";
-
-interface ApprovalItem {
-  id: number;
-  subject: string;
-  reason: string;
-  amount: number;
-  sender_id: number;
-  customer_id: number;
-  approver_1: number;
-  approver_2: number;
-  appro_1_note: string;
-  appro_2_note: string;
-  status: "open" | "approved" | "rejected" | "transferred";
-  transferred_date: string;
-  end_by: number;
-  end_date: string;
-  creator_id: string;
-}
+import type { ApprovalItem } from "../../types";
+import SearchInput from "../../components/shared/SearchInput";
 
 export default function MyApproval() {
   // states
@@ -53,19 +40,27 @@ export default function MyApproval() {
   // react-query
   const { data, isLoading, isSuccess, refetch } = useQuery<{
     count: number;
-    items: ApprovalItem[];
+    approvals: ApprovalItem[];
   }>({
     queryKey: ["myApproval", page, search],
     queryFn: async () => {
-      // const res = await approvalApi.getAll(parseInt(page), search);
-      // return res.data;
+      const res = await approvalApi.getAll(parseInt(page), search);
+      return res.data;
     },
   });
 
   return (
     <div>
       <PageHeader title="My Approval" />
-      <div>
+      <div className="flex justify-between">
+        <div className="w-[400px]">
+          <SearchInput
+            loading={isLoading}
+            value={search}
+            label="Search my approvals"
+            onSubmit={(val: string) => setParams({ page, search: val })}
+          />
+        </div>
         <Button
           variant="contained"
           className="!px-7 !py-2.5"
@@ -79,21 +74,81 @@ export default function MyApproval() {
       {/* loader */}
       {isLoading && <Loader dataLoading />}
 
-      {isSuccess && data?.items?.length > 0 && (
+      {isSuccess && data?.approvals?.length > 0 && (
         <>
-          <Table>
+          <Table className="!mt-5">
             <TableHead>
               <TableRow>
+                <StyledTableCell></StyledTableCell>
+                <StyledTableCell>Customer</StyledTableCell>
+                <StyledTableCell>Description</StyledTableCell>
+                <StyledTableCell>Voucher</StyledTableCell>
+                <StyledTableCell>Approver One</StyledTableCell>
+                <StyledTableCell>Approver Two</StyledTableCell>
+                <StyledTableCell>Redeemer</StyledTableCell>
+                <StyledTableCell>Status</StyledTableCell>
                 <StyledTableCell></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <StyledTableRow></StyledTableRow>
+              {data?.approvals?.map((approval, index) => (
+                <StyledTableRow key={approval.id}>
+                  <StyledTableCell>{index + 1}</StyledTableCell>
+                  <StyledTableCell>
+                    <b>{approval.customer_name}</b>
+                    <Divider className="!my-1 !bg-primary" />
+                    {approval.customer_phone_no}
+                  </StyledTableCell>
+                  <StyledTableCell>{approval.description}</StyledTableCell>
+                  <StyledTableCell>
+                    <b>Code: </b>
+                    {approval.voucher_code}
+                    <Divider className="!my-1 !bg-primary" />
+                    <b>Amount: </b>
+                    {approval.voucher_amount}
+                  </StyledTableCell>
+                  <StyledTableCell>{approval.approver_1_name}</StyledTableCell>
+                  <StyledTableCell>
+                    {approval.approver_2_name || "N/A"}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {approval.redeemer_name || "N/A"}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {approval.status === "open" ? (
+                      <Chip label="Open" color="warning" />
+                    ) : approval.status === "approved" ? (
+                      <Chip label="Approved" color="success" />
+                    ) : approval.status === "rejected" ? (
+                      <Chip label="Rejected" color="error" />
+                    ) : approval.status === "transferred" ? (
+                      <Chip
+                        color="info"
+                        label={`Transferred to ${approval.approver_2_name}`}
+                      />
+                    ) : (
+                      <Chip color="secondary" label={`Redeemed`} />
+                    )}
+                  </StyledTableCell>
+
+                  <StyledTableCell>
+                    {approval.status === "approved" && (
+                      <Button
+                        variant="contained"
+                        LinkComponent={Link}
+                        href={`/my-approval/${approval.id}/redeem`}
+                      >
+                        Redeem
+                      </Button>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
 
           {/* pagination  */}
-          <div className="flex justify-center mt-5">
+          <div className="flex justify-center !mt-5">
             <Pagination
               color="primary"
               count={Math.ceil(data?.count / 50)}
@@ -107,8 +162,8 @@ export default function MyApproval() {
       )}
 
       {/* error message  */}
-      {isSuccess && data?.items?.length <= 0 && (
-        <div className="!shadow-md">
+      {isSuccess && data?.approvals?.length <= 0 && (
+        <div className="!shadow-md !mt-5">
           <Alert severity="error">
             <Typography>Approval Item Not Found</Typography>
           </Alert>

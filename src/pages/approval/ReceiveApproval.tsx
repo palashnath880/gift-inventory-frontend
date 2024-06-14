@@ -1,4 +1,12 @@
-import { Alert, Table, TableBody, TableHead, TableRow } from "@mui/material";
+import {
+  Alert,
+  Chip,
+  Divider,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import PageHeader from "../../components/shared/PageHeader";
 import {
   StyledTableCell,
@@ -9,19 +17,16 @@ import ActionMenu from "../../components/Approval/ActionMenu";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/shared/Loader";
 import { useSearchParams } from "react-router-dom";
-
-export type Approval = {
-  id: number | string;
-  branch: string;
-  subject: string;
-  reason: string;
-  itemName: string;
-  itemCode: string;
-  quantity: number;
-  amount: number;
-};
+import { approvalApi } from "../../api/approval";
+import type { ApprovalItem } from "../../types";
+import moment from "moment";
+import { useAppSelector } from "../../hooks";
+import ApproverTwoEdit from "../../components/Approval/ApproverTwoEdit";
 
 export default function ReceiveApproval() {
+  // react-redux
+  const user = useAppSelector((state) => state.auth.user);
+
   // search params
   const [searchParams, setSearchParams] = useSearchParams();
   const { page, search } = {
@@ -30,10 +35,14 @@ export default function ReceiveApproval() {
   };
 
   // react-query
-  const { data, isLoading, refetch, isSuccess } = useQuery<Approval[]>({
+  const { data, isLoading, refetch, isSuccess } = useQuery<{
+    count: number;
+    approvals: ApprovalItem[];
+  }>({
     queryKey: ["receiveApproval", page, search],
     queryFn: async () => {
-      return [];
+      const res = await approvalApi.getReceiveApproval(parseInt(page), search);
+      return res.data;
     },
   });
 
@@ -55,35 +64,65 @@ export default function ReceiveApproval() {
         {isLoading && <Loader dataLoading />}
 
         {/* approval display table */}
-        {isSuccess && data?.length > 0 && (
+        {isSuccess && data?.approvals?.length > 0 && (
           <Table>
             <TableHead>
               <TableRow>
                 <StyledTableCell></StyledTableCell>
+                <StyledTableCell>Created At</StyledTableCell>
                 <StyledTableCell>Sender</StyledTableCell>
-                <StyledTableCell>Subject</StyledTableCell>
-                <StyledTableCell>Reason</StyledTableCell>
-                <StyledTableCell>Item Name</StyledTableCell>
-                <StyledTableCell>Item Code</StyledTableCell>
-                <StyledTableCell>Quantity</StyledTableCell>
-                <StyledTableCell>Amount</StyledTableCell>
+                <StyledTableCell>Description</StyledTableCell>
+                <StyledTableCell>Voucher</StyledTableCell>
+                <StyledTableCell>Approver One</StyledTableCell>
+                <StyledTableCell>Approver Two</StyledTableCell>
+                <StyledTableCell>Status</StyledTableCell>
                 <StyledTableCell></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.map((approval, index) => (
+              {data?.approvals?.map((approval, index) => (
                 <StyledTableRow key={approval.id}>
                   <StyledTableCell>{index + 1}</StyledTableCell>
                   <StyledTableCell>
-                    <strong>{approval.branch}</strong>
-                    {approval.branch}
+                    {moment(approval.created_at).format("ll")}
                   </StyledTableCell>
-                  <StyledTableCell>{approval.subject}</StyledTableCell>
-                  <StyledTableCell>{approval.reason}</StyledTableCell>
-                  <StyledTableCell>{approval.itemName}</StyledTableCell>
-                  <StyledTableCell>{approval.itemCode}</StyledTableCell>
-                  <StyledTableCell>{approval.quantity}</StyledTableCell>
-                  <StyledTableCell>{approval.amount}</StyledTableCell>
+                  <StyledTableCell>
+                    <b>{approval.sender_name}</b>
+                    <Divider className="!my-1 bg-primary" />
+                    {approval.branch_name}
+                  </StyledTableCell>
+                  <StyledTableCell>{approval.description}</StyledTableCell>
+                  <StyledTableCell>
+                    <b>Code: </b>
+                    {approval.voucher_code}
+                    <Divider className="!my-1 !bg-primary" />
+                    <b>Amount: </b>
+                    {approval.voucher_amount}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {approval.approver_1 === user?.id
+                      ? "Me"
+                      : approval.approver_1_name}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <ApproverTwoEdit approval={approval} />
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {approval.status === "open" ? (
+                      <Chip label="Open" color="warning" />
+                    ) : approval.status === "approved" ? (
+                      <Chip label="Approved" color="success" />
+                    ) : approval.status === "rejected" ? (
+                      <Chip label="Rejected" color="error" />
+                    ) : approval.status === "transferred" ? (
+                      <Chip
+                        color="info"
+                        label={`Transferred to ${approval.approver_2_name}`}
+                      />
+                    ) : (
+                      <Chip color="secondary" label={`Redeemed`} />
+                    )}
+                  </StyledTableCell>
                   <StyledTableCell>
                     <ActionMenu approval={approval} refetch={refetch} />
                   </StyledTableCell>
@@ -94,8 +133,8 @@ export default function ReceiveApproval() {
         )}
 
         {/* error message */}
-        {isSuccess && data?.length <= 0 && (
-          <div className="!bg-white !shadow-md">
+        {isSuccess && data?.approvals?.length <= 0 && (
+          <div className="!bg-white !shadow-md !mt-5">
             <Alert severity="error">Approval Not Found </Alert>
           </div>
         )}
