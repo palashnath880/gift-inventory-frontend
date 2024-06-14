@@ -145,7 +145,7 @@ export default function ApprovalForm({
                   id="select_customer"
                   options={customers}
                   noOptionsText="No Customer Match"
-                  onChange={(e, val) => onChange(val)}
+                  onChange={(_, val) => onChange(val)}
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
                   }
@@ -195,7 +195,7 @@ export default function ApprovalForm({
               }) => (
                 <Autocomplete
                   value={value || null}
-                  onChange={(e, val) => onChange(val)}
+                  onChange={(_, val) => onChange(val)}
                   options={approvers}
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
@@ -222,7 +222,7 @@ export default function ApprovalForm({
               )}
             />
 
-            {/* select approver one */}
+            {/* select approver two */}
             <Controller
               control={control}
               name="approverTwo"
@@ -233,7 +233,7 @@ export default function ApprovalForm({
               }) => (
                 <Autocomplete
                   value={value || null}
-                  onChange={(e, val) => onChange(val)}
+                  onChange={(_, val) => onChange(val)}
                   options={approvers}
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
@@ -271,7 +271,7 @@ export default function ApprovalForm({
               }) => (
                 <Autocomplete
                   value={value || null}
-                  onChange={(e, val) => onChange(val)}
+                  onChange={(_, val) => onChange(val)}
                   options={voucherCodes}
                   getOptionLabel={(option) => option.voucher_code}
                   isOptionEqualToValue={(option, value) =>

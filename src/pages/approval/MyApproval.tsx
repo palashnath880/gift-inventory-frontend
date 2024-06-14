@@ -153,7 +153,7 @@ export default function MyApproval() {
               color="primary"
               count={Math.ceil(data?.count / 50)}
               page={parseInt(page)}
-              onChange={(e, value) =>
+              onChange={(_, value) =>
                 setParams({ search, page: value.toString() })
               }
             />

@@ -27,7 +27,7 @@ const employeesSlice = createSlice({
       .addCase(fetchEmployees.pending, (state) => {
         return { ...state, loading: true };
       })
-      .addCase(fetchEmployees.fulfilled, (state, action) => {
+      .addCase(fetchEmployees.fulfilled, (_, action) => {
         return { loading: false, employees: action.payload };
       });
   },

@@ -1,14 +1,4 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -20,7 +10,6 @@ interface Inputs {
 
 export default function ForgotPass() {
   // states
-  const [isShow, setIsShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   // react-hook-form
@@ -32,7 +21,12 @@ export default function ForgotPass() {
 
   // login handler
   const loginHandler = async (data: Inputs): Promise<void> => {
-    console.log(data);
+    try {
+      setLoading(true);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

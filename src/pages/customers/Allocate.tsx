@@ -139,7 +139,7 @@ export default function Allocate() {
                         isOptionEqualToValue={(option, value) =>
                           option.id === value.id
                         }
-                        onChange={(e, value) => onChange(value)}
+                        onChange={(_, value) => onChange(value)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -164,7 +164,8 @@ export default function Allocate() {
                     })}
                   />
                   <Typography variant="body1" className="!pl-3 !text-primary">
-                    Available Gift Quantity: <strong>{availableGift}</strong>
+                    Available Gift Quantity:{" "}
+                    <strong>{user?.availableGift}</strong>
                   </Typography>
                 </>
               )}
@@ -187,7 +188,7 @@ export default function Allocate() {
                           option.id === value.id
                         }
                         value={value || null}
-                        onChange={(e, val) => onChange(val)}
+                        onChange={(_, val) => onChange(val)}
                         renderInput={(params) => (
                           <TextField
                             {...params}

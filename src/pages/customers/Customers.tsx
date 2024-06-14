@@ -17,17 +17,7 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from "../../components/shared/MUITable";
-
-interface Customer {
-  id: number;
-  name: string;
-  phoneNo: string;
-  email: string;
-  type: string;
-  project: string;
-  csc: string;
-  remarks: string;
-}
+import type { Customer } from "../../types";
 
 export default function Customers() {
   // search params
@@ -120,7 +110,7 @@ export default function Customers() {
               color="primary"
               count={Math.ceil(data?.count / 50)}
               page={parseInt(page)}
-              onChange={(e, value) =>
+              onChange={(_, value) =>
                 setSearchParams({ search, page: value.toString() })
               }
             />
