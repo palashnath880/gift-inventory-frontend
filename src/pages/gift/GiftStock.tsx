@@ -21,6 +21,7 @@ import { stockApi } from "../../api/stock";
 import Loader from "../../components/shared/Loader";
 import type { BranchStock } from "../../types";
 import { useSearchParams } from "react-router-dom";
+import { downloadExcel } from "../../utility/utility";
 
 export default function GiftStock() {
   // use search params
@@ -39,9 +40,19 @@ export default function GiftStock() {
     },
   });
 
+  const totalQuantity = data?.reduce(
+    (total, stock) => total + stock.quantity,
+    0
+  );
+  const totalRedQuantity = data?.reduce(
+    (total, stock) => total + stock.redeem_quantity,
+    0
+  );
+
   return (
     <div className="pb-10">
       <PageHeader title="Gift Stock" />
+
       <div className="flex justify-between">
         <div className="sm:w-[300px] w-full">
           <Autocomplete
@@ -63,6 +74,7 @@ export default function GiftStock() {
           variant="contained"
           startIcon={<Download />}
           className="!text-sm !capitalize"
+          onClick={() => downloadExcel("branchStock", "branch stock")}
         >
           Export as Excel
         </Button>
@@ -82,7 +94,7 @@ export default function GiftStock() {
 
       {isSuccess && data?.length > 0 && (
         <div className="mt-5">
-          <Table>
+          <Table id="branchStock">
             <TableHead>
               <TableRow>
                 <StyledTableCell></StyledTableCell>
@@ -106,6 +118,13 @@ export default function GiftStock() {
                   <StyledTableCell>{stock.redeem_quantity}</StyledTableCell>
                 </StyledTableRow>
               ))}
+              <StyledTableRow>
+                <StyledTableCell colSpan={4} className="!text-right">
+                  <strong>Total</strong>
+                </StyledTableCell>
+                <StyledTableCell>{totalQuantity}</StyledTableCell>
+                <StyledTableCell>{totalRedQuantity}</StyledTableCell>
+              </StyledTableRow>
             </TableBody>
           </Table>
         </div>
