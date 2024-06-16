@@ -109,3 +109,11 @@ export type StockType = {
   end_by: number;
   created_at: string;
 };
+
+export type BranchStock = {
+  quantity: number;
+  sku_code: string;
+  type: string;
+  name: string;
+  redeem_quantity: number;
+};
