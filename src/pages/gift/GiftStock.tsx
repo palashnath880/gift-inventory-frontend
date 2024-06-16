@@ -20,16 +20,21 @@ import { useQuery } from "@tanstack/react-query";
 import { stockApi } from "../../api/stock";
 import Loader from "../../components/shared/Loader";
 import type { BranchStock } from "../../types";
+import { useSearchParams } from "react-router-dom";
 
 export default function GiftStock() {
+  // use search params
+  const [params, setParams] = useSearchParams();
+  const sku_code = params.get("sku_code") || "";
+
   // react redux
   const skuCodes = useAppSelector((state) => state.inventory.skuCodes);
 
   // fetch branch stock
   const { data, isLoading, isSuccess } = useQuery<BranchStock[]>({
-    queryKey: ["branchStock"],
+    queryKey: ["branchStock", sku_code],
     queryFn: async () => {
-      const res = await stockApi.getBranchStock();
+      const res = await stockApi.getBranchStock(sku_code);
       return res.data;
     },
   });
@@ -42,8 +47,12 @@ export default function GiftStock() {
           <Autocomplete
             options={skuCodes}
             noOptionsText="No SKU Code Match"
+            value={skuCodes?.find((i) => i.name === sku_code) || null}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             getOptionLabel={(option) => option.name}
+            onChange={(_, value: any) =>
+              setParams({ sku_code: value?.name || "" })
+            }
             renderInput={(params) => (
               <TextField {...params} label="Search By SKU Code" />
             )}
