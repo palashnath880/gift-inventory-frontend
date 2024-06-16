@@ -124,15 +124,24 @@ export default function Sidebar() {
       icon: <Home fontSize="small" />,
     },
     {
-      href: "/create-customer",
-      label: "Create Customer",
-      icon: <PersonAdd fontSize="small" />,
-    },
-    {
-      href: "/customers",
+      href: "",
       label: "Customers",
       icon: <Wc fontSize="small" />,
+      group: true,
+      menus: [
+        {
+          href: "/customers",
+          label: "All Customers",
+          icon: <Wc fontSize="small" />,
+        },
+        {
+          href: "/create-customer",
+          label: "Create Customer",
+          icon: <PersonAdd fontSize="small" />,
+        },
+      ],
     },
+
     {
       label: "Gift",
       href: "",
