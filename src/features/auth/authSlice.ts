@@ -69,6 +69,9 @@ export const authSlice = createSlice({
     logOut: () => {
       Cookies.remove("auth_token");
     },
+    loadingOff: (state) => {
+      return { ...state, loading: false, user: null };
+    },
   },
   extraReducers(builder) {
     builder
@@ -110,6 +113,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logOut } = authSlice.actions;
+export const { logOut, loadingOff } = authSlice.actions;
 export { login, sendResetLink, verifyUser };
 export default authSlice.reducer;

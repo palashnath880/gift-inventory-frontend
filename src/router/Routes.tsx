@@ -8,7 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import Loader from "../components/shared/Loader";
 import { useEffect } from "react";
-import { verifyUser } from "../features/auth/authSlice";
+import { loadingOff, verifyUser } from "../features/auth/authSlice";
 import CreateCustomer from "../pages/customers/CreateCustomer";
 import Customers from "../pages/customers/Customers";
 import Allocate from "../pages/customers/Allocate";
@@ -21,6 +21,7 @@ import GiftReceive from "../pages/gift/GiftReceive";
 import MyApproval from "../pages/approval/MyApproval";
 import ReceiveApproval from "../pages/approval/ReceiveApproval";
 import AllocatedItems from "../pages/AllocatedItems";
+import Cookies from "js-cookie";
 
 export default function Routes() {
   // react-redux
@@ -110,7 +111,11 @@ export default function Routes() {
   ]);
 
   useEffect(() => {
-    dispatch(verifyUser());
+    if (Cookies.get("auth_token")) {
+      dispatch(verifyUser());
+    } else {
+      dispatch(loadingOff());
+    }
   }, []);
 
   // loader
