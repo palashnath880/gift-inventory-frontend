@@ -5,7 +5,6 @@ import {
   ExpandLess,
   ExpandMore,
   Home,
-  LocalShipping,
   Logout,
   Paid,
   PermMedia,
@@ -147,14 +146,14 @@ export default function Sidebar() {
         },
         {
           href: "/gift-stock",
-          label: "Gift Stock",
+          label: "Branch Stock",
           icon: <BarChart fontSize="small" />,
         },
-        {
-          href: "/gift-transfer",
-          label: "Gift Transfer",
-          icon: <LocalShipping fontSize="small" />,
-        },
+        // {
+        //   href: "/gift-transfer",
+        //   label: "Gift Transfer",
+        //   icon: <LocalShipping fontSize="small" />,
+        // },
         {
           href: "/gift-receive",
           label: "Gift Receive",
