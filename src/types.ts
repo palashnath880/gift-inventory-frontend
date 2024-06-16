@@ -90,3 +90,22 @@ export type ApprovalItem = {
   voucher_code: string;
   transferred_date: string;
 };
+export type StockType = {
+  id: number;
+  stock: "entry" | "transfer";
+  receiver_branch: number;
+  receiver_branch_name: string;
+  sender_branch: number;
+  sender_branch_name: string;
+  // receiver_employee: number;
+  sender_employee: number;
+  name: string;
+  type: string;
+  sku_code: string;
+  remarks: string;
+  quantity: number;
+  status: "open" | "received" | "rejected";
+  end_date: string;
+  end_by: number;
+  created_at: string;
+};

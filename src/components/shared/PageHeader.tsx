@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function PageHeader({ title }: { title: string }) {
   useEffect(() => {
-    document.title = `GIft Inventory = ${title}`;
+    document.title = `GIft Inventory - ${title}`;
   }, [title]);
 
   return (
