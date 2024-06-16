@@ -14,12 +14,12 @@ interface InitialState {
   }[];
   voucherCodes: VoucherCode[];
   skuCodes: SKUCode[];
-  policyPdfUrl: string | null;
+  policyPdfUrl: string;
 }
 
 const initialState: InitialState = {
   branches: [],
-  policyPdfUrl: null,
+  policyPdfUrl: "",
   projects: [],
   types: [],
   voucherCodes: [],
