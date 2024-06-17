@@ -8,43 +8,130 @@ import {
 } from "@mui/material";
 
 import { useParams } from "react-router-dom";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Control, Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import Customer from "../../components/shared/Customer";
 import PageHeader from "../../components/shared/PageHeader";
 import { allocateApi } from "../../api/allocate";
+import type { AllocateFormInputs, SKUCode, StockType } from "../../types";
+import { useQuery } from "@tanstack/react-query";
+import { stockApi } from "../../api/stock";
+import { loadUser } from "../../features/auth/authSlice";
 
-interface Inputs {
-  so: string;
-  quantity?: number;
-  voucherCode?: null | {
-    voucher_code: string;
-    amount: number;
-    id: number;
-    exp_days: number;
-  };
-  skuCode?: null | {
-    name: string;
-    gift_type: string;
-    id: number;
-    label: string;
-  };
-}
-
-export default function Allocate() {
+const GiftAllocateInputs = ({
+  control,
+}: {
+  control: Control<AllocateFormInputs>;
+}) => {
   // states
-  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedSKU, setSelectedSKU] = useState<SKUCode | null>(null);
 
-  // react-redux
+  // get sku codes
   const skuCodes = useAppSelector((state) => state.inventory.skuCodes);
   const skuCodesOptions = skuCodes.map((code) => ({
     ...code,
     label: `${code.name} - ${code.gift_type}`,
   }));
 
+  const user = useAppSelector((state) => state.auth.user);
+  const availableGift: number = user?.availableGift || 0;
+  // const availableBal: number = user?.availableBal || 0;
+  const { data, isLoading } = useQuery<StockType | null | undefined>({
+    queryKey: ["sku_stocks", selectedSKU],
+    queryFn: async (): Promise<StockType | null | undefined> => {
+      if (!selectedSKU) {
+        return null;
+      }
+      const res = await stockApi.getBranchStock(selectedSKU?.name);
+      const data: StockType[] = res.data;
+      const findStock: StockType | undefined = Array.isArray(data)
+        ? data?.find((i) => i.sku_code === selectedSKU.name)
+        : undefined;
+      return findStock;
+    },
+  });
+
+  // is quantity input is disabled
+  const isQuantityDis =
+    Boolean(availableGift <= 0) || Boolean(!data || data?.quantity <= 0);
+
+  const stockQuantity: number = data?.quantity || 0;
+  const maxInputVal: number = Math.min(availableGift, stockQuantity);
+
+  return (
+    <>
+      <Controller
+        control={control}
+        name="skuCode"
+        rules={{ required: true }}
+        render={({ field: { value, onChange }, fieldState: { error } }) => (
+          <Autocomplete
+            options={skuCodesOptions}
+            getOptionLabel={(option) => option.label}
+            noOptionsText="No GIft Item Matched"
+            value={value || null}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            onChange={(_, value) => {
+              onChange(value);
+              setSelectedSKU(value);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select GIft Item"
+                error={Boolean(error)}
+              />
+            )}
+          />
+        )}
+      />
+
+      {/* quantity input */}
+      <Controller
+        control={control}
+        name="quantity"
+        rules={{ required: true, min: 1, max: maxInputVal }}
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            fullWidth
+            type="number"
+            {...field}
+            disabled={isQuantityDis}
+            error={Boolean(error)}
+            label="Gift Quantity"
+          />
+        )}
+      />
+
+      <Typography variant="body1" className="!pl-3 !text-primary">
+        Available Gift: <strong>{user?.availableGift}</strong>
+      </Typography>
+
+      {!isLoading && data && (
+        <>
+          <Typography
+            variant="body1"
+            className={`!pl-3 ${
+              data?.quantity <= 0 ? "!text-red-500" : "!text-primary"
+            } `}
+          >
+            Available Gift in Branch: <strong>{data?.quantity}</strong>
+          </Typography>
+        </>
+      )}
+    </>
+  );
+};
+
+export default function Allocate() {
+  // states
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // redux
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const availableBal: number = user?.availableBal || 0;
 
@@ -67,10 +154,10 @@ export default function Allocate() {
     handleSubmit,
     control,
     reset,
-  } = useForm<Inputs>();
+  } = useForm<AllocateFormInputs>();
 
   // allocate handler
-  const allocateHandler: SubmitHandler<Inputs> = async (data) => {
+  const allocateHandler: SubmitHandler<AllocateFormInputs> = async (data) => {
     try {
       setLoading(true);
 
@@ -89,6 +176,7 @@ export default function Allocate() {
         `${allocateItem === "gift" ? "Gift" : "Voucher"} Allocated Successfully`
       );
       reset();
+      dispatch(loadUser());
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       toast.error(
@@ -108,6 +196,8 @@ export default function Allocate() {
             Customer
           </Typography>
           <Divider className="!mb-4 !mt-2 !bg-primary" />
+
+          {/* customer info */}
           <Customer />
         </div>
 
@@ -122,52 +212,7 @@ export default function Allocate() {
               />
 
               {allocateItem === "gift" && (
-                <>
-                  <Controller
-                    control={control}
-                    name="skuCode"
-                    rules={{ required: true }}
-                    render={({
-                      field: { value, onChange },
-                      fieldState: { error },
-                    }) => (
-                      <Autocomplete
-                        options={skuCodesOptions}
-                        getOptionLabel={(option) => option.label}
-                        noOptionsText="No GIft Item Matched"
-                        value={value || null}
-                        isOptionEqualToValue={(option, value) =>
-                          option.id === value.id
-                        }
-                        onChange={(_, value) => onChange(value)}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Select GIft Item"
-                            error={Boolean(error)}
-                          />
-                        )}
-                      />
-                    )}
-                  />
-
-                  <TextField
-                    fullWidth
-                    type="number"
-                    disabled={user?.availableGift === 0}
-                    error={Boolean(errors["quantity"])}
-                    label="Gift Quantity"
-                    {...register("quantity", {
-                      required: true,
-                      min: 1,
-                      max: user?.availableGift,
-                    })}
-                  />
-                  <Typography variant="body1" className="!pl-3 !text-primary">
-                    Available Gift Quantity:{" "}
-                    <strong>{user?.availableGift}</strong>
-                  </Typography>
-                </>
+                <GiftAllocateInputs control={control} />
               )}
 
               {allocateItem === "voucher" && (
@@ -199,6 +244,15 @@ export default function Allocate() {
                       />
                     )}
                   />
+
+                  <Typography
+                    variant="body1"
+                    className={`!pl-3 ${
+                      availableBal <= 0 ? "!text-red-500" : "!text-primary"
+                    } `}
+                  >
+                    Available Gift in Branch: <strong>{availableBal}</strong>
+                  </Typography>
                 </>
               )}
             </div>
@@ -208,7 +262,7 @@ export default function Allocate() {
             {allocateItem === "gift" && (
               <Button
                 type="submit"
-                className="!py-3"
+                className="!py-3 !capitalize !text-sm"
                 variant="contained"
                 fullWidth
                 disabled={user?.availableGift === 0 || loading}

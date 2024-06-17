@@ -117,3 +117,20 @@ export type BranchStock = {
   name: string;
   redeem_quantity: number;
 };
+
+export type AllocateFormInputs = {
+  so: string;
+  quantity?: number;
+  voucherCode?: null | {
+    voucher_code: string;
+    amount: number;
+    id: number;
+    exp_days: number;
+  };
+  skuCode?: null | {
+    name: string;
+    gift_type: string;
+    id: number;
+    label: string;
+  };
+};

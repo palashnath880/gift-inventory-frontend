@@ -6,4 +6,6 @@ export const stockApi = {
     instance.put(`employee/stocks-receive/${itemId}`, data),
   getBranchStock: (skuCode: string = "") =>
     instance.get(`employee/branch-stocks?sku_code=${skuCode}`),
+  getStockBySKU: (skuCode: string) =>
+    instance.get(`employee/branch-stocks/${skuCode}`),
 };

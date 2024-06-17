@@ -62,6 +62,12 @@ const verifyUser = createAsyncThunk("auth/verifyUser", async () => {
   return res.data;
 });
 
+// load users without loading
+const loadUser = createAsyncThunk("auth/loadUser", async () => {
+  const res = await authApi.verify();
+  return res.data;
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
@@ -109,10 +115,13 @@ export const authSlice = createSlice({
       })
       .addCase(verifyUser.rejected, (state) => {
         return { ...state, loading: false, user: null };
+      })
+      .addCase(loadUser.fulfilled, (state, action) => {
+        return { ...state, loading: false, user: action.payload };
       });
   },
 });
 
 export const { logOut, loadingOff } = authSlice.actions;
-export { login, sendResetLink, verifyUser };
+export { login, sendResetLink, verifyUser, loadUser };
 export default authSlice.reducer;
