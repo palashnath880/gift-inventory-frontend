@@ -6,6 +6,7 @@ import {
   TableBody,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -85,15 +86,17 @@ export default function Customers() {
                         <Link to={`allocate/${id}/gift`}>
                           <Button
                             variant="contained"
-                            className="!py-2.5 !font-medium"
+                            color="secondary"
+                            className="!py-2.5 !font-medium !text-sm !capitalize"
                           >
                             Gift Allocate
                           </Button>
                         </Link>
                         <Link to={`allocate/${id}/voucher`}>
                           <Button
-                            variant="contained"
-                            className="!py-2.5 !font-medium"
+                            variant="outlined"
+                            color="primary"
+                            className="!py-2.5 !font-medium !text-sm !capitalize"
                           >
                             Voucher Allocate
                           </Button>
@@ -120,7 +123,9 @@ export default function Customers() {
 
       {isSuccess && data?.data?.length <= 0 && (
         <div className="mt-5 shadow-lg">
-          <Alert severity="error">Customer Not Found</Alert>
+          <Alert severity="error">
+            <Typography>Customer Not Found</Typography>
+          </Alert>
         </div>
       )}
 
