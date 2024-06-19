@@ -7,16 +7,7 @@ import toast from "react-hot-toast";
 import { allocateApi } from "../../api/allocate";
 import { messageApi } from "../../api/message";
 import PopupState, { bindPopover, bindTrigger } from "material-ui-popup-state";
-
-const generateOTP = (length = 4) => {
-  const digits = "0123456789";
-  let otp = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * digits.length);
-    otp += digits[randomIndex];
-  }
-  return otp;
-};
+import { generateOTP } from "../../utility/utility";
 
 export default function RedeemButtons({
   item,
