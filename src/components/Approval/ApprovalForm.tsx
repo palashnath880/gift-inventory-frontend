@@ -10,13 +10,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { approvalApi } from "../../api/approval";
 import { customerApi } from "../../api/customer";
 import type { ApprovalFormInputs, Customer } from "../../types";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { fetchEmployees } from "../../features/employees/employeesSlice";
 
 export default function ApprovalForm({
   close,
@@ -37,6 +38,7 @@ export default function ApprovalForm({
   const user = useAppSelector((state) => state.auth.user);
   let approvers = useAppSelector((state) => state.employees.employees);
   approvers = approvers.filter((i) => i?.id !== user?.id);
+  const dispatch = useAppDispatch();
 
   // react-hook-form
   const {
@@ -106,6 +108,9 @@ export default function ApprovalForm({
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchEmployees());
+  }, []);
   return (
     <Modal open={open} className="!grid !place-items-center">
       <div className="!outline-none w-[90%] sm:w-[500px] lg:w-[700px] px-5 pb-10 pt-6 bg-white shadow-lg rounded-lg">
