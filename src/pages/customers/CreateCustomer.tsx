@@ -12,6 +12,7 @@ import { useAppSelector } from "../../hooks";
 import PageHeader from "../../components/shared/PageHeader";
 import { customerApi } from "../../api/customer";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 interface Inputs {
   name: string;
@@ -76,7 +77,10 @@ export default function CreateCustomer() {
       toast.success("Customer Added");
       reset();
     } catch (err) {
-      console.log(err);
+      const error = err as AxiosError<{ message: string }>;
+      toast.error(
+        error?.response?.data?.message || "Sorry! Something went wrong"
+      );
     } finally {
       setLoading(false);
     }
