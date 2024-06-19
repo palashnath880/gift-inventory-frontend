@@ -6,7 +6,6 @@ import {
   Button,
   Chip,
   Divider,
-  Link,
   Pagination,
   Table,
   TableBody,
@@ -16,7 +15,7 @@ import {
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { approvalApi } from "../../api/approval";
 import Loader from "../../components/shared/Loader";
 import {
@@ -122,10 +121,7 @@ export default function MyApproval() {
                     ) : approval.status === "rejected" ? (
                       <Chip label="Rejected" color="error" />
                     ) : approval.status === "transferred" ? (
-                      <Chip
-                        color="info"
-                        label={`Transferred to ${approval.approver_2_name}`}
-                      />
+                      <Chip color="info" label={`Transferred`} />
                     ) : (
                       <Chip color="secondary" label={`Redeemed`} />
                     )}
@@ -135,8 +131,9 @@ export default function MyApproval() {
                     {approval.status === "approved" && (
                       <Button
                         variant="contained"
-                        LinkComponent={Link}
-                        href={`/my-approval/${approval.id}/redeem`}
+                        component={Link}
+                        to={`${approval.id}/redeem`}
+                        className="!text-sm !font-medium !capitalize !px-5 !py-2.5"
                       >
                         Redeem
                       </Button>

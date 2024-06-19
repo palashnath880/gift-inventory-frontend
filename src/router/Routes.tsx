@@ -23,6 +23,7 @@ import ReceiveApproval from "../pages/approval/ReceiveApproval";
 import AllocatedItems from "../pages/AllocatedItems";
 import Cookies from "js-cookie";
 import GiftReceiveReport from "../pages/gift/GiftReceiveReport";
+import ApprovalRedeem from "../pages/approval/ApprovalRedeem";
 
 export default function Routes() {
   // react-redux
@@ -82,6 +83,10 @@ export default function Routes() {
         {
           path: "my-approval",
           element: <MyApproval />,
+        },
+        {
+          path: "my-approval/:approvalId/redeem",
+          element: <ApprovalRedeem />,
         },
         {
           path: "receive-approval",
