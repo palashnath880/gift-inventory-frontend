@@ -105,7 +105,7 @@ export default function ReceiveApproval() {
                       : approval.approver_1_name}
                   </StyledTableCell>
                   <StyledTableCell>
-                    <ApproverTwoEdit approval={approval} />
+                    <ApproverTwoEdit refetch={refetch} approval={approval} />
                   </StyledTableCell>
                   <StyledTableCell>
                     {approval.status === "open" ? (

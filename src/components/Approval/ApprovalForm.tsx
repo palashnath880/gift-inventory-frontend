@@ -111,6 +111,7 @@ export default function ApprovalForm({
   useEffect(() => {
     dispatch(fetchEmployees());
   }, []);
+
   return (
     <Modal open={open} className="!grid !place-items-center">
       <div className="!outline-none w-[90%] sm:w-[500px] lg:w-[700px] px-5 pb-10 pt-6 bg-white shadow-lg rounded-lg">

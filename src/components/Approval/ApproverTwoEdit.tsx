@@ -10,26 +10,55 @@ import {
 } from "@mui/material";
 import PopupState, { bindDialog, bindTrigger } from "material-ui-popup-state";
 import type { ApprovalItem, Employee } from "../../types";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useEffect, useState } from "react";
+import { fetchEmployees } from "../../features/employees/employeesSlice";
+import toast from "react-hot-toast";
+import { approvalApi } from "../../api/approval";
 
 interface ApproverTwoEditProps {
   approval: ApprovalItem;
+  refetch: () => void;
 }
 
-export default function ApproverTwoEdit({ approval }: ApproverTwoEditProps) {
+export default function ApproverTwoEdit({
+  approval,
+  refetch,
+}: ApproverTwoEditProps) {
   // states
   const [approverTwo, setApproverTwo] = useState<undefined | Employee | null>(
     null
   );
+  const [loading, setLoading] = useState<boolean>(false);
 
   // react-redux
   const user = useAppSelector((state) => state.auth.user);
   let approvers = useAppSelector((state) => state.employees.employees);
-  approvers = approvers.filter((i) => i?.id !== user?.id);
+  approvers = approvers.filter(
+    (i) => i?.id !== user?.id && i?.id !== approval.sender_id
+  );
+  const dispatch = useAppDispatch();
 
-  const isChanged = approval.approver_2 !== approverTwo?.id;
   const isApproverOne = user?.id === approval.approver_1;
+
+  // update approver 2
+  const updateApprover = async (close: () => void) => {
+    if (approval?.approver_2 === approverTwo?.id) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await approvalApi.update(approval.id, { approver_2: approverTwo?.id });
+      toast.success("Approver Two Updated Successfully");
+      refetch();
+      close();
+    } catch (err) {
+      toast.error("Sorry! Approver Two Could Not Be Updated");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (approval.approver_2) {
@@ -39,6 +68,10 @@ export default function ApproverTwoEdit({ approval }: ApproverTwoEditProps) {
       setApproverTwo(findApproverTwo);
     }
   }, [approvers, approval.approver_2]);
+
+  useEffect(() => {
+    dispatch(fetchEmployees());
+  }, []);
 
   return (
     <PopupState variant="popover">
@@ -81,6 +114,7 @@ export default function ApproverTwoEdit({ approval }: ApproverTwoEditProps) {
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
                   }
+                  onChange={(_, val) => setApproverTwo(val)}
                   noOptionsText="No approver match"
                   renderOption={(props, option, state) => (
                     <ListItem {...props} key={state.index}>
@@ -95,11 +129,13 @@ export default function ApproverTwoEdit({ approval }: ApproverTwoEditProps) {
                     <TextField {...params} label="Select Approver Two" />
                   )}
                 />
+
                 <Button
                   fullWidth
                   variant="contained"
                   className="!py-3 !font-medium !capitalize"
-                  disabled={isChanged}
+                  disabled={!approverTwo || loading}
+                  onClick={() => updateApprover(popupState.close)}
                 >
                   {approval.approver_2
                     ? "Edit Approver Two"
