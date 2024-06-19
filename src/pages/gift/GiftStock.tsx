@@ -119,7 +119,7 @@ export default function GiftStock() {
                 </StyledTableRow>
               ))}
               <StyledTableRow>
-                <StyledTableCell colSpan={4} className="!text-right">
+                <StyledTableCell colSpan={3} className="!text-right">
                   <strong>Total</strong>
                 </StyledTableCell>
                 <StyledTableCell>{totalQuantity}</StyledTableCell>
