@@ -156,7 +156,7 @@ export default function ActionMenu({ approval, refetch }: ActionMenuProps) {
             variant="contained"
             color="success"
             className="!mt-5 !py-3 !font-medium !capitalize !text-sm"
-            onClick={() => update("reject")}
+            onClick={() => update(isOpen === "reject" ? "reject" : "transfer")}
             disabled={loading || !reason}
           >
             {isOpen === "reject"
