@@ -134,3 +134,16 @@ export type AllocateFormInputs = {
     label: string;
   };
 };
+
+export type GiftReceivedReportItem = {
+  id: string;
+  ender_name: string;
+  end_date: string;
+  status: "open" | "received" | "rejected";
+  created_at: string;
+  name: string;
+  sku_code: string;
+  type: string;
+  remarks: string;
+  quantity: number;
+};

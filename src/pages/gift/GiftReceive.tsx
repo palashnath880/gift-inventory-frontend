@@ -1,5 +1,6 @@
 import {
   Alert,
+  Button,
   Table,
   TableBody,
   TableHead,
@@ -17,6 +18,7 @@ import Loader from "../../components/shared/Loader";
 import type { StockType } from "../../types";
 import moment from "moment";
 import StockReceiveAction from "../../components/Gift/StockReceiveAction";
+import { Link } from "react-router-dom";
 
 export default function GiftReceive() {
   // react-query
@@ -31,6 +33,15 @@ export default function GiftReceive() {
   return (
     <div>
       <PageHeader title="Gift Receive" />
+
+      <Button
+        variant="contained"
+        className="!text-sm !font-medium !capitalize !px-8 !py-3"
+        component={Link}
+        to="report"
+      >
+        Received Report
+      </Button>
 
       {/* loader  */}
       {isLoading && <Loader dataLoading />}
