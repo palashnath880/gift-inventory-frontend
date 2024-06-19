@@ -1,7 +1,7 @@
 import {
   Alert,
-  Chip,
   Divider,
+  Pagination,
   Table,
   TableBody,
   TableHead,
@@ -22,6 +22,7 @@ import type { ApprovalItem } from "../../types";
 import moment from "moment";
 import { useAppSelector } from "../../hooks";
 import ApproverTwoEdit from "../../components/Approval/ApproverTwoEdit";
+import ApprovalStatus from "../../components/Approval/ApprovalStatus";
 
 export default function ReceiveApproval() {
   // react-redux
@@ -55,7 +56,7 @@ export default function ReceiveApproval() {
           label="Search Approvals"
           loading={isLoading}
           onSubmit={(value) => {
-            setSearchParams({ page, search: value });
+            setSearchParams({ page: "1", search: value });
           }}
         />
       </div>
@@ -65,71 +66,73 @@ export default function ReceiveApproval() {
 
         {/* approval display table */}
         {isSuccess && data?.approvals?.length > 0 && (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell></StyledTableCell>
-                <StyledTableCell>Created At</StyledTableCell>
-                <StyledTableCell>Sender</StyledTableCell>
-                <StyledTableCell>Description</StyledTableCell>
-                <StyledTableCell>Voucher</StyledTableCell>
-                <StyledTableCell>Approver One</StyledTableCell>
-                <StyledTableCell>Approver Two</StyledTableCell>
-                <StyledTableCell>Status</StyledTableCell>
-                <StyledTableCell></StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data?.approvals?.map((approval, index) => (
-                <StyledTableRow key={approval.id}>
-                  <StyledTableCell>{index + 1}</StyledTableCell>
-                  <StyledTableCell>
-                    {moment(approval.created_at).format("ll")}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <b>{approval.sender_name}</b>
-                    <Divider className="!my-1 bg-primary" />
-                    {approval.branch_name}
-                  </StyledTableCell>
-                  <StyledTableCell>{approval.description}</StyledTableCell>
-                  <StyledTableCell>
-                    <b>Code: </b>
-                    {approval.voucher_code}
-                    <Divider className="!my-1 !bg-primary" />
-                    <b>Amount: </b>
-                    {approval.voucher_amount}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {approval.approver_1 === user?.id
-                      ? "Me"
-                      : approval.approver_1_name}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <ApproverTwoEdit refetch={refetch} approval={approval} />
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {approval.status === "open" ? (
-                      <Chip label="Open" color="warning" />
-                    ) : approval.status === "approved" ? (
-                      <Chip label="Approved" color="success" />
-                    ) : approval.status === "rejected" ? (
-                      <Chip label="Rejected" color="error" />
-                    ) : approval.status === "transferred" ? (
-                      <Chip
-                        color="info"
-                        label={`Transferred to ${approval.approver_2_name}`}
-                      />
-                    ) : (
-                      <Chip color="secondary" label={`Redeemed`} />
-                    )}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <ActionMenu approval={approval} refetch={refetch} />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell>Created At</StyledTableCell>
+                  <StyledTableCell>Sender</StyledTableCell>
+                  <StyledTableCell>Description</StyledTableCell>
+                  <StyledTableCell>Voucher</StyledTableCell>
+                  <StyledTableCell>Approver One</StyledTableCell>
+                  <StyledTableCell>Approver Two</StyledTableCell>
+                  <StyledTableCell>Status</StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data?.approvals?.map((approval, index) => (
+                  <StyledTableRow key={approval.id}>
+                    <StyledTableCell>{index + 1}</StyledTableCell>
+                    <StyledTableCell>
+                      {moment(approval.created_at).format("ll")}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <b>{approval.sender_name}</b>
+                      <Divider className="!my-1 bg-primary" />
+                      {approval.branch_name}
+                    </StyledTableCell>
+                    <StyledTableCell>{approval.description}</StyledTableCell>
+                    <StyledTableCell>
+                      <b>Code: </b>
+                      {approval.voucher_code}
+                      <Divider className="!my-1 !bg-primary" />
+                      <b>Amount: </b>
+                      {approval.voucher_amount}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {approval.approver_1 === user?.id
+                        ? "Me"
+                        : approval.approver_1_name}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <ApproverTwoEdit refetch={refetch} approval={approval} />
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <ApprovalStatus approval={approval} />
+                    </StyledTableCell>
+
+                    <StyledTableCell>
+                      <ActionMenu approval={approval} refetch={refetch} />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+
+            {/* pagination */}
+            <div className="flex justify-center !mt-5">
+              <Pagination
+                color="primary"
+                count={Math.ceil(data?.count / 50)}
+                page={parseInt(page)}
+                onChange={(_, val) =>
+                  setSearchParams({ search, page: val.toString() })
+                }
+              />
+            </div>
+          </>
         )}
 
         {/* error message */}
