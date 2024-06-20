@@ -90,6 +90,7 @@ export type ApprovalItem = {
   voucher_code: string;
   transferred_date: string;
 };
+
 export type StockType = {
   id: number;
   stock: "entry" | "transfer";
@@ -146,4 +147,24 @@ export type GiftReceivedReportItem = {
   type: string;
   remarks: string;
   quantity: number;
+};
+
+export type AllocateItem = {
+  branch_name: string;
+  created_at: string;
+  creator_name: string;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  end_date: string;
+  gift_quantity: number;
+  gift_sku_code: string;
+  gift_type: string;
+  id: number;
+  redeem_by: "otp" | "manual";
+  redeemer_name: string;
+  so: string;
+  status: "open" | "rejected" | "closed";
+  voucher_amount: number;
+  voucher_code: string;
 };

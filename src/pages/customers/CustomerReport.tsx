@@ -87,7 +87,7 @@ export default function CustomerReport() {
           Approval Report
         </Button>
       </div>
-      <div className="!mt-5">
+      <div className="!mt-6">
         {reportType === "approval" ? (
           <ApprovalReports customerId={customerId} />
         ) : reportType === "voucher" ? (

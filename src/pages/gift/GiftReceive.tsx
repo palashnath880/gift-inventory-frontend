@@ -59,7 +59,7 @@ export default function GiftReceive() {
 
       {/* display data */}
       {isSuccess && data?.length > 0 && (
-        <Table>
+        <Table className="!mt-5">
           <TableHead>
             <TableRow>
               <StyledTableCell></StyledTableCell>
