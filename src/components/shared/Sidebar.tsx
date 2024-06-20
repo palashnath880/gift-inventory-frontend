@@ -1,6 +1,7 @@
 import {
   Add,
   Approval,
+  Assessment,
   BarChart,
   ExpandLess,
   ExpandMore,
@@ -202,6 +203,11 @@ export default function Sidebar() {
       href: "/gallery",
       label: "Gallery",
       icon: <PermMedia fontSize="small" />,
+    },
+    {
+      href: "/customers-report",
+      label: "Customers Report",
+      icon: <Assessment fontSize="small" />,
     },
   ];
 
