@@ -15,7 +15,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { approvalApi } from "../../api/approval";
 import { customerApi } from "../../api/customer";
-import type { ApprovalFormInputs, Customer } from "../../types";
+import type { ApprovalFormInputs, Customer, Employee } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { fetchEmployees } from "../../features/employees/employeesSlice";
 
@@ -32,12 +32,14 @@ export default function ApprovalForm({
   const [loading, setLoading] = useState<boolean>(false);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [cusLoading, setCusLoading] = useState<boolean>(false);
+  const [approOne, setApproOne] = useState<Employee | null>(null);
 
   // react-redux
   const voucherCodes = useAppSelector((state) => state.inventory.voucherCodes);
   const user = useAppSelector((state) => state.auth.user);
   let approvers = useAppSelector((state) => state.employees.employees);
   approvers = approvers.filter((i) => i?.id !== user?.id);
+  const approversTwo = approvers.filter((i) => i?.id !== approOne?.id);
   const dispatch = useAppDispatch();
 
   // react-hook-form
@@ -124,6 +126,7 @@ export default function ApprovalForm({
           </IconButton>
         </div>
         <Divider className="!mb-5 !mt-2 !bg-primary" />
+
         <form onSubmit={handleSubmit(createApproval)}>
           <div className="grid grid-cols-2 gap-x-7 gap-y-5">
             {/* description field  */}
@@ -201,7 +204,10 @@ export default function ApprovalForm({
               }) => (
                 <Autocomplete
                   value={value || null}
-                  onChange={(_, val) => onChange(val)}
+                  onChange={(_, val) => {
+                    onChange(val);
+                    setApproOne(val);
+                  }}
                   options={approvers}
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
@@ -239,8 +245,9 @@ export default function ApprovalForm({
               }) => (
                 <Autocomplete
                   value={value || null}
+                  disabled={Boolean(!approOne)}
                   onChange={(_, val) => onChange(val)}
-                  options={approvers}
+                  options={approversTwo}
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
                   }
