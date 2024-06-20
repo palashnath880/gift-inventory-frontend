@@ -1,9 +1,6 @@
 import {
   Alert,
   Button,
-  IconButton,
-  ListItem,
-  Menu,
   Pagination,
   Table,
   TableBody,
@@ -22,9 +19,6 @@ import {
   StyledTableRow,
 } from "../../components/shared/MUITable";
 import type { Customer } from "../../types";
-import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
-import { MoreVert } from "@mui/icons-material";
-
 export default function Customers() {
   // search params
   const [searchParams, setSearchParams] = useSearchParams();
@@ -87,67 +81,26 @@ export default function Customers() {
                     <StyledTableCell>{project}</StyledTableCell>
                     <StyledTableCell>{csc}</StyledTableCell>
                     <StyledTableCell>
-                      <PopupState variant="popover">
-                        {(popupState) => (
-                          <>
-                            <IconButton
-                              color="primary"
-                              {...bindTrigger(popupState)}
-                            >
-                              <MoreVert />
-                            </IconButton>
-                            <Menu
-                              {...bindMenu(popupState)}
-                              anchorOrigin={{
-                                horizontal: "center",
-                                vertical: "top",
-                              }}
-                              transformOrigin={{
-                                horizontal: "right",
-                                vertical: "top",
-                              }}
-                            >
-                              <ListItem>
-                                <Button
-                                  variant="contained"
-                                  color="secondary"
-                                  className="!py-2.5 !font-medium !text-sm !capitalize !w-full"
-                                  component={Link}
-                                  to={`allocate/${id}/gift`}
-                                  onClick={popupState.close}
-                                >
-                                  Gift Allocate
-                                </Button>
-                              </ListItem>
-                              <ListItem>
-                                <Button
-                                  variant="contained"
-                                  color="info"
-                                  className="!py-2.5 !font-medium !text-sm !capitalize !w-full"
-                                  component={Link}
-                                  to={`allocate/${id}/voucher`}
-                                  onClick={popupState.close}
-                                >
-                                  Voucher Allocate
-                                </Button>
-                              </ListItem>
-                              <ListItem>
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  className="!py-2.5 !font-medium !text-sm !capitalize !w-full"
-                                  component={Link}
-                                  to={`${id}/report`}
-                                  onClick={popupState.close}
-                                >
-                                  Reports
-                                </Button>
-                              </ListItem>
-                            </Menu>
-                          </>
-                        )}
-                      </PopupState>
-                      <span className="w-full flex justify-end gap-2"></span>
+                      <span className="w-full flex justify-end gap-2">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          className="!py-2.5 !font-medium !text-sm !capitalize"
+                          component={Link}
+                          to={`allocate/${id}/gift`}
+                        >
+                          Gift Allocate
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="info"
+                          className="!py-2.5 !font-medium !text-sm !capitalize"
+                          component={Link}
+                          to={`allocate/${id}/voucher`}
+                        >
+                          Voucher Allocate
+                        </Button>
+                      </span>
                     </StyledTableCell>
                   </StyledTableRow>
                 )
