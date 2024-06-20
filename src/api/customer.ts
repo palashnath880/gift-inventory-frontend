@@ -16,4 +16,8 @@ export const customerApi = {
     instance.get(
       `customer/${customerId}/report?report=${reportType}&page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
+  getCustomersReport: (page: string, from_date: string, to_date: string) =>
+    instance.get(
+      `customer/reports?page=${page}&from_date=${from_date}&to_date=${to_date}`
+    ),
 };

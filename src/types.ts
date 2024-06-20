@@ -168,3 +168,17 @@ export type AllocateItem = {
   voucher_amount: number;
   voucher_code: string;
 };
+
+export type CustomerReports = {
+  id: number;
+  name: string;
+  phone_no: string;
+  email: string;
+  type_name: string;
+  project_name: string;
+  branch_name: string;
+  remarks: string;
+  gift_quantity: number;
+  approval_amount: number;
+  voucher_amount: number;
+};
