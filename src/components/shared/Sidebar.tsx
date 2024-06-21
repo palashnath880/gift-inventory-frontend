@@ -20,7 +20,7 @@ import {
 } from "@mui/icons-material";
 import { Collapse, Divider, List, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 import logo from "../../assets/logo.webp";
 import { useAppDispatch } from "../../hooks";
 import { logOut } from "../../features/auth/authSlice";
@@ -45,23 +45,23 @@ const NavItem = ({
   onActive?: (isActive: boolean) => void;
 }) => {
   // state
-  const [navActive, setNavActive] = useState<boolean>(false);
+  const resolve = useResolvedPath(href);
+  const match = useMatch({ path: resolve.pathname });
 
   useEffect(() => {
-    if (navActive) {
-      typeof onActive === "function" && onActive(navActive);
+    if (typeof onActive === "function") {
+      onActive(!!match);
     }
-  }, [navActive, onActive]);
+  }, [match]);
 
   return (
     <NavLink
       to={href}
-      className={({ isActive }) => {
-        setNavActive(isActive);
-        return `rounded-md flex items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 hover:bg-primary hover:text-primary ${
+      className={({ isActive }) =>
+        `rounded-md flex items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 hover:bg-primary hover:text-primary ${
           isActive && "bg-primary bg-opacity-20"
-        }`;
-      }}
+        }`
+      }
     >
       {icon}
       <Typography variant="body1">{label}</Typography>
