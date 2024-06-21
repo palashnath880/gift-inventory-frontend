@@ -74,7 +74,7 @@ export const authSlice = createSlice({
   reducers: {
     logOut: () => {
       Cookies.remove("auth_token");
-      window.location.reload();
+      window.location.href = "/";
     },
     loadingOff: (state) => {
       return { ...state, loading: false, user: null };
