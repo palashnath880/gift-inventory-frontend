@@ -189,3 +189,11 @@ export type AssetsType = {
   id: string;
   createdAt: string;
 };
+
+export type EmployeeRole = {
+  name: string;
+  id: number;
+  giftLimit: number;
+  amountLimit: number;
+  createdAt: string;
+};

@@ -3,6 +3,7 @@ import authReducer from "./features/auth/authSlice";
 import inventoryReducer from "./features/inventory/inventorySlice";
 import employeesReducer from "./features/employees/employeesSlice";
 import adminReducer from "./features/admin/adminSlice";
+import employeeRoleReducer from "./features/employee-role/employeeRoleSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     inventory: inventoryReducer,
     employees: employeesReducer,
     assets: adminReducer,
+    roles: employeeRoleReducer,
   },
 });
 
