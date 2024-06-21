@@ -18,5 +18,5 @@ const voucherSlice = createSlice({
   },
 });
 
-export { fetchVouchers as fetchRoles };
+export { fetchVouchers };
 export default voucherSlice.reducer;

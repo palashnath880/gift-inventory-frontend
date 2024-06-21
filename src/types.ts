@@ -204,4 +204,5 @@ export type VoucherCodeType = {
   amount: number;
   expDays: number;
   createdAt: string;
+  allowedRoles: string[];
 };

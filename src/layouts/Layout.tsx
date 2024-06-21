@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchMetaData } from "../features/inventory/inventorySlice";
 import { Toaster } from "react-hot-toast";
 import { fetchRoles } from "../features/employee-role/employeeRoleSlice";
+import { fetchVouchers } from "../features/voucher/voucherSlice";
 
 export default function Layout() {
   // react-redux
@@ -15,6 +16,7 @@ export default function Layout() {
   useEffect(() => {
     if (user?.isAdmin) {
       dispatch(fetchRoles());
+      dispatch(fetchVouchers());
     } else {
       dispatch(fetchMetaData());
     }
