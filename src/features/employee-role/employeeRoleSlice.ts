@@ -14,10 +14,7 @@ const employeeRoleSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder
-      .addCase(fetchRoles.pending, () => [])
-      .addCase(fetchRoles.fulfilled, (_, action) => action.payload)
-      .addCase(fetchRoles.rejected, () => []);
+    builder.addCase(fetchRoles.fulfilled, (_, action) => action.payload);
   },
 });
 

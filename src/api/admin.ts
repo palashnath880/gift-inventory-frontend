@@ -9,4 +9,5 @@ export const adminApi = {
   getAssets: () => instance.get(`admin/assets/get-all`),
   createRole: (data: any) => instance.post(`admin/employee-role/create`, data),
   getRoles: () => instance.get(`admin/employee-role/get-all`),
+  deleteRole: (id: number) => instance.delete(`admin/employee-role/${id}`),
 };
