@@ -8,6 +8,7 @@ import {
   Home,
   Logout,
   Paid,
+  People,
   PermMedia,
   PersonAdd,
   Policy,
@@ -219,6 +220,11 @@ export default function Sidebar() {
       href: "/",
       label: "Dashboard",
       icon: <Home fontSize="small" />,
+    },
+    {
+      href: "/employees",
+      label: "Employees",
+      icon: <People fontSize="small" />,
     },
     {
       href: "",
