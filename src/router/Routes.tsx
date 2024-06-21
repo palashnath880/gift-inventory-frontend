@@ -153,6 +153,34 @@ export default function Routes() {
             path: "",
             element: <Admin.Home />,
           },
+          {
+            path: "reports",
+            element: <Admin.DepartmentReport />,
+          },
+          {
+            path: "reports/customer",
+            element: <Admin.CustomerReport />,
+          },
+          {
+            path: "reports/allocation",
+            element: <Admin.AllocationReport />,
+          },
+          {
+            path: "reports/redeemed",
+            element: <Admin.RedeemedReport />,
+          },
+          {
+            path: "stock",
+            element: <Admin.Stock />,
+          },
+          {
+            path: "stock/entry",
+            element: <Admin.StockEntry />,
+          },
+          {
+            path: "stock/transfer",
+            element: <Admin.StockTransfer />,
+          },
         ],
       },
     ],

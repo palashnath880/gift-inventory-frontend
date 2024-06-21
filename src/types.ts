@@ -183,3 +183,9 @@ export type CustomerReports = {
   approval_amount: number;
   voucher_amount: number;
 };
+
+export type AssetsType = {
+  name: string;
+  id: string;
+  createdAt: string;
+};
