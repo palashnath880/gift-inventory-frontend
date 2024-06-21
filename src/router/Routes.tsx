@@ -154,6 +154,10 @@ export default function Routes() {
             element: <Admin.Home />,
           },
           {
+            path: "employees",
+            element: <Admin.Employees />,
+          },
+          {
             path: "reports",
             element: <Admin.DepartmentReport />,
           },

@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { AxiosError } from "axios";
 import PopupState, { bindDialog, bindTrigger } from "material-ui-popup-state";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useState } from "react";
 import toast from "react-hot-toast";
 import { adminApi } from "../../api/admin";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -225,11 +225,6 @@ export default function Home() {
   const { branches, customerTypes, projects, loading } = useAppSelector(
     (state) => state.assets
   );
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAssets());
-  }, []);
 
   return (
     <div className="flex flex-col gap-5">

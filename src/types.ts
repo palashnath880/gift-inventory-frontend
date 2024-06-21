@@ -48,6 +48,7 @@ export type Employee = {
   email: string;
   role: string;
   branch: string;
+  employeeId: string;
 };
 
 export type ApprovalFormInputs = {

@@ -1,3 +1,4 @@
+import Employees from "./Employees";
 import Home from "./Home";
 import Allocation from "./reports/Allocation";
 import Customer from "./reports/Customer";
@@ -17,5 +18,6 @@ Admin.RedeemedReport = Redeemed;
 Admin.Stock = Stock;
 Admin.StockEntry = StockEntry;
 Admin.StockTransfer = StockTransfer;
+Admin.Employees = Employees;
 
 export { Admin };

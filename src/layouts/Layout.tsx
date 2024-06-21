@@ -7,6 +7,7 @@ import { fetchMetaData } from "../features/inventory/inventorySlice";
 import { Toaster } from "react-hot-toast";
 import { fetchRoles } from "../features/employee-role/employeeRoleSlice";
 import { fetchVouchers } from "../features/voucher/voucherSlice";
+import { fetchAssets } from "../features/admin/adminSlice";
 
 export default function Layout() {
   // react-redux
@@ -17,6 +18,7 @@ export default function Layout() {
     if (user?.isAdmin) {
       dispatch(fetchRoles());
       dispatch(fetchVouchers());
+      dispatch(fetchAssets());
     } else {
       dispatch(fetchMetaData());
     }

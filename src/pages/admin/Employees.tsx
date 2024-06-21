@@ -1,5 +1,103 @@
-import React from "react";
+import {
+  Alert,
+  Button,
+  Dialog,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import Loader from "../../components/shared/Loader";
+import PageHeader from "../../components/shared/PageHeader";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useEffect } from "react";
+import { fetchEmployees } from "../../features/employees/employeesSlice";
+import {
+  StyledTableCell,
+  StyledTableRow,
+} from "../../components/shared/MUITable";
+import { PersonAdd } from "@mui/icons-material";
+import {
+  bindDialog,
+  bindTrigger,
+  usePopupState,
+} from "material-ui-popup-state/hooks";
+import AddEmployee from "../../components/admin/Employees/AddEmployee";
 
 export default function Employees() {
-  return <div></div>;
+  // popup state
+  const popupState = usePopupState({
+    variant: "popover",
+    popupId: "addEmployee",
+  });
+
+  // redux
+  const { employees, loading } = useAppSelector((state) => state.employees);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchEmployees());
+  }, []);
+
+  return (
+    <div>
+      <PageHeader title="Employees" />
+
+      <Button
+        variant="contained"
+        className="!text-sm !capitalize !py-3 !px-7"
+        startIcon={<PersonAdd />}
+        {...bindTrigger(popupState)}
+      >
+        Add Employee
+      </Button>
+
+      {/* loader  */}
+      {loading && <Loader dataLoading />}
+
+      {!loading && (
+        <>
+          {employees?.length <= 0 && (
+            <div className="mt-5 shadow-xl">
+              <Alert severity="error">Employees Not Found</Alert>
+            </div>
+          )}
+
+          {employees?.length > 0 && (
+            <>
+              <Table className="!mt-5">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell></StyledTableCell>
+                    <StyledTableCell>Name</StyledTableCell>
+                    <StyledTableCell>Employee ID</StyledTableCell>
+                    <StyledTableCell>Email</StyledTableCell>
+                    <StyledTableCell>Role</StyledTableCell>
+                    <StyledTableCell>Branch</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {employees?.map((employee, index) => (
+                    <StyledTableRow key={employee.id}>
+                      <StyledTableCell>{index + 1}</StyledTableCell>
+                      <StyledTableCell>{employee.name}</StyledTableCell>
+                      <StyledTableCell>{employee.employeeId}</StyledTableCell>
+                      <StyledTableCell>{employee.email}</StyledTableCell>
+                      <StyledTableCell>{employee.role}</StyledTableCell>
+                      <StyledTableCell>{employee.branch}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </>
+          )}
+        </>
+      )}
+
+      {/* add employee dialog */}
+      <Dialog {...bindDialog(popupState)}>
+        <AddEmployee close={popupState.close} />
+      </Dialog>
+    </div>
+  );
 }
