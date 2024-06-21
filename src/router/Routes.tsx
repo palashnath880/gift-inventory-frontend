@@ -26,6 +26,7 @@ import GiftReceiveReport from "../pages/gift/GiftReceiveReport";
 import ApprovalRedeem from "../pages/approval/ApprovalRedeem";
 import CustomerReport from "../pages/customers/CustomerReport";
 import CustomersReport from "../pages/CustomersReport";
+import { Admin } from "../pages/admin";
 
 export default function Routes() {
   // react-redux
@@ -147,6 +148,12 @@ export default function Routes() {
             </AdminRoute>
           </ProtectedRoute>
         ),
+        children: [
+          {
+            path: "",
+            element: <Admin.Home />,
+          },
+        ],
       },
     ],
     { basename: "/admin" }

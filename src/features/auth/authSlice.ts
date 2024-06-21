@@ -8,7 +8,7 @@ interface InitialState {
   user: User | null;
   login: {
     loading: boolean;
-    data: null | { token: string };
+    data: null | { token: string; isAdmin: boolean };
     error: string;
   };
   resetLink: {
@@ -35,7 +35,7 @@ const initialState: InitialState = {
 
 // login reducer
 const login = createAsyncThunk<
-  { token: string },
+  { token: string; isAdmin: boolean },
   { login: string; password: string }
 >("auth/login", async (payload, { rejectWithValue }) => {
   try {
@@ -90,7 +90,10 @@ export const authSlice = createSlice({
       })
       .addCase(
         login.fulfilled,
-        (state: InitialState, action: { payload: { token: string } }) => {
+        (
+          state: InitialState,
+          action: { payload: { token: string; isAdmin: boolean } }
+        ) => {
           return {
             ...state,
             login: { ...state.login, loading: false, data: action.payload },

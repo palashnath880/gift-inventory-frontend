@@ -9,7 +9,7 @@ export default function ProtectedRoute({
   // react-redux
   const { user } = useAppSelector((state) => state.auth);
 
-  // if user is available
+  // if user is not available
   if (!user) {
     return <Navigate to={"/login"} replace />;
   }
@@ -33,7 +33,7 @@ export const EmployeeRoute = ({ children }: { children: React.ReactNode }) => {
   // react-redux
   const { user } = useAppSelector((state) => state.auth);
 
-  // if user is available
+  // if user is admin
   if (user?.isAdmin) {
     return <Navigate to={"/admin"} replace />;
   }
