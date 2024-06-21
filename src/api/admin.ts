@@ -10,4 +10,7 @@ export const adminApi = {
   createRole: (data: any) => instance.post(`admin/employee-role/create`, data),
   getRoles: () => instance.get(`admin/employee-role/get-all`),
   deleteRole: (id: number) => instance.delete(`admin/employee-role/${id}`),
+  createVoucher: (data: any) => instance.post(`admin/voucher/create`, data),
+  getVouchers: () => instance.get(`admin/voucher/get-all`),
+  deleteVoucher: (id: number) => instance.delete(`admin/voucher/${id}`),
 };

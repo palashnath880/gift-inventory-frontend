@@ -197,3 +197,11 @@ export type EmployeeRole = {
   amountLimit: number;
   createdAt: string;
 };
+
+export type VoucherCodeType = {
+  name: string;
+  id: number;
+  amount: number;
+  expDays: number;
+  createdAt: string;
+};
