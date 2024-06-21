@@ -4,6 +4,7 @@ export type User = {
   email: string;
   branch: string;
   branch_id: string;
+  isAdmin: boolean;
   role: string;
   roleLabel: string;
   availableBal: number;

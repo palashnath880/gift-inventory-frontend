@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./components/shared/Sidebar";
-import Topbar from "./components/shared/Topbar";
+import Sidebar from "../components/shared/Sidebar";
+import Topbar from "../components/shared/Topbar";
 import { useEffect } from "react";
-import { useAppDispatch } from "./hooks";
-import { fetchMetaData } from "./features/inventory/inventorySlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { fetchMetaData } from "../features/inventory/inventorySlice";
 import { Toaster } from "react-hot-toast";
 
 export default function Layout() {
   // react-redux
+  const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -19,7 +20,8 @@ export default function Layout() {
       <div className="w-screen h-screen flex">
         <Sidebar />
         <div className="flex-1 flex flex-col">
-          <Topbar />
+          {!user?.isAdmin && <Topbar />}
+
           <div className="flex-1 relative">
             <div className="absolute top-0 left-0 w-full h-full overflow-y-auto pr-5">
               <div className="pl-5 py-5">

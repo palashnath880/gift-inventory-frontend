@@ -16,3 +16,27 @@ export default function ProtectedRoute({
 
   return <>{children}</>;
 }
+
+export const AdminRoute = ({ children }: { children: React.ReactNode }) => {
+  // react-redux
+  const { user } = useAppSelector((state) => state.auth);
+
+  // if user is available
+  if (!user?.isAdmin) {
+    return <Navigate to={"/"} replace />;
+  }
+
+  return <>{children}</>;
+};
+
+export const EmployeeRoute = ({ children }: { children: React.ReactNode }) => {
+  // react-redux
+  const { user } = useAppSelector((state) => state.auth);
+
+  // if user is available
+  if (user?.isAdmin) {
+    return <Navigate to={"/admin"} replace />;
+  }
+
+  return <>{children}</>;
+};

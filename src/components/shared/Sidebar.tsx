@@ -22,7 +22,7 @@ import { Collapse, Divider, List, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 import logo from "../../assets/logo.webp";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { logOut } from "../../features/auth/authSlice";
 
 interface NavMenuType {
@@ -115,10 +115,12 @@ const NavMenuItem = ({
 };
 
 export default function Sidebar() {
+  // react-redux
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
 
   // nav menus
-  const menus: NavMenuType[] = [
+  const employeeMenus: NavMenuType[] = [
     {
       href: "/",
       label: "Dashboard",
@@ -211,6 +213,43 @@ export default function Sidebar() {
     },
   ];
 
+  // admin menus
+  const adminMenus: NavMenuType[] = [
+    {
+      href: "/",
+      label: "Dashboard",
+      icon: <Home fontSize="small" />,
+    },
+    {
+      href: "",
+      label: "Reports",
+      icon: <Assessment fontSize="small" />,
+      group: true,
+      menus: [
+        {
+          href: "/reports",
+          label: "Department",
+          icon: "",
+        },
+        {
+          href: "/reports/customer",
+          label: "Customer",
+          icon: "",
+        },
+        {
+          href: "/reports/allocation",
+          label: "Allocation",
+          icon: "",
+        },
+        {
+          href: "/reports/redeemed",
+          label: "Redeemed",
+          icon: "",
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="w-64 !bg-white h-screen relative">
       <div className="absolute top-0 left-0 w-full h-full flex flex-col py-4 overflow-y-auto">
@@ -222,9 +261,23 @@ export default function Sidebar() {
         </div>
         <div className="flex-1">
           <List component="div" className="!px-4">
-            {menus.map((menu, index) => (
-              <NavMenuItem key={index} menu={menu} />
-            ))}
+            {/* employee menus */}
+            {!user?.isAdmin && (
+              <>
+                {employeeMenus.map((menu, index) => (
+                  <NavMenuItem key={index} menu={menu} />
+                ))}
+              </>
+            )}
+
+            {/* admin menus */}
+            {user?.isAdmin && (
+              <>
+                {adminMenus.map((menu, index) => (
+                  <NavMenuItem key={index} menu={menu} />
+                ))}
+              </>
+            )}
           </List>
         </div>
         <div className="px-3">

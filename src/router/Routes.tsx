@@ -2,9 +2,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import ForgotPass from "../pages/auth/ForgotPass";
 import Home from "../pages/Home";
-import Layout from "../Layout";
+import Layout from "../layouts/Layout";
 import AuthRoute from "./AuthRoute";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute, { AdminRoute, EmployeeRoute } from "./ProtectedRoute";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import Loader from "../components/shared/Loader";
 import { useEffect } from "react";
@@ -29,16 +29,18 @@ import CustomersReport from "../pages/CustomersReport";
 
 export default function Routes() {
   // react-redux
-  const { loading } = useAppSelector((state) => state.auth);
+  const { loading, user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
-  // create router
-  const router = createBrowserRouter([
+  // employee router
+  const employeeRouter = createBrowserRouter([
     {
       path: "/",
       element: (
         <ProtectedRoute>
-          <Layout />
+          <EmployeeRoute>
+            <Layout />
+          </EmployeeRoute>
         </ProtectedRoute>
       ),
       children: [
@@ -134,6 +136,22 @@ export default function Routes() {
     },
   ]);
 
+  const adminRouter = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <ProtectedRoute>
+            <AdminRoute>
+              <Layout />
+            </AdminRoute>
+          </ProtectedRoute>
+        ),
+      },
+    ],
+    { basename: "/admin" }
+  );
+
   useEffect(() => {
     if (Cookies.get("auth_token")) {
       dispatch(verifyUser());
@@ -147,5 +165,7 @@ export default function Routes() {
     return <Loader />;
   }
 
-  return <RouterProvider router={router} />;
+  return (
+    <RouterProvider router={user?.isAdmin ? adminRouter : employeeRouter} />
+  );
 }
