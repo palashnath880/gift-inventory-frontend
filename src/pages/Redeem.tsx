@@ -5,9 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import { allocateApi } from "../api/allocate";
 import Loader from "../components/shared/Loader";
 import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
-import type { AllocatedItem } from "./AllocatedItems";
 import moment from "moment";
 import RedeemButtons from "../components/Redeem/RedeemButtons";
+import type { AllocatedItem } from "../types";
 
 const MyRow = ({ label, value }: { label: string; value: string | number }) => {
   return (

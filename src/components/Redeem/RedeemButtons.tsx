@@ -2,12 +2,12 @@ import { Send } from "@mui/icons-material";
 import { Alert, Button, Divider, Popover, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
-import type { AllocatedItem } from "../../pages/AllocatedItems";
 import toast from "react-hot-toast";
 import { allocateApi } from "../../api/allocate";
 import { messageApi } from "../../api/message";
 import PopupState, { bindPopover, bindTrigger } from "material-ui-popup-state";
 import { generateOTP } from "../../utility/utility";
+import type { AllocatedItem } from "../../types";
 
 export default function RedeemButtons({
   item,
