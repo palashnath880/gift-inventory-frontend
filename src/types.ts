@@ -24,6 +24,7 @@ export type SKUCode = {
   name: string;
   id: number;
   gift_type: string | null;
+  createdAt: string;
 };
 
 export type Branch = {
