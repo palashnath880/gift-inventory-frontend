@@ -1,4 +1,5 @@
 import Employees from "./Employees";
+import GiftSKUCode from "./GiftSKUCode";
 import Home from "./Home";
 import Allocation from "./reports/Allocation";
 import Customer from "./reports/Customer";
@@ -19,5 +20,6 @@ Admin.Stock = Stock;
 Admin.StockEntry = StockEntry;
 Admin.StockTransfer = StockTransfer;
 Admin.Employees = Employees;
+Admin.GiftSKUCode = GiftSKUCode;
 
 export { Admin };

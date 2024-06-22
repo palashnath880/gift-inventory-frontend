@@ -158,6 +158,10 @@ export default function Routes() {
             element: <Admin.Employees />,
           },
           {
+            path: "gift-sku-code",
+            element: <Admin.GiftSKUCode />,
+          },
+          {
             path: "reports",
             element: <Admin.DepartmentReport />,
           },
