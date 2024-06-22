@@ -139,12 +139,7 @@ export type AllocateFormInputs = {
     id: number;
     exp_days: number;
   };
-  skuCode?: null | {
-    name: string;
-    gift_type: string;
-    id: number;
-    label: string;
-  };
+  skuCode?: null | SKUCode;
 };
 
 export type GiftReceivedReportItem = {

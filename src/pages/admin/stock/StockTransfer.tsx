@@ -61,7 +61,6 @@ export default function StockTransfer() {
     control,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 

@@ -31,10 +31,6 @@ const GiftAllocateInputs = ({
 
   // get sku codes
   const skuCodes = useAppSelector((state) => state.inventory.skuCodes);
-  const skuCodesOptions = skuCodes.map((code) => ({
-    ...code,
-    label: `${code.name} - ${code.gift_type}`,
-  }));
 
   const user = useAppSelector((state) => state.auth.user);
   const availableGift: number = user?.availableGift || 0;
@@ -69,8 +65,8 @@ const GiftAllocateInputs = ({
         rules={{ required: true }}
         render={({ field: { value, onChange }, fieldState: { error } }) => (
           <Autocomplete
-            options={skuCodesOptions}
-            getOptionLabel={(option) => option.label}
+            options={skuCodes}
+            getOptionLabel={(option) => option.name}
             noOptionsText="No GIft Item Matched"
             value={value || null}
             isOptionEqualToValue={(option, value) => option.id === value.id}
