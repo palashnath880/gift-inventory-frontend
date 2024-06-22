@@ -12,6 +12,7 @@ import {
   PermMedia,
   PersonAdd,
   Policy,
+  QrCode2,
   Receipt,
   Redeem,
   Remove,
@@ -225,6 +226,39 @@ export default function Sidebar() {
       href: "/employees",
       label: "Employees",
       icon: <People fontSize="small" />,
+    },
+    {
+      href: "/gift-sku-code",
+      label: "Gift SKU Code",
+      icon: <QrCode2 fontSize="small" />,
+    },
+    {
+      href: "",
+      label: "Gift Stock",
+      icon: <BarChart fontSize="small" />,
+      group: true,
+      menus: [
+        {
+          href: "/stock-entry",
+          label: "Stock Entry",
+          icon: "",
+        },
+        {
+          href: "/stock-transfer",
+          label: "Stock Transfer",
+          icon: "",
+        },
+        {
+          href: "/own-stock",
+          label: "Own Stock",
+          icon: "",
+        },
+        {
+          href: "/branch-stock",
+          label: "Branch Stock",
+          icon: "",
+        },
+      ],
     },
     {
       href: "",
