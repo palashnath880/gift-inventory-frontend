@@ -12,4 +12,16 @@ export const stockApi = {
     instance.get(`employee/branch-stocks?sku_code=${skuCode}`),
   getStockBySKU: (skuCode: string) =>
     instance.get(`employee/branch-stocks/${skuCode}`),
+
+  // admin stock
+  adminStockEntry: (data: any[]) =>
+    instance.post(`admin/stock-entry`, { stock: data }),
+  adminStockEntryList: (
+    page: number,
+    fromDate: string = "",
+    toDate: string = ""
+  ) =>
+    instance.get(
+      `admin/entry-list?page=${page}&from_date=${fromDate}&to_date=${toDate}`
+    ),
 };

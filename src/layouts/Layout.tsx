@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { fetchRoles } from "../features/employee-role/employeeRoleSlice";
 import { fetchVouchers } from "../features/voucher/voucherSlice";
 import { fetchAssets } from "../features/admin/adminSlice";
+import { fetchSKUCodes } from "../features/skuCodes/skuCodesSlice";
 
 export default function Layout() {
   // react-redux
@@ -19,6 +20,7 @@ export default function Layout() {
       dispatch(fetchRoles());
       dispatch(fetchVouchers());
       dispatch(fetchAssets());
+      dispatch(fetchSKUCodes());
     } else {
       dispatch(fetchMetaData());
     }
