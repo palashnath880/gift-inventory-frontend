@@ -46,7 +46,7 @@ export default function ActionButtons({
     }
   };
 
-  if (!isValid) {
+  if (!isValid && itemType === "voucher") {
     return (
       <Alert severity="error" icon={false}>
         <Typography className="!text-center">
