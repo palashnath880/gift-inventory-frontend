@@ -21,6 +21,7 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from "../../../components/shared/MUITable";
+import { downloadExcel } from "../../../utility/utility";
 
 export default function Stock() {
   // search params
@@ -66,6 +67,7 @@ export default function Stock() {
           className="!text-sm !capitalize !py-3 !px-7"
           startIcon={<Download />}
           disabled={!data || data?.length <= 0}
+          onClick={() => downloadExcel("adminStock", "Admin Stock")}
         >
           Export as Excel
         </Button>
@@ -86,7 +88,7 @@ export default function Stock() {
           )}
 
           {data?.length > 0 && (
-            <Table className="mt-5">
+            <Table className="mt-5" id="adminStock">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Serial</StyledTableCell>
