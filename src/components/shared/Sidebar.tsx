@@ -296,7 +296,7 @@ export default function Sidebar() {
         <div className="flex flex-col items-center pb-2">
           <img src={logo} className="w-24 h-auto" />
           <Typography variant="h6" className="!font-bold !text-primary">
-            Gift Inventory
+            CSAT Portal
           </Typography>
         </div>
         <div className="flex-1">
