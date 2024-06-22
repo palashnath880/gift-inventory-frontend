@@ -162,8 +162,16 @@ export default function Routes() {
             element: <Admin.GiftSKUCode />,
           },
           {
+            path: "own-stock",
+            element: <Admin.Stock />,
+          },
+          {
             path: "stock-entry",
             element: <Admin.StockEntry />,
+          },
+          {
+            path: "stock-transfer",
+            element: <Admin.StockTransfer />,
           },
           {
             path: "reports",

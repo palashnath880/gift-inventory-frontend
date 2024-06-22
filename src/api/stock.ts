@@ -24,4 +24,8 @@ export const stockApi = {
     instance.get(
       `admin/stock-entry-list?page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
+  getAdminStockBySKU: (sku: string) =>
+    instance.get(`admin/stock-by-sku?sku=${sku}`),
+  adminStockTransfer: (data: any) =>
+    instance.post(`admin/stock-transfer`, { data: data }),
 };

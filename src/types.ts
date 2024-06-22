@@ -122,6 +122,14 @@ export type BranchStock = {
   redeem_quantity: number;
 };
 
+export type AdminStock = {
+  quantity: number;
+  sku_code: string;
+  type: string;
+  name: string;
+  redeem_quantity: number;
+};
+
 export type AllocateFormInputs = {
   so: string;
   quantity?: number;
