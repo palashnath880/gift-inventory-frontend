@@ -22,6 +22,6 @@ export const stockApi = {
     toDate: string = ""
   ) =>
     instance.get(
-      `admin/entry-list?page=${page}&from_date=${fromDate}&to_date=${toDate}`
+      `admin/stock-entry-list?page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
 };

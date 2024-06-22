@@ -24,6 +24,7 @@ import {
 import { AxiosError } from "axios";
 import { stockApi } from "../../../api/stock";
 import toast from "react-hot-toast";
+import StockEntryList from "../../../components/admin/Stock/StockEntryList";
 
 interface Inputs {
   name: string;
@@ -227,6 +228,8 @@ export default function StockEntry() {
           </Button>
         </div>
       </div>
+
+      <StockEntryList />
     </div>
   );
 }
