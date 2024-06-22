@@ -200,7 +200,7 @@ export default function Sidebar() {
     },
     {
       href: "/csat-policy",
-      label: "CSAT Policy",
+      label: "CSAT Portal",
       icon: <Policy fontSize="small" />,
     },
     {
