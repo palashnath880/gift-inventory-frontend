@@ -1,28 +1,42 @@
 import { Close, Done } from "@mui/icons-material";
-import { Button, Popover, Typography } from "@mui/material";
+import { Alert, Button, Popover, Typography } from "@mui/material";
 import PopupState, { bindPopover, bindTrigger } from "material-ui-popup-state";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { allocateApi } from "../../api/allocate";
 import { Link } from "react-router-dom";
+import { verifyVoucherCode } from "../../utility/utility";
+import type { AllocatedItem } from "../../types";
+import { useAppSelector } from "../../hooks";
 
 export default function ActionButtons({
-  itemId,
+  item,
   itemType,
   refetch,
 }: {
-  itemId: number;
+  item: AllocatedItem;
   refetch: () => void;
   itemType: string | undefined;
 }) {
   // states
   const [loading, setLoading] = useState<boolean>(false);
 
+  // voucher code
+  const voucherCodes = useAppSelector((state) => state.inventory.voucherCodes);
+  const getVoucher = voucherCodes.find(
+    (i) => i.voucher_code === item?.voucher_code
+  );
+
+  const isValid = verifyVoucherCode(
+    item?.created_at,
+    getVoucher?.exp_days || 0
+  );
+
   // item cancel handler
   const cancelHandler = async () => {
     try {
       setLoading(true);
-      await allocateApi.redeemItem(itemId, { type: "cancel" });
+      await allocateApi.redeemItem(item?.id, { type: "cancel" });
       refetch();
       toast.success("Allocated item canceled successfully");
     } catch (err) {
@@ -32,17 +46,31 @@ export default function ActionButtons({
     }
   };
 
+  if (!isValid) {
+    return (
+      <Alert severity="error" icon={false}>
+        <Typography className="!text-center">
+          Voucher code is expired
+        </Typography>
+      </Alert>
+    );
+  }
+
+  console.log(isValid);
+
   return (
     <span className="flex justify-end gap-2">
       <Button
         variant="contained"
         color="success"
         component={Link}
-        to={`/allocated/${itemType}/${itemId}/redeem`}
+        to={`/allocated/${itemType}/${item?.id}/redeem`}
         className="!px-6 !py-2.5 !text-sm !capitalize"
       >
         Redeem
       </Button>
+
+      {/* cancel */}
       <PopupState variant="popover">
         {(popupState) => (
           <>

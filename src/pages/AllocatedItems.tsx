@@ -17,28 +17,7 @@ import {
 import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
 import moment from "moment";
 import ActionButtons from "../components/Allocate/ActionButtons";
-
-export interface AllocatedItem {
-  created_at: string;
-  creator_id: string;
-  cus_email: string;
-  cus_phone: string;
-  cus_name: string;
-  customer_id: string;
-  end_date: string | null;
-  gift_quantity: number;
-  gift_sku_code: string;
-  gift_type: string;
-  id: number;
-  redeem_by: "otp" | "manual";
-  redeem_type: "gift" | "voucher";
-  so: string;
-  status: "open" | "rejected" | "closed";
-  voucher_amount: number;
-  voucher_code: string;
-  branch: string;
-  allocated_by: string;
-}
+import type { AllocatedItem } from "../types";
 
 interface AllocatedQuery {
   count: number;
@@ -171,7 +150,7 @@ export default function AllocatedItems() {
                       {item.status === "open" && (
                         <ActionButtons
                           refetch={refetch}
-                          itemId={item?.id}
+                          item={item}
                           itemType={allocatedItem}
                         />
                       )}

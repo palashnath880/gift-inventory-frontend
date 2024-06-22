@@ -1,3 +1,4 @@
+import moment from "moment";
 import { utils, writeFile } from "xlsx";
 
 export const downloadExcel = (tableId: string, filename: string = "") => {
@@ -47,4 +48,21 @@ export const generateOTP = (length = 4) => {
     otp += digits[randomIndex];
   }
   return otp;
+};
+
+export const verifyVoucherCode = (date: string, days: number) => {
+  const currentDate = moment(new Date());
+  const createdTime = moment(date);
+  const isValid = createdTime.isValid();
+  if (!isValid || days <= 0) {
+    return false;
+  }
+
+  // add days
+  const addDays = createdTime.add(days, "days");
+  if (addDays.isAfter(currentDate)) {
+    return true;
+  } else {
+    return false;
+  }
 };

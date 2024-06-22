@@ -211,3 +211,25 @@ export type VoucherCodeType = {
   createdAt: string;
   allowedRoles: string[];
 };
+
+export type AllocatedItem = {
+  created_at: string;
+  creator_id: string;
+  cus_email: string;
+  cus_phone: string;
+  cus_name: string;
+  customer_id: string;
+  end_date: string | null;
+  gift_quantity: number;
+  gift_sku_code: string;
+  gift_type: string;
+  id: number;
+  redeem_by: "otp" | "manual";
+  redeem_type: "gift" | "voucher";
+  so: string;
+  status: "open" | "rejected" | "closed";
+  voucher_amount: number;
+  voucher_code: string;
+  branch: string;
+  allocated_by: string;
+};
