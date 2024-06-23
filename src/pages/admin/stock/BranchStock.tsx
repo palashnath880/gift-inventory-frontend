@@ -103,7 +103,7 @@ export default function BranchStock() {
           className="!text-sm !capitalize !py-3 !px-7"
           startIcon={<Download />}
           disabled={!data || data?.length <= 0}
-          onClick={() => downloadExcel("adminStock", "Admin Stock")}
+          onClick={() => downloadExcel("branchStock", "Branch Stock")}
         >
           Export as Excel
         </Button>
@@ -115,7 +115,7 @@ export default function BranchStock() {
       {/* data display */}
       {isSuccess && data?.length > 0 && (
         <>
-          <Table className="!mt-5">
+          <Table id="branchStock" className="!mt-5">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Branch</StyledTableCell>

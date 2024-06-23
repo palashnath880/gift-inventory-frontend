@@ -31,4 +31,12 @@ export const stockApi = {
   adminStock: (sku: string) => instance.get(`admin/get-stock?sku=${sku}`),
   branchStockByAdmin: (branchId: string | undefined, sku: string | undefined) =>
     instance.get(`admin/get-branch-stock?branch_id=${branchId}&sku=${sku}`),
+  adminTransferList: (
+    page: number,
+    fromDate: string = "",
+    toDate: string = ""
+  ) =>
+    instance.get(
+      `admin/stock-transfer-list?page=${page}&from_date=${fromDate}&to_date=${toDate}`
+    ),
 };

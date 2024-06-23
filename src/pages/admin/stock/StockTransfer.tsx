@@ -24,6 +24,7 @@ import {
 } from "../../../components/shared/MUITable";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import StockTransferList from "../../../components/admin/Stock/StockTransferList";
 
 interface Inputs {
   name: string;
@@ -312,6 +313,9 @@ export default function StockTransfer() {
           </Button>
         </div>
       </div>
+
+      {/* stock transfer report */}
+      <StockTransferList />
     </div>
   );
 }
