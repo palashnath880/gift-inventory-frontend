@@ -69,7 +69,7 @@ export default function ActionMenu({ approval, refetch }: ActionMenuProps) {
   };
 
   if (
-    ["rejected", "approved", '"redeemed"'].includes(approval.status) ||
+    ["rejected", "approved", "redeemed"].includes(approval.status) ||
     (approval.transferred_date && isApproverOne)
   ) {
     return;
