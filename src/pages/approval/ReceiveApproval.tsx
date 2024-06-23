@@ -6,6 +6,7 @@ import {
   TableBody,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import PageHeader from "../../components/shared/PageHeader";
 import {
@@ -50,7 +51,7 @@ export default function ReceiveApproval() {
   return (
     <div>
       <PageHeader title="Receive Approval" />
-      <div>
+      <div className="flex justify-between items-center">
         <SearchInput
           value={search}
           label="Search Approvals"
@@ -60,6 +61,7 @@ export default function ReceiveApproval() {
           }}
         />
       </div>
+
       <div className="mt-5">
         {/* loader */}
         {isLoading && <Loader dataLoading />}
@@ -138,7 +140,9 @@ export default function ReceiveApproval() {
         {/* error message */}
         {isSuccess && data?.approvals?.length <= 0 && (
           <div className="!bg-white !shadow-md !mt-5">
-            <Alert severity="error">Approval Not Found </Alert>
+            <Alert severity="error">
+              <Typography>Approval Not Found</Typography>
+            </Alert>
           </div>
         )}
       </div>

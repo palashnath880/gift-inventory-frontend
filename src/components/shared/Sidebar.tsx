@@ -231,6 +231,11 @@ export default function Sidebar() {
           label: "Redemption Report",
           icon: "",
         },
+        {
+          href: "/approval-report",
+          label: "Approval Report",
+          icon: "",
+        },
       ],
     },
   ];

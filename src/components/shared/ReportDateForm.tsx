@@ -50,7 +50,7 @@ export default function ReportDateForm({
   }, [values]);
 
   return (
-    <div className="flex justify-center border-b border-primary border-opacity-50 pb-5">
+    <div className="flex justify-center pb-5">
       <div className="sm:w-[500px] flex gap-3">
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <DatePicker
