@@ -7,6 +7,7 @@ import Loader from "../components/shared/Loader";
 interface Image {
   title: string;
   url: string;
+  caption: string;
 }
 
 export default function Gallery() {
@@ -28,12 +29,20 @@ export default function Gallery() {
 
       {isSuccess && data?.length > 0 && (
         <ImageList variant="masonry" cols={3} gap={20}>
-          {data.map(({ title, url }, index) => (
+          {data.map(({ title, url, caption }, index) => (
             <ImageListItem
               key={index}
-              className="!rounded-lg !overflow-hidden !shadow-lg"
+              className="!bg-[#fff] !overflow-hidden !shadow-xl"
             >
-              <img src={url} alt={title} className="!w-full !h-auto" />
+              <img
+                draggable={false}
+                src={url}
+                alt={title}
+                className="!w-full !h-auto"
+              />
+              <div className="py-2 px-3">
+                <Typography className="!text-primary">{caption}</Typography>
+              </div>
             </ImageListItem>
           ))}
         </ImageList>
