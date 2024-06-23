@@ -85,7 +85,7 @@ export default function EmployeeRole() {
       <div className="flex justify-between items-center">
         <Typography variant="h6" className="!text-primary !font-semibold">
           Employee Roles
-          <span className="!ml-2 !text-black">(20)</span>
+          <span className="!ml-2 !text-black">({roles?.length || 0})</span>
         </Typography>
 
         {/* add dialog */}
