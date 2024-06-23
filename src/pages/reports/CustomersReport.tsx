@@ -9,17 +9,20 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import PageHeader from "../components/shared/PageHeader";
-import ReportDateForm from "../components/shared/ReportDateForm";
+import PageHeader from "../../components/shared/PageHeader";
+import ReportDateForm from "../../components/shared/ReportDateForm";
 import { Download } from "@mui/icons-material";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { customerApi } from "../api/customer";
+import { customerApi } from "../../api/customer";
 import moment from "moment";
-import Loader from "../components/shared/Loader";
-import type { CustomerReports } from "../types";
-import { StyledTableCell, StyledTableRow } from "../components/shared/MUITable";
-import { downloadExcel } from "../utility/utility";
+import Loader from "../../components/shared/Loader";
+import type { CustomerReports } from "../../types";
+import {
+  StyledTableCell,
+  StyledTableRow,
+} from "../../components/shared/MUITable";
+import { downloadExcel } from "../../utility/utility";
 
 export default function CustomersReport() {
   // search params

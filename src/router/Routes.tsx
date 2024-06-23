@@ -25,8 +25,10 @@ import Cookies from "js-cookie";
 import GiftReceiveReport from "../pages/gift/GiftReceiveReport";
 import ApprovalRedeem from "../pages/approval/ApprovalRedeem";
 import CustomerReport from "../pages/customers/CustomerReport";
-import CustomersReport from "../pages/CustomersReport";
+import CustomersReport from "../pages/reports/CustomersReport";
 import { Admin } from "../pages/admin";
+import AllocationReport from "../pages/reports/AllocationReport";
+import RedemptionReport from "../pages/reports/RedemptionReport";
 
 export default function Routes() {
   // react-redux
@@ -116,6 +118,14 @@ export default function Routes() {
         {
           path: "customers-report",
           element: <CustomersReport />,
+        },
+        {
+          path: "allocation-report",
+          element: <AllocationReport />,
+        },
+        {
+          path: "redemption-report",
+          element: <RedemptionReport />,
         },
       ],
     },

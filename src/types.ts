@@ -216,9 +216,12 @@ export type AllocatedItem = {
   redeem_by: "otp" | "manual";
   redeem_type: "gift" | "voucher";
   so: string;
+  comment: string;
+  manual_reason: string;
   status: "open" | "rejected" | "closed";
   voucher_amount: number;
   voucher_code: string;
   branch: string;
   allocated_by: string;
+  redeemer_name: string;
 };
