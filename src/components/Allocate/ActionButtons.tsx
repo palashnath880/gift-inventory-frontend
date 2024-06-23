@@ -1,5 +1,5 @@
 import { Close, Done } from "@mui/icons-material";
-import { Alert, Button, Popover, Typography } from "@mui/material";
+import { Button, Chip, Popover, Typography } from "@mui/material";
 import PopupState, { bindPopover, bindTrigger } from "material-ui-popup-state";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -42,13 +42,7 @@ export default function ActionButtons({
   };
 
   if (!isValid && itemType === "voucher") {
-    return (
-      <Alert severity="error" icon={false}>
-        <Typography className="!text-center">
-          Voucher code is expired
-        </Typography>
-      </Alert>
-    );
+    return <Chip label={<Typography>Expired</Typography>} color="error" />;
   }
 
   return (
