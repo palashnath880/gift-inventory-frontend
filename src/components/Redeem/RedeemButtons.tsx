@@ -1,11 +1,19 @@
-import { Send } from "@mui/icons-material";
-import { Alert, Button, Divider, Popover, Typography } from "@mui/material";
+import { Close, Send } from "@mui/icons-material";
+import {
+  Alert,
+  Button,
+  Dialog,
+  Divider,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import toast from "react-hot-toast";
 import { allocateApi } from "../../api/allocate";
 import { messageApi } from "../../api/message";
-import PopupState, { bindPopover, bindTrigger } from "material-ui-popup-state";
+import PopupState, { bindDialog, bindTrigger } from "material-ui-popup-state";
 import { generateOTP } from "../../utility/utility";
 import type { AllocatedItem } from "../../types";
 
@@ -21,6 +29,7 @@ export default function RedeemButtons({
   const [loading, setLoading] = useState<boolean>(false);
   const [sentOtp, setSentOtp] = useState("");
   const [sending, setSending] = useState<boolean>(false);
+  const [value, setValue] = useState<string>("");
 
   // redeem handler
   const redeemItem = async (type: "otp" | "manual") => {
@@ -31,10 +40,14 @@ export default function RedeemButtons({
 
       data.type = type;
       data.redeemType = item?.redeem_type;
+      if (type === "manual") {
+        data.reason = value;
+      }
 
       await allocateApi.redeemItem(item?.id, data);
       toast.success(`Redeem Successfully.`);
       refetch();
+      setValue("");
     } catch (err) {
       toast.error("Sorry! Something went wrong");
     } finally {
@@ -48,7 +61,7 @@ export default function RedeemButtons({
       setSending(true);
 
       if (item?.redeem_type === "gift") {
-        const message: string = `Hello Sir/Madam,\nThank you for being a valued customer. As a token of our appreciation, we have a special gift for you. Please collect our gift from our front executive. Thank you for your continued trust in us.\nBest wishes,\n1000FiX Services Limited`;
+        const message: string = `Hello Sir/Madam, \nThank you for being a valued customer. As a token of our appreciation, we have a special gift for you. Please collect our gift from our front executive. Thank you for your continued trust in us. \nBest wishes, \n1000FiX Services Limited`;
         await messageApi.send(item?.cus_phone, message);
         await redeemItem("otp");
         toast.success("Notification sent successfully");
@@ -152,7 +165,7 @@ export default function RedeemButtons({
           <Button
             variant="contained"
             color="secondary"
-            className="!py-2.5 !px-7"
+            className="!py-2.5 !px-7 !capitalize !text-sm"
             endIcon={<Send />}
             onClick={sendOtp}
             disabled={sending}
@@ -170,39 +183,47 @@ export default function RedeemButtons({
               <Button
                 {...bindTrigger(popupState)}
                 variant="contained"
-                className="flex-1 !py-3"
+                className="flex-1 !py-3 !text-sm !capitalize"
                 color="success"
               >
                 Redeem Manually
               </Button>
-              <Popover {...bindPopover(popupState)}>
-                <div className="w-[200px] px-2 py-5">
-                  <Typography className="!text-primary !font-semibold !text-center !text-sm">
-                    Are you sure to redeem it manually?
-                  </Typography>
-                  <div className="flex justify-between gap-2 mt-3">
-                    <Button
-                      variant="contained"
-                      color="error"
-                      className="flex-1"
-                      onClick={popupState.close}
+
+              <Dialog {...bindDialog(popupState)}>
+                <div className="w-[400px] px-5 py-4">
+                  <div className="flex justify-between items-center">
+                    <Typography
+                      variant="h5"
+                      className="!text-primary !font-semibold"
                     >
-                      No
-                    </Button>
+                      Redeem manually
+                    </Typography>
+                    <IconButton onClick={popupState.close}>
+                      <Close />
+                    </IconButton>
+                  </div>
+                  <div className="flex flex-col gap-5 mt-3">
+                    <TextField
+                      fullWidth
+                      label="Reason"
+                      value={value}
+                      onChange={(e) => setValue(e.target.value)}
+                    />
                     <Button
                       variant="contained"
                       color="success"
-                      className="flex-1"
+                      className="flex-1 !py-3 !capitalize !text-sm"
+                      disabled={!value}
                       onClick={() => {
                         redeemItem("manual");
                         popupState.close();
                       }}
                     >
-                      Yes
+                      Redeem
                     </Button>
                   </div>
                 </div>
-              </Popover>
+              </Dialog>
             </>
           )}
         </PopupState>
