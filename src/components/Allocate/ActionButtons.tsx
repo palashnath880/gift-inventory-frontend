@@ -23,14 +23,9 @@ export default function ActionButtons({
 
   // voucher code
   const voucherCodes = useAppSelector((state) => state.inventory.voucherCodes);
-  const getVoucher = voucherCodes.find(
-    (i) => i.voucher_code === item?.voucher_code
-  );
+  const getVoucher = voucherCodes.find((i) => i.name === item?.voucher_code);
 
-  const isValid = verifyVoucherCode(
-    item?.created_at,
-    getVoucher?.exp_days || 0
-  );
+  const isValid = verifyVoucherCode(item?.created_at, getVoucher?.expDays || 0);
 
   // item cancel handler
   const cancelHandler = async () => {
@@ -55,8 +50,6 @@ export default function ActionButtons({
       </Alert>
     );
   }
-
-  console.log(isValid);
 
   return (
     <span className="flex justify-end gap-2">

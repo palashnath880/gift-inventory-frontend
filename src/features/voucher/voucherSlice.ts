@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { adminApi } from "../../api/admin";
-import type { VoucherCodeType } from "../../types";
+import type { VoucherCode } from "../../types";
 
 const fetchVouchers = createAsyncThunk("admin/vouchers", async () => {
   const res = await adminApi.getVouchers();
   return res.data;
 });
 
-const initialState: VoucherCodeType[] = [];
+const initialState: VoucherCode[] = [];
 
 const voucherSlice = createSlice({
   name: "admin/vouchers",

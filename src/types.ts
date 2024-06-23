@@ -13,13 +13,6 @@ export type User = {
   availableGift: number;
 };
 
-export type VoucherCode = {
-  voucher_code: string;
-  id: number;
-  amount: number;
-  exp_days: number;
-};
-
 export type SKUCode = {
   name: string;
   id: number;
@@ -134,12 +127,7 @@ export type AdminStock = {
 export type AllocateFormInputs = {
   so: string;
   quantity?: number;
-  voucherCode?: null | {
-    voucher_code: string;
-    amount: number;
-    id: number;
-    exp_days: number;
-  };
+  voucherCode?: null | VoucherCode;
   skuCode?: null | SKUCode;
 };
 
@@ -204,7 +192,7 @@ export type EmployeeRole = {
   createdAt: string;
 };
 
-export type VoucherCodeType = {
+export type VoucherCode = {
   name: string;
   id: number;
   amount: number;

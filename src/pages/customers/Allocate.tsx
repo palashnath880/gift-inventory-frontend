@@ -134,7 +134,9 @@ export default function Allocate() {
   // vouchers codes
   const voucherCodes = useAppSelector((state) => state.inventory.voucherCodes);
   const vouchersOptions = voucherCodes.filter(
-    (item) => item.amount <= availableBal
+    (item) =>
+      item.amount <= availableBal &&
+      item?.allowedRoles.includes(user?.role || "")
   );
 
   // get params
@@ -160,7 +162,7 @@ export default function Allocate() {
       const formData = {
         so: data.so,
         quantity: data.quantity,
-        voucherCode: data.voucherCode?.voucher_code,
+        voucherCode: data.voucherCode?.name,
         voucherAmount: data.voucherCode?.amount,
         skuCode: data.skuCode?.name,
         customerId: customerId,
@@ -224,7 +226,7 @@ export default function Allocate() {
                       <Autocomplete
                         options={vouchersOptions}
                         noOptionsText="No Voucher Code Matched"
-                        getOptionLabel={(option) => option.voucher_code}
+                        getOptionLabel={(option) => option.name}
                         isOptionEqualToValue={(option, value) =>
                           option.id === value.id
                         }

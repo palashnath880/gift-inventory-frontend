@@ -97,7 +97,7 @@ export default function ApprovalForm({
       data.approver_2 = data?.approverTwo?.id || null;
       data.customer_id = data?.customer?.id;
       data.voucherAmount = data?.voucher?.amount;
-      data.voucherCode = data?.voucher?.voucher_code;
+      data.voucherCode = data?.voucher?.name;
 
       await approvalApi.create(data);
       toast.success("Approval created successfully");
@@ -286,7 +286,7 @@ export default function ApprovalForm({
                   value={value || null}
                   onChange={(_, val) => onChange(val)}
                   options={voucherCodes}
-                  getOptionLabel={(option) => option.voucher_code}
+                  getOptionLabel={(option) => option.name}
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
                   }
