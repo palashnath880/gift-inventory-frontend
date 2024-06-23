@@ -3,6 +3,7 @@ import {
   Autocomplete,
   Button,
   Dialog,
+  Divider,
   IconButton,
   ListItem,
   TextField,
@@ -40,6 +41,7 @@ export default function ApproverTwoEdit({
   const dispatch = useAppDispatch();
 
   const isApproverOne = user?.id === approval.approver_1;
+  const isApproverTwo = user?.id === approval.approver_2;
 
   // update approver 2
   const updateApprover = async (close: () => void) => {
@@ -70,8 +72,23 @@ export default function ApproverTwoEdit({
   }, [approvers, approval.approver_2]);
 
   useEffect(() => {
-    dispatch(fetchEmployees());
-  }, []);
+    if (isApproverOne) {
+      dispatch(fetchEmployees());
+    }
+  }, [isApproverOne]);
+
+  if (isApproverTwo) {
+    return (
+      <span className="flex flex-col">
+        <Typography className="max-w-[300px]">
+          <strong>Transfer Reason: </strong>
+          {approval.appro_1_note || "N/A"}
+        </Typography>
+        <Divider className="!my-2 !bg-primary" />
+        <Typography>Me</Typography>
+      </span>
+    );
+  }
 
   return (
     <PopupState variant="popover">
@@ -90,6 +107,7 @@ export default function ApproverTwoEdit({
                 </IconButton>
               )}
           </span>
+
           <Dialog {...bindDialog(popupState)}>
             <div className="px-3 pt-3 pb-5 sm:min-w-[400px]">
               <div className="flex justify-between items-center">
