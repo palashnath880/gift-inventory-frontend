@@ -5,6 +5,7 @@ import Allocation from "./reports/Allocation";
 import Customer from "./reports/Customer";
 import Department from "./reports/Department";
 import Redeemed from "./reports/Redeemed";
+import BranchStock from "./stock/BranchStock";
 import Stock from "./stock/Stock";
 import StockEntry from "./stock/StockEntry";
 import StockTransfer from "./stock/StockTransfer";
@@ -21,5 +22,6 @@ Admin.StockEntry = StockEntry;
 Admin.StockTransfer = StockTransfer;
 Admin.Employees = Employees;
 Admin.GiftSKUCode = GiftSKUCode;
+Admin.BranchStock = BranchStock;
 
 export { Admin };

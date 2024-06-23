@@ -29,4 +29,6 @@ export const stockApi = {
   adminStockTransfer: (data: any) =>
     instance.post(`admin/stock-transfer`, { data: data }),
   adminStock: (sku: string) => instance.get(`admin/get-stock?sku=${sku}`),
+  branchStockByAdmin: (branchId: string | undefined, sku: string | undefined) =>
+    instance.get(`admin/get-branch-stock?branch_id=${branchId}&sku=${sku}`),
 };

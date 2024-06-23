@@ -174,6 +174,10 @@ export default function Routes() {
             element: <Admin.StockTransfer />,
           },
           {
+            path: "branch-stock",
+            element: <Admin.BranchStock />,
+          },
+          {
             path: "reports",
             element: <Admin.DepartmentReport />,
           },

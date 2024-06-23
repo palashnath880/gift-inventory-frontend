@@ -120,6 +120,7 @@ export type BranchStock = {
   type: string;
   name: string;
   redeem_quantity: number;
+  branch_id: number;
 };
 
 export type AdminStock = {
