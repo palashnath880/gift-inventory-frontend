@@ -21,7 +21,7 @@ export default function Gallery() {
 
   return (
     <div className="!pb-10">
-      <PageHeader title="Inventory Gallery" />
+      <PageHeader title="CSAT Gallery" />
 
       {/* loader  */}
       {isLoading && <Loader dataLoading />}
