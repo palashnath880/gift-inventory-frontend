@@ -6,6 +6,7 @@ import {
   ExpandLess,
   ExpandMore,
   Home,
+  InsertDriveFile,
   Logout,
   Paid,
   People,
@@ -208,10 +209,29 @@ export default function Sidebar() {
       label: "Gallery",
       icon: <PermMedia fontSize="small" />,
     },
+
     {
-      href: "/customers-report",
-      label: "Customers Report",
-      icon: <Assessment fontSize="small" />,
+      label: "Reports",
+      href: "",
+      icon: <InsertDriveFile fontSize="small" />,
+      group: true,
+      menus: [
+        {
+          href: "/customers-report",
+          label: "Customers Report",
+          icon: <Assessment fontSize="small" />,
+        },
+        {
+          href: "/allocation-report",
+          label: "Allocation Report",
+          icon: "",
+        },
+        {
+          href: "/redemption-report",
+          label: "Redemption Report",
+          icon: "",
+        },
+      ],
     },
   ];
 
@@ -320,11 +340,11 @@ export default function Sidebar() {
             )}
           </List>
         </div>
-        <div className="px-3">
-          <Divider />
+        <div className="px-3 mt-4">
+          <Divider className="!bg-primary" />
           <div
             onClick={() => dispatch(logOut())}
-            className="rounded-md mt-2 flex cursor-pointer items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 bg-primary text-white hover:text-primary"
+            className="rounded-md mt-4 flex cursor-pointer items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 bg-primary text-white hover:text-primary"
           >
             <Logout fontSize="small" />
             <Typography variant="body1">Logout</Typography>
