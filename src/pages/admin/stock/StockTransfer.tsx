@@ -27,7 +27,6 @@ import toast from "react-hot-toast";
 import StockTransferList from "../../../components/admin/Stock/StockTransferList";
 
 interface Inputs {
-  name: string;
   skuCode: SKUCode;
   quantity: number;
   remarks: string;
@@ -35,7 +34,6 @@ interface Inputs {
 }
 
 interface TransferList {
-  name: string;
   skuCode: string;
   quantity: number;
   giftType: string | null;
@@ -71,7 +69,6 @@ export default function StockTransfer() {
       branch: data?.branch?.name,
       branchId: data?.branch?.id,
       giftType: data?.skuCode?.gift_type,
-      name: data.name,
       quantity: data.quantity,
       remarks: data.remarks,
       skuCode: data.skuCode.name,
@@ -144,13 +141,6 @@ export default function StockTransfer() {
           <Divider className="!my-4 !bg-primary" />
           <form onSubmit={handleSubmit(addToTransferList)}>
             <div className="flex flex-col gap-4">
-              <TextField
-                fullWidth
-                label="Name"
-                error={Boolean(errors["name"])}
-                {...register("name", { required: true })}
-              />
-
               <Controller
                 control={control}
                 name="branch"
@@ -262,7 +252,6 @@ export default function StockTransfer() {
           <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Name</StyledTableCell>
                 <StyledTableCell>SKU Code</StyledTableCell>
                 <StyledTableCell>Gift Type</StyledTableCell>
                 <StyledTableCell>Quantity</StyledTableCell>
@@ -274,7 +263,6 @@ export default function StockTransfer() {
             <TableBody>
               {transferList?.map((list, index) => (
                 <StyledTableRow key={index}>
-                  <StyledTableCell>{list.name}</StyledTableCell>
                   <StyledTableCell>{list.skuCode}</StyledTableCell>
                   <StyledTableCell>{list.giftType}</StyledTableCell>
                   <StyledTableCell>{list.quantity}</StyledTableCell>
