@@ -21,14 +21,14 @@ export default function Gallery() {
   });
 
   return (
-    <div className="!pb-10">
+    <div className="!pb-5">
       <PageHeader title="CSAT Gallery" />
 
       {/* loader  */}
       {isLoading && <Loader dataLoading />}
 
       {isSuccess && data?.length > 0 && (
-        <ImageList variant="masonry" cols={3} gap={20}>
+        <ImageList variant="masonry" cols={3} gap={20} className="!py-5 !px-2">
           {data.map(({ title, url, caption }, index) => (
             <ImageListItem
               key={index}
