@@ -11,7 +11,7 @@ export default function AuthRoute({ children }: { children: React.ReactNode }) {
   }
 
   // if user is available
-  if (!user?.isAdmin && user) {
+  if (user && !user?.isAdmin) {
     return <Navigate to={"/"} replace />;
   }
 

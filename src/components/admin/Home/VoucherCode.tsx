@@ -100,7 +100,7 @@ export default function VoucherCode() {
       <div className="flex justify-between items-center">
         <Typography variant="h6" className="!text-primary !font-semibold">
           Voucher Code
-          <span className="!ml-2 !text-black">(20)</span>
+          <span className="!ml-2 !text-black">({vouchers?.length || 0})</span>
         </Typography>
 
         {/* add dialog */}
@@ -231,7 +231,9 @@ export default function VoucherCode() {
                   <StyledTableCell>{name}</StyledTableCell>
                   <StyledTableCell>{amount}</StyledTableCell>
                   <StyledTableCell>{expDays}</StyledTableCell>
-                  <StyledTableCell>{allowedRoles.join("; ")}</StyledTableCell>
+                  <StyledTableCell>
+                    {Array.isArray(allowedRoles) && allowedRoles.join("; ")}
+                  </StyledTableCell>
                   <StyledTableCell>{createdAt}</StyledTableCell>
                   <StyledTableCell>
                     <IconButton
