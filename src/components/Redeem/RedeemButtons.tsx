@@ -48,17 +48,13 @@ export default function RedeemButtons({
       setSending(true);
 
       if (item?.redeem_type === "gift") {
-        const message: string = `Hello Sir/Madam, 
-                  Thank you for being a valued customer. As a token of our appreciation, we have a special gift for you. Please collect our gift from our front executive. Thank you for your continued trust in us.
-                  Best wishes,
-                  1000FiX Services Limited`;
+        const message: string = `Hello Sir/Madam,\nThank you for being a valued customer. As a token of our appreciation, we have a special gift for you. Please collect our gift from our front executive. Thank you for your continued trust in us.\nBest wishes,\n1000FiX Services Limited`;
         await messageApi.send(item?.cus_phone, message);
         await redeemItem("otp");
         toast.success("Notification sent successfully");
       } else {
         const genOtp = generateOTP();
-        const message: string = `Dear Valued Customer,
-                                  Use this OTP for redemption ${genOtp} to get a Discount on your current service.`;
+        const message: string = `Dear Valued Customer,\nUse this OTP for redemption ${genOtp} to get a Discount on your current service.`;
         await messageApi.send(item?.cus_phone, message);
         toast.success("OTP sent successfully");
         setSentOtp(genOtp);
