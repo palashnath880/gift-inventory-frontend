@@ -1,90 +1,86 @@
 import { useQuery } from "@tanstack/react-query";
-import PageHeader from "../../components/shared/PageHeader";
 import type { Employee } from "../../types";
-import Loader from "../../components/shared/Loader";
-import {
-  Alert,
-  IconButton,
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import {
-  StyledTableCell,
-  StyledTableRow,
-} from "../../components/shared/MUITable";
+import { Alert, Button, Typography } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 import { employeeApi } from "../../api/employee";
-import { Visibility } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import PageHeader from "../../components/shared/PageHeader";
+import Loader from "../../components/shared/Loader";
+import EmployeeApprovalReport from "../../components/Reports/EmployeeApprovalReport";
+import GiftVoucherReport from "../../components/Reports/GiftVoucherReport";
 
 export default function EmployeeReport() {
-  // get employees
-  const { data, isLoading, isSuccess } = useQuery<Employee[]>({
-    queryKey: ["myEmployees"],
+  // get params
+  const { employeeId, reportFor } = useParams<{
+    employeeId: string;
+    reportFor: undefined | "gift-voucher" | "approval";
+  }>();
+
+  // get employee
+  const { data: employee, isLoading } = useQuery<Employee | null>({
+    queryKey: ["employeeReport", employeeId],
     queryFn: async () => {
-      const res = await employeeApi.getMyBranchEmployees();
+      const res = await employeeApi.getEmployeeById(employeeId);
       return res.data;
     },
   });
 
+  // loader
+  if (isLoading) {
+    return <Loader dataLoading />;
+  }
+
+  if (!employee) {
+    return (
+      <div className="shadow-lg">
+        <Alert severity="error">
+          <Typography>
+            Employee Not Found
+            <Link
+              to="/employee-report"
+              className="!text-red-500 !ml-2 !underline"
+            >
+              Back
+            </Link>
+          </Typography>
+        </Alert>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <PageHeader title="Employees Report" />
+      <PageHeader title={`${employee?.name} Report`} />
 
-      {/* loader  */}
-      {isLoading && <Loader dataLoading />}
+      <div className="flex gap-4">
+        <Button
+          variant={`${
+            reportFor === "gift-voucher" || !reportFor
+              ? "contained"
+              : "outlined"
+          }`}
+          className="!py-2.5 !px-7 !font-medium !text-sm !capitalize "
+          component={Link}
+          to={`/employee-report/${employeeId}/gift-voucher`}
+        >
+          Gift-Voucher Report
+        </Button>
+        <Button
+          variant={`${reportFor === "approval" ? "contained" : "outlined"}`}
+          className="!py-2.5 !px-7 !font-medium !text-sm !capitalize "
+          component={Link}
+          to={`/employee-report/${employeeId}/approval`}
+        >
+          Approval Report
+        </Button>
+      </div>
 
-      {/* data show  */}
-      {isSuccess && data && (
-        <>
-          {/* error  */}
-
-          {data?.length <= 0 && (
-            <div className="mt-5 shadow-lg">
-              <Alert severity="error">
-                <Typography>Employees are not available</Typography>
-              </Alert>
-            </div>
-          )}
-
-          {data?.length > 0 && (
-            <Table className="!mt-5">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell></StyledTableCell>
-                  <StyledTableCell>Employee ID</StyledTableCell>
-                  <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell>Email</StyledTableCell>
-                  <StyledTableCell>Role</StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data?.map((employee, index) => (
-                  <StyledTableRow>
-                    <StyledTableCell>{index + 1}</StyledTableCell>
-                    <StyledTableCell>{employee.employeeId}</StyledTableCell>
-                    <StyledTableCell>{employee.name}</StyledTableCell>
-                    <StyledTableCell>{employee.email}</StyledTableCell>
-                    <StyledTableCell>{employee.role}</StyledTableCell>
-                    <StyledTableCell>
-                      <IconButton
-                        color="primary"
-                        component={Link}
-                        to={employee.employeeId}
-                      >
-                        <Visibility />
-                      </IconButton>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </>
-      )}
+      <div className="mt-5">
+        {reportFor === "approval" ? (
+          <EmployeeApprovalReport userId={employee?.id} />
+        ) : (
+          <GiftVoucherReport userId={employee?.id} />
+        )}
+      </div>
     </div>
   );
 }

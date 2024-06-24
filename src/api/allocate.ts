@@ -17,4 +17,13 @@ export const allocateApi = {
     instance.get(
       `/allocate/redemption-report?page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
+  getByEmployee: (
+    employeeId: number | undefined,
+    page: string,
+    from_date: string,
+    to_date: string
+  ) =>
+    instance.get(
+      `allocate/get-by-employee?employee_id=${employeeId}&page=${page}&from_date=${from_date}&to_date=${to_date}`
+    ),
 };

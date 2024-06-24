@@ -30,6 +30,7 @@ import { Admin } from "../pages/admin";
 import AllocationReport from "../pages/reports/AllocationReport";
 import RedemptionReport from "../pages/reports/RedemptionReport";
 import ApprovalReport from "../pages/reports/ApprovalReport";
+import Employees from "../pages/reports/Employees";
 import EmployeeReport from "../pages/reports/EmployeeReport";
 
 export default function Routes() {
@@ -135,6 +136,10 @@ export default function Routes() {
         },
         {
           path: "employee-report",
+          element: <Employees />,
+        },
+        {
+          path: "employee-report/:employeeId/:reportFor?",
           element: <EmployeeReport />,
         },
       ],
