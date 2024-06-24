@@ -147,7 +147,6 @@ export default function Sidebar() {
         },
       ],
     },
-
     {
       label: "Gift",
       href: "",
@@ -209,7 +208,6 @@ export default function Sidebar() {
       label: "Gallery",
       icon: <PermMedia fontSize="small" />,
     },
-
     {
       label: "Reports",
       href: "",
@@ -234,6 +232,11 @@ export default function Sidebar() {
         {
           href: "/approval-report",
           label: "Approval Report",
+          icon: "",
+        },
+        {
+          href: "/employee-report",
+          label: "Employee Report",
           icon: "",
         },
       ],
