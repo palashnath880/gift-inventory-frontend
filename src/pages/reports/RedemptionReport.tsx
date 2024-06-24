@@ -137,11 +137,11 @@ export default function RedemptionReport() {
                           {report.voucher_amount}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {moment(report.created_at).format("ll")}
+                          {moment(report.created_at).format("DD-MM-y")}
                         </StyledTableCell>
                         <StyledTableCell>{report.allocated_by}</StyledTableCell>
                         <StyledTableCell>
-                          {moment(report.end_date).format("ll")}
+                          {moment(report.end_date).format("DD-MM-y")}
                         </StyledTableCell>
                         <StyledTableCell>{report.redeem_by}</StyledTableCell>
                         <StyledTableCell>

@@ -122,7 +122,7 @@ export default function ApprovalReport() {
                       <StyledTableRow key={report.id}>
                         <StyledTableCell>{index + 1}</StyledTableCell>
                         <StyledTableCell>
-                          {moment(report.created_at).format("ll")}
+                          {moment(report.created_at).format("DD-MM-y")}
                         </StyledTableCell>
                         <StyledTableCell>{report.sender_name}</StyledTableCell>
                         <StyledTableCell>
@@ -145,13 +145,15 @@ export default function ApprovalReport() {
                         </StyledTableCell>
                         <StyledTableCell>{report.appro_2_note}</StyledTableCell>
                         <StyledTableCell>
-                          {report.transferred_date}
+                          {report.transferred_date &&
+                            moment(report.transferred_date).format("DD-MM-y")}
                         </StyledTableCell>
                         <StyledTableCell>
                           {report.appro_ender_name}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {report.appro_end_date}
+                          {report.appro_end_date &&
+                            moment(report.appro_end_date).format("DD-MM-y")}
                         </StyledTableCell>
                         <StyledTableCell>{report.status}</StyledTableCell>
                         <StyledTableCell>
@@ -159,7 +161,7 @@ export default function ApprovalReport() {
                         </StyledTableCell>
                         <StyledTableCell>
                           {report.redeemed_date &&
-                            moment(report.redeemed_date).format("ll")}
+                            moment(report.redeemed_date).format("DD-MM-y")}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}

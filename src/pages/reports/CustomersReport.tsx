@@ -97,7 +97,7 @@ export default function CustomersReport() {
                 <Table id="customers_report">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>Serial</StyledTableCell>
+                      <StyledTableCell></StyledTableCell>
                       <StyledTableCell>Name</StyledTableCell>
                       <StyledTableCell>Email</StyledTableCell>
                       <StyledTableCell>Phone</StyledTableCell>
@@ -105,9 +105,12 @@ export default function CustomersReport() {
                       <StyledTableCell>Project</StyledTableCell>
                       <StyledTableCell>Type</StyledTableCell>
                       <StyledTableCell>Remarks</StyledTableCell>
-                      <StyledTableCell>Gift Quantity</StyledTableCell>
-                      <StyledTableCell>Voucher Amount</StyledTableCell>
-                      <StyledTableCell>Approval Amount</StyledTableCell>
+                      <StyledTableCell>Allocated Gift</StyledTableCell>
+                      <StyledTableCell>Redeem Gift</StyledTableCell>
+                      <StyledTableCell>Allocated Amount</StyledTableCell>
+                      <StyledTableCell>Redeem Amount</StyledTableCell>
+                      <StyledTableCell>Allocate Approval</StyledTableCell>
+                      <StyledTableCell>Redeem Approval</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -124,13 +127,20 @@ export default function CustomersReport() {
                           {report.remarks}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {report.gift_quantity}
+                          {report.allocate_gift}
+                        </StyledTableCell>
+                        <StyledTableCell>{report.redeem_gift}</StyledTableCell>
+                        <StyledTableCell>
+                          {report.allocate_voucher}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {report.voucher_amount}
+                          {report.redeem_voucher}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {report.approval_amount}
+                          {report.allocate_approval}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {report.redeem_approval}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}

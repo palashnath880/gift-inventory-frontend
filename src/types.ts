@@ -174,9 +174,12 @@ export type CustomerReports = {
   project_name: string;
   branch_name: string;
   remarks: string;
-  gift_quantity: number;
-  approval_amount: number;
-  voucher_amount: number;
+  allocate_gift: number;
+  redeem_gift: number;
+  allocate_approval: number;
+  redeem_approval: number;
+  allocate_voucher: number;
+  redeem_voucher: number;
 };
 
 export type AssetsType = {

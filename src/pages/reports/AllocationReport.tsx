@@ -133,7 +133,7 @@ export default function AllocationReport() {
                           {report.voucher_amount}
                         </StyledTableCell>
                         <StyledTableCell>
-                          {moment(report.created_at).format("ll")}
+                          {moment(report.created_at).format("DD-MM-y")}
                         </StyledTableCell>
                         <StyledTableCell>{report.allocated_by}</StyledTableCell>
                       </StyledTableRow>
