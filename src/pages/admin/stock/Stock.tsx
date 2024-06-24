@@ -92,6 +92,7 @@ export default function Stock() {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Serial</StyledTableCell>
+                  <StyledTableCell>Name</StyledTableCell>
                   <StyledTableCell>SKU Code</StyledTableCell>
                   <StyledTableCell>Gift Type</StyledTableCell>
                   <StyledTableCell>Quantity</StyledTableCell>
@@ -101,6 +102,7 @@ export default function Stock() {
                 {data.map((stock, index) => (
                   <StyledTableRow key={stock.sku_code}>
                     <StyledTableCell>{index + 1}</StyledTableCell>
+                    <StyledTableCell>{stock.name}</StyledTableCell>
                     <StyledTableCell>{stock.sku_code}</StyledTableCell>
                     <StyledTableCell>{stock.type}</StyledTableCell>
                     <StyledTableCell>{stock.quantity}</StyledTableCell>
