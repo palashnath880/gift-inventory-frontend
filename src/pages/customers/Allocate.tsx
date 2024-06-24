@@ -61,6 +61,20 @@ const GiftAllocateInputs = ({
     <>
       <Controller
         control={control}
+        name="comment"
+        rules={{ required: true }}
+        render={({ field: { value, onChange }, fieldState: { error } }) => (
+          <TextField
+            error={Boolean(error)}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            label="Comments"
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
         name="skuCode"
         rules={{ required: true }}
         render={({ field: { value, onChange }, fieldState: { error } }) => (
@@ -167,6 +181,7 @@ export default function Allocate() {
         skuCode: data.skuCode?.name,
         customerId: customerId,
         redeemType: allocateItem === "gift" ? "gift" : "voucher",
+        comment: data?.comment,
       };
 
       await allocateApi.create(formData);
@@ -206,7 +221,7 @@ export default function Allocate() {
                 fullWidth
                 error={Boolean(errors["so"])}
                 label="SO"
-                {...register("so", { required: true })}
+                {...register("so", { required: false })}
               />
 
               {allocateItem === "gift" && (

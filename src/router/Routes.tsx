@@ -29,6 +29,7 @@ import CustomersReport from "../pages/reports/CustomersReport";
 import { Admin } from "../pages/admin";
 import AllocationReport from "../pages/reports/AllocationReport";
 import RedemptionReport from "../pages/reports/RedemptionReport";
+import ApprovalReport from "../pages/reports/ApprovalReport";
 
 export default function Routes() {
   // react-redux
@@ -126,6 +127,10 @@ export default function Routes() {
         {
           path: "redemption-report",
           element: <RedemptionReport />,
+        },
+        {
+          path: "approval-report",
+          element: <ApprovalReport />,
         },
       ],
     },

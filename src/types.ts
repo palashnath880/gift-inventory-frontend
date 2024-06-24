@@ -129,6 +129,7 @@ export type AllocateFormInputs = {
   quantity?: number;
   voucherCode?: null | VoucherCode;
   skuCode?: null | SKUCode;
+  comment?: string;
 };
 
 export type GiftReceivedReportItem = {

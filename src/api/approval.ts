@@ -11,4 +11,8 @@ export const approvalApi = {
     instance.put(`/approval/${approvalId}`, data),
   redeemApproval: (id: string | undefined, data: any) =>
     instance.put(`/approval/redeem/${id}`, data),
+  getApprovalReport: (page: string, fromDate: string, toDate: string) =>
+    instance.get(
+      `/approval/report?page=${page}&from_date=${fromDate}&to_date=${toDate}`
+    ),
 };
