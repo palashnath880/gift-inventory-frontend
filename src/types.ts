@@ -85,6 +85,7 @@ export type ApprovalItem = {
   voucher_amount: number;
   voucher_code: string;
   transferred_date: string;
+  redeemed_type: "otp" | "manual";
 };
 
 export type StockType = {

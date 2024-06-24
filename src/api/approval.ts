@@ -15,4 +15,13 @@ export const approvalApi = {
     instance.get(
       `/approval/report?page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
+  getByEmployee: (
+    userId: number | undefined,
+    page: string,
+    from_date: string,
+    to_date: string
+  ) =>
+    instance.get(
+      `approval/get-employee-report?employee_id=${userId}&page=${page}&from_date=${from_date}&to_date=${to_date}`
+    ),
 };
