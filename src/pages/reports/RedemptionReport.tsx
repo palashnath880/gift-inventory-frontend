@@ -86,7 +86,7 @@ export default function RedemptionReport() {
           {data?.data?.length <= 0 && (
             <div className="shadow-lg">
               <Alert severity="error">
-                <Typography>Allocation Not Found</Typography>
+                <Typography>Report Not Found</Typography>
               </Alert>
             </div>
           )}
