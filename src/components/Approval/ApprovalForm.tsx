@@ -160,7 +160,9 @@ export default function ApprovalForm({
                   }
                   loading={cusLoading}
                   loadingText="Customer searching"
-                  getOptionLabel={(option) => option.name}
+                  getOptionLabel={(option) =>
+                    `${option.name}; ${option.phoneNo}`
+                  }
                   onInputChange={debounce(fetchCustomers, 500)}
                   value={value || null}
                   renderOption={(props, option, state) => (
