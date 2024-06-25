@@ -3,7 +3,7 @@ import GiftSKUCode from "./GiftSKUCode";
 import Home from "./Home";
 import AllocationRedemption from "./reports/Allocation";
 import Customer from "./reports/Customer";
-import Department from "./reports/Department";
+import Branch from "./reports/Branch";
 import Redeemed from "./reports/Redeemed";
 import BranchStock from "./stock/BranchStock";
 import Stock from "./stock/Stock";
@@ -13,7 +13,7 @@ import StockTransfer from "./stock/StockTransfer";
 const Admin: any = {};
 
 Admin.Home = Home;
-Admin.DepartmentReport = Department;
+Admin.BranchReport = Branch;
 Admin.CustomerReport = Customer;
 Admin.AllocationRedemption = AllocationRedemption;
 Admin.RedeemedReport = Redeemed;

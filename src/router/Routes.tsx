@@ -207,8 +207,8 @@ export default function Routes() {
           element: <Admin.BranchStock />,
         },
         {
-          path: "reports",
-          element: <Admin.DepartmentReport />,
+          path: "reports/branch",
+          element: <Admin.BranchReport />,
         },
         {
           path: "reports/customer",

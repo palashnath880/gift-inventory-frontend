@@ -295,8 +295,8 @@ export default function Sidebar() {
       group: true,
       menus: [
         {
-          href: "/reports",
-          label: "Department",
+          href: "/reports/branch",
+          label: "Branch",
           icon: "",
         },
         {
@@ -307,11 +307,6 @@ export default function Sidebar() {
         {
           href: "/reports/allocation-redemption",
           label: "Allocation Redemption",
-          icon: "",
-        },
-        {
-          href: "/reports/redeemed",
-          label: "Redeemed",
           icon: "",
         },
       ],
