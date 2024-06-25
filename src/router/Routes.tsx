@@ -32,6 +32,7 @@ import RedemptionReport from "../pages/reports/RedemptionReport";
 import ApprovalReport from "../pages/reports/ApprovalReport";
 import Employees from "../pages/reports/Employees";
 import EmployeeReport from "../pages/reports/EmployeeReport";
+import NotFound from "../pages/NotFound";
 
 export default function Routes() {
   // react-redux
@@ -39,7 +40,7 @@ export default function Routes() {
   const dispatch = useAppDispatch();
 
   // employee router
-  const employeeRouter = createBrowserRouter([
+  const employeeRoutes = [
     {
       path: "/",
       element: (
@@ -160,81 +161,89 @@ export default function Routes() {
         </AuthRoute>
       ),
     },
-  ]);
+    {
+      path: "*",
+      element: <NotFound />,
+    },
+  ];
 
-  const adminRouter = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: (
-          <ProtectedRoute>
-            <AdminRoute>
-              <Layout />
-            </AdminRoute>
-          </ProtectedRoute>
-        ),
-        children: [
-          {
-            path: "",
-            element: <Admin.Home />,
-          },
-          {
-            path: "employees",
-            element: <Admin.Employees />,
-          },
-          {
-            path: "gift-sku-code",
-            element: <Admin.GiftSKUCode />,
-          },
-          {
-            path: "own-stock",
-            element: <Admin.Stock />,
-          },
-          {
-            path: "stock-entry",
-            element: <Admin.StockEntry />,
-          },
-          {
-            path: "stock-transfer",
-            element: <Admin.StockTransfer />,
-          },
-          {
-            path: "branch-stock",
-            element: <Admin.BranchStock />,
-          },
-          {
-            path: "reports",
-            element: <Admin.DepartmentReport />,
-          },
-          {
-            path: "reports/customer",
-            element: <Admin.CustomerReport />,
-          },
-          {
-            path: "reports/allocation",
-            element: <Admin.AllocationReport />,
-          },
-          {
-            path: "reports/redeemed",
-            element: <Admin.RedeemedReport />,
-          },
-          {
-            path: "stock",
-            element: <Admin.Stock />,
-          },
-          {
-            path: "stock/entry",
-            element: <Admin.StockEntry />,
-          },
-          {
-            path: "stock/transfer",
-            element: <Admin.StockTransfer />,
-          },
-        ],
-      },
-    ],
-    { basename: "/admin" }
-  );
+  const adminRoutes = [
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <AdminRoute>
+            <Layout />
+          </AdminRoute>
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "",
+          element: <Admin.Home />,
+        },
+        {
+          path: "employees",
+          element: <Admin.Employees />,
+        },
+        {
+          path: "gift-sku-code",
+          element: <Admin.GiftSKUCode />,
+        },
+        {
+          path: "own-stock",
+          element: <Admin.Stock />,
+        },
+        {
+          path: "stock-entry",
+          element: <Admin.StockEntry />,
+        },
+        {
+          path: "stock-transfer",
+          element: <Admin.StockTransfer />,
+        },
+        {
+          path: "branch-stock",
+          element: <Admin.BranchStock />,
+        },
+        {
+          path: "reports",
+          element: <Admin.DepartmentReport />,
+        },
+        {
+          path: "reports/customer",
+          element: <Admin.CustomerReport />,
+        },
+        {
+          path: "reports/allocation",
+          element: <Admin.AllocationReport />,
+        },
+        {
+          path: "reports/redeemed",
+          element: <Admin.RedeemedReport />,
+        },
+        {
+          path: "stock",
+          element: <Admin.Stock />,
+        },
+        {
+          path: "stock/entry",
+          element: <Admin.StockEntry />,
+        },
+        {
+          path: "stock/transfer",
+          element: <Admin.StockTransfer />,
+        },
+      ],
+    },
+    {
+      path: "*",
+      element: <NotFound />,
+    },
+  ];
+
+  const routes = user?.isAdmin ? adminRoutes : employeeRoutes;
+  const router = createBrowserRouter(routes);
 
   useEffect(() => {
     if (Cookies.get("auth_token")) {
@@ -249,7 +258,5 @@ export default function Routes() {
     return <Loader />;
   }
 
-  return (
-    <RouterProvider router={user?.isAdmin ? adminRouter : employeeRouter} />
-  );
+  return <RouterProvider router={router} />;
 }

@@ -35,7 +35,7 @@ export const EmployeeRoute = ({ children }: { children: React.ReactNode }) => {
 
   // if user is admin
   if (user?.isAdmin) {
-    return <Navigate to={"/admin"} replace />;
+    return <Navigate to={"/"} />;
   }
 
   return <>{children}</>;

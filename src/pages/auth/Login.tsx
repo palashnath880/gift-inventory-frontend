@@ -49,11 +49,7 @@ export default function Login() {
 
   if (response?.token) {
     Cookies.set("auth_token", response?.token, { expires: 7 });
-    if (response?.isAdmin) {
-      window.location.href = "/admin";
-    } else {
-      window.location.href = "/";
-    }
+    window.location.href = "/";
   }
 
   return (
