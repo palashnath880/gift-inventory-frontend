@@ -93,7 +93,7 @@ export default function Branch() {
           startIcon={<Download />}
           className="!px-7 !text-sm !normal-case !py-3"
           // disabled={Boolean(data?.data && data?.data?.length <= 0)}
-          onClick={() => downloadExcel("branchReport", "Allocation Report")}
+          onClick={() => downloadExcel("branchReport", "Branch Report")}
         >
           Export as Excel
         </Button>
@@ -105,7 +105,7 @@ export default function Branch() {
       {/* data display */}
       {isSuccess && from_date && to_date && (
         <>
-          <Table id="allocationReport" className="!mt-5">
+          <Table id="branchReport" className="!mt-5">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Serial</StyledTableCell>
