@@ -26,4 +26,8 @@ export const allocateApi = {
     instance.get(
       `allocate/get-by-employee?employee_id=${employeeId}&page=${page}&from_date=${from_date}&to_date=${to_date}`
     ),
+  getAdminAloRemReport: (from_date: string, to_date: string) =>
+    instance.get(
+      `admin/allocation-redemption-report?from_date=${from_date}&to_date=${to_date}`
+    ),
 };
