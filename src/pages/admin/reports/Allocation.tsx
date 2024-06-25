@@ -95,7 +95,7 @@ export default function AllocationRedemption() {
 
   return (
     <div>
-      <PageHeader title="Allocation and Redemption Report" />
+      <PageHeader title="Employee Wise Report" />
 
       <div className="flex justify-between gap-2 items-center">
         <ReportDateForm

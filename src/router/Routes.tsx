@@ -212,6 +212,10 @@ export default function Routes() {
         },
         {
           path: "reports/customer",
+          element: <Admin.Customers />,
+        },
+        {
+          path: "reports/customer/:customerId/:reportType?",
           element: <Admin.CustomerReport />,
         },
         {

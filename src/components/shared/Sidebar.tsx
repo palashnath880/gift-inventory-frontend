@@ -306,7 +306,7 @@ export default function Sidebar() {
         },
         {
           href: "/reports/allocation-redemption",
-          label: "Allocation Redemption",
+          label: "Employee",
           icon: "",
         },
       ],
