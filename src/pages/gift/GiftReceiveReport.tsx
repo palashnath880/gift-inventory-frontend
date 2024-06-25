@@ -86,7 +86,7 @@ export default function GiftReceiveReport() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell></StyledTableCell>
-                    <StyledTableCell>Name</StyledTableCell>
+                    {/* <StyledTableCell>Name</StyledTableCell> */}
                     <StyledTableCell>SKU Code</StyledTableCell>
                     <StyledTableCell>Type</StyledTableCell>
                     <StyledTableCell>Quantity</StyledTableCell>
@@ -100,7 +100,7 @@ export default function GiftReceiveReport() {
                   {data?.reports?.map((report, index) => (
                     <StyledTableRow key={report.id}>
                       <StyledTableCell>{index + 1}</StyledTableCell>
-                      <StyledTableCell>{report.name}</StyledTableCell>
+                      {/* <StyledTableCell>{report.name}</StyledTableCell> */}
                       <StyledTableCell>{report.sku_code}</StyledTableCell>
                       <StyledTableCell>{report.type}</StyledTableCell>
                       <StyledTableCell>{report.quantity}</StyledTableCell>
