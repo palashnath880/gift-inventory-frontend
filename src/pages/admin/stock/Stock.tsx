@@ -109,7 +109,7 @@ export default function Stock() {
                   </StyledTableRow>
                 ))}
                 <StyledTableRow>
-                  <StyledTableCell colSpan={3} className="!text-end">
+                  <StyledTableCell colSpan={4} className="!text-end">
                     <strong>Total</strong>
                   </StyledTableCell>
                   <StyledTableCell>{total}</StyledTableCell>
