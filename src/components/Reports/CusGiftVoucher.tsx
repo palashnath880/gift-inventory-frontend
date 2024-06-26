@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { customerApi } from "../../api/customer";
 import ReportDateForm from "../shared/ReportDateForm";

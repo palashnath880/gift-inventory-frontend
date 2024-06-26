@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 import type { ApprovalItem } from "../../types";
 import moment from "moment";
