@@ -29,8 +29,13 @@ export const customerApi = {
     instance.get(
       `admin/customer/gift-voucher-report?customer_id=${id}&page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
-  getApprovalReport: (page: string, fromDate: string, toDate: string) =>
+  getApprovalReport: (
+    id: string | undefined,
+    page: string,
+    fromDate: string,
+    toDate: string
+  ) =>
     instance.get(
-      `admin/customer/approval-report?page=${page}&from_date=${fromDate}&to_date=${toDate}`
+      `admin/customer/approval-report?customer_id=${id}&page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
 };
