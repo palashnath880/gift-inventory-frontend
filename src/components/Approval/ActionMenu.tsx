@@ -29,6 +29,9 @@ export default function ActionMenu({ approval, refetch }: ActionMenuProps) {
   // react-deux
   const user = useAppSelector((state) => state.auth.user);
   const isApproverOne = user?.id === approval.approver_1;
+  const isAvailableBal = Boolean(
+    user?.availableBal && user?.availableBal > approval.voucher_amount
+  );
 
   // update handler
   const update = async (action: "approve" | "reject" | "transfer") => {
@@ -83,6 +86,7 @@ export default function ActionMenu({ approval, refetch }: ActionMenuProps) {
             <IconButton {...bindTrigger(popupState)}>
               <MoreVert />
             </IconButton>
+
             <Popover {...bindPopover(popupState)}>
               <div className="flex flex-col gap-3 px-5 py-5 w-[200px]">
                 <Button
@@ -90,7 +94,7 @@ export default function ActionMenu({ approval, refetch }: ActionMenuProps) {
                   variant="contained"
                   className="!py-2.5 !text-sm !capitalize"
                   onClick={() => update("approve")}
-                  disabled={loading}
+                  disabled={loading || !isAvailableBal}
                 >
                   Approved
                 </Button>
