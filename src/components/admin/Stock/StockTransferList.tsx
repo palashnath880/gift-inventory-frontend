@@ -146,7 +146,7 @@ export default function StockTransferList() {
                         {list.status === "open" ? (
                           <Chip label="Open" color="info" />
                         ) : list.status === "received" ? (
-                          <Chip label="Approver" color="success" />
+                          <Chip label="Received" color="success" />
                         ) : (
                           <Chip label="Rejected" color="error" />
                         )}
