@@ -28,9 +28,14 @@ export default function ActionMenu({ approval, refetch }: ActionMenuProps) {
 
   // react-deux
   const user = useAppSelector((state) => state.auth.user);
+  const vouchers = useAppSelector((state) => state.inventory.voucherCodes);
   const isApproverOne = user?.id === approval.approver_1;
   const isAvailableBal = Boolean(
     user?.availableBal && user?.availableBal > approval.voucher_amount
+  );
+  const voucherCode = vouchers.find((i) => i.name === approval.voucher_code);
+  const isHasPermission = Boolean(
+    voucherCode?.allowedRoles?.find((i) => i === user?.role)
   );
 
   // update handler
@@ -94,7 +99,7 @@ export default function ActionMenu({ approval, refetch }: ActionMenuProps) {
                   variant="contained"
                   className="!py-2.5 !text-sm !capitalize"
                   onClick={() => update("approve")}
-                  disabled={loading || !isAvailableBal}
+                  disabled={loading || !isAvailableBal || !isHasPermission}
                 >
                   Approved
                 </Button>
