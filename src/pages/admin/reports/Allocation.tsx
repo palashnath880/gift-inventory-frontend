@@ -23,6 +23,7 @@ interface ReportItemType {
   allocate_voucher: number;
   redeem_gift: number;
   redeem_voucher: number;
+  approval_amount: number;
 }
 
 const ReportItem = ({
@@ -59,6 +60,9 @@ const ReportItem = ({
       </StyledTableCell>
       <StyledTableCell className="!text-center">
         {report?.redeem_voucher || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
+        {report?.approval_amount || 0}
       </StyledTableCell>
     </StyledTableRow>
   );
@@ -134,6 +138,7 @@ export default function AllocationRedemption() {
                 <StyledTableCell>Redeem Gift</StyledTableCell>
                 <StyledTableCell>Allocate Voucher</StyledTableCell>
                 <StyledTableCell>Redeem Voucher</StyledTableCell>
+                <StyledTableCell>Approval Amount</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
