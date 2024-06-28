@@ -23,6 +23,7 @@ import { fetchAssets } from "../../features/admin/adminSlice";
 import type { AssetsType } from "../../types";
 import VoucherCode from "../../components/admin/Home/VoucherCode";
 import EmployeeRole from "../../components/admin/Home/EmployeeRole";
+import GraphReport from "../../components/admin/Home/GraphReport";
 
 interface AssetsBoxProps {
   title: string;
@@ -228,8 +229,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* voucher and role */}
+      <GraphReport />
 
+      {/* voucher and role */}
       <div className="flex gap-5">
         <div className="flex-1 bg-white px-4 py-5 rounded-md shadow-xl">
           <VoucherCode />

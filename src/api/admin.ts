@@ -22,4 +22,10 @@ export const adminApi = {
   createSKU: (data: any) => instance.post(`admin/sku-code/create`, data),
   getSKUCodes: () => instance.get(`admin/sku-code/get-all`),
   deleteSKUCode: (id: number) => instance.delete(`admin/sku-code/${id}`),
+
+  // graph report
+  getGraphReport: (from_date: string, to_date: string) =>
+    instance.get(
+      `admin/graph-report?from_date=${from_date}&to_date=${to_date}`
+    ),
 };
