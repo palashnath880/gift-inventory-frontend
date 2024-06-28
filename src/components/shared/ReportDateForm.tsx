@@ -37,7 +37,10 @@ export default function ReportDateForm({
   };
 
   useEffect(() => {
-    const momentDate: any = {};
+    const momentDate: any = {
+      fromDate: null,
+      toDate: null,
+    };
 
     if (values?.fromDate) {
       momentDate.fromDate = moment(values?.fromDate);

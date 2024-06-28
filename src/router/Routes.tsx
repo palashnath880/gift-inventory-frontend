@@ -231,10 +231,6 @@ export default function Routes() {
           element: <Admin.EmployeeReport />,
         },
         {
-          path: "reports/redeemed",
-          element: <Admin.RedeemedReport />,
-        },
-        {
           path: "stock",
           element: <Admin.Stock />,
         },
