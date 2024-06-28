@@ -305,8 +305,18 @@ export default function Sidebar() {
           icon: "",
         },
         {
-          href: "/reports/allocation-redemption",
+          href: "/reports/employee",
           label: "Employee",
+          icon: "",
+        },
+        {
+          href: "/reports/allocation",
+          label: "Allocation",
+          icon: "",
+        },
+        {
+          href: "/reports/redemption",
+          label: "Redemption",
           icon: "",
         },
       ],

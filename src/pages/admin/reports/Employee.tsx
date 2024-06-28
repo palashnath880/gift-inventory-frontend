@@ -68,7 +68,7 @@ const ReportItem = ({
   );
 };
 
-export default function AllocationReport() {
+export default function EmployeeReport() {
   // params
   const [search, setSearch] = useSearchParams();
   const { from_date, to_date } = {

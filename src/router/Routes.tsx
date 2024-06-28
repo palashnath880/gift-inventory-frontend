@@ -219,8 +219,16 @@ export default function Routes() {
           element: <Admin.CustomerReport />,
         },
         {
-          path: "reports/allocation-redemption",
-          element: <Admin.AllocationRedemption />,
+          path: "reports/allocation",
+          element: <Admin.AllocationReport />,
+        },
+        {
+          path: "reports/redemption",
+          element: <Admin.RedemptionReport />,
+        },
+        {
+          path: "reports/employee",
+          element: <Admin.EmployeeReport />,
         },
         {
           path: "reports/redeemed",
