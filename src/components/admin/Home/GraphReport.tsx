@@ -40,6 +40,7 @@ export default function GraphReport() {
     data: reports,
     isLoading,
     isSuccess,
+    refetch,
   } = useQuery<QueryDataType[]>({
     queryKey: ["graphReport", from_date, to_date],
     queryFn: async () => {
@@ -101,53 +102,62 @@ export default function GraphReport() {
         <Typography variant="h5" className="!text-primary !font-semibold">
           Graph
         </Typography>
-        <PopupState variant="popover">
-          {(popupState) => (
-            <>
-              <Button
-                {...bindTrigger(popupState)}
-                variant="contained"
-                className="!text-sm !py-2.5 !capitalize"
-              >
-                {filter === "today"
-                  ? "Today"
-                  : filter === "7_days"
-                  ? "Last 7 Days"
-                  : "Last 30 Days"}
-              </Button>
-              <Menu
-                {...bindMenu(popupState)}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    popupState.close();
-                    setFilter("today");
-                  }}
+        <div className="flex gap-4">
+          <Button
+            onClick={() => refetch()}
+            variant="outlined"
+            className="!text-sm !py-2.5 !capitalize"
+          >
+            Refresh
+          </Button>
+          <PopupState variant="popover">
+            {(popupState) => (
+              <>
+                <Button
+                  {...bindTrigger(popupState)}
+                  variant="contained"
+                  className="!text-sm !py-2.5 !capitalize"
                 >
-                  Today
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    popupState.close();
-                    setFilter("7_days");
-                  }}
+                  {filter === "today"
+                    ? "Today"
+                    : filter === "7_days"
+                    ? "Last 7 Days"
+                    : "Last 30 Days"}
+                </Button>
+                <Menu
+                  {...bindMenu(popupState)}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
                 >
-                  Last 7 Days
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    popupState.close();
-                    setFilter("30_days");
-                  }}
-                >
-                  Last 30 Days
-                </MenuItem>
-              </Menu>
-            </>
-          )}
-        </PopupState>
+                  <MenuItem
+                    onClick={() => {
+                      popupState.close();
+                      setFilter("today");
+                    }}
+                  >
+                    Today
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      popupState.close();
+                      setFilter("7_days");
+                    }}
+                  >
+                    Last 7 Days
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      popupState.close();
+                      setFilter("30_days");
+                    }}
+                  >
+                    Last 30 Days
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+          </PopupState>
+        </div>
       </div>
 
       {/* loader */}
