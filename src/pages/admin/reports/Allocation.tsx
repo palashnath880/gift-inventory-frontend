@@ -1,4 +1,12 @@
-import { Button, Table, TableBody, TableHead, TableRow } from "@mui/material";
+import {
+  Button,
+  Pagination,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import PageHeader from "../../../components/shared/PageHeader";
 import ReportDateForm from "../../../components/shared/ReportDateForm";
 import { Download } from "@mui/icons-material";
@@ -12,94 +20,42 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from "../../../components/shared/MUITable";
-import { useAppDispatch, useAppSelector } from "../../../hooks";
-import { fetchEmployees } from "../../../features/employees/employeesSlice";
-import { useEffect } from "react";
-import type { Employee } from "../../../types";
+import type { AllocatedItem } from "../../../types";
 
-interface ReportItemType {
-  creator_id: number;
-  allocate_gift: number;
-  allocate_voucher: number;
-  redeem_gift: number;
-  redeem_voucher: number;
-  approval_amount: number;
+interface QueryReturnType {
+  count: number;
+  reports: AllocatedItem[];
 }
-
-const ReportItem = ({
-  employee,
-  reports,
-  index,
-}: {
-  employee: Employee;
-  reports: ReportItemType[];
-  index: number;
-}) => {
-  // get report
-  const report =
-    (Array.isArray(reports) &&
-      reports.find((i) => i.creator_id === employee.id)) ||
-    null;
-
-  return (
-    <StyledTableRow>
-      <StyledTableCell>{index + 1}</StyledTableCell>
-      <StyledTableCell>{employee.employeeId}</StyledTableCell>
-      <StyledTableCell>{employee.name}</StyledTableCell>
-      <StyledTableCell>{employee.email}</StyledTableCell>
-      <StyledTableCell>{employee.role}</StyledTableCell>
-      <StyledTableCell>{employee.branch}</StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.allocate_gift || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.redeem_gift || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.allocate_voucher || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.redeem_voucher || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.approval_amount || 0}
-      </StyledTableCell>
-    </StyledTableRow>
-  );
-};
 
 export default function AllocationReport() {
   // params
   const [search, setSearch] = useSearchParams();
-  const { from_date, to_date } = {
+  const { from_date, to_date, page } = {
     from_date: search.get("from_date") || "",
     to_date: search.get("to_date") || "",
+    page: search.get("page") || "1",
   };
 
-  // redux
-  const { employees } = useAppSelector((state) => state.employees);
-  const dispatch = useAppDispatch();
-
   // report-react-query
-  const { data, isLoading, isSuccess } = useQuery<ReportItemType[]>({
-    queryKey: ["allocationRedemptionReport", from_date, to_date],
+  const { data, isLoading, isSuccess } = useQuery<QueryReturnType>({
+    queryKey: ["allocationRedemptionReport", from_date, to_date, page],
     queryFn: async () => {
       if (!from_date || !to_date) {
         return [];
       }
       const addOneDay = moment(to_date).add(1, "days").format("y-MM-DD");
-      const res = await allocateApi.getAdminAloRemReport(from_date, addOneDay);
+      const res = await allocateApi.getAdminAllReport(
+        page,
+        from_date,
+        addOneDay
+      );
       return res.data;
     },
   });
 
-  useEffect(() => {
-    dispatch(fetchEmployees());
-  }, []);
-
   return (
     <div>
-      <PageHeader title="Employee Wise Report" />
+      <PageHeader title="Allocation Report" />
 
       <div className="flex justify-between gap-2 items-center">
         <ReportDateForm
@@ -112,7 +68,7 @@ export default function AllocationReport() {
           variant="contained"
           startIcon={<Download />}
           className="!px-7 !text-sm !normal-case !py-3"
-          // disabled={Boolean(data?.data && data?.data?.length <= 0)}
+          disabled={Boolean(data?.reports && data?.reports?.length <= 0)}
           onClick={() => downloadExcel("allocationReport", "Allocation Report")}
         >
           Export as Excel
@@ -125,33 +81,61 @@ export default function AllocationReport() {
       {/* data display */}
       {isSuccess && from_date && to_date && (
         <>
-          <Table id="allocationReport" className="!mt-5">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell></StyledTableCell>
-                <StyledTableCell>Employee ID</StyledTableCell>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell>Email</StyledTableCell>
-                <StyledTableCell>Role</StyledTableCell>
-                <StyledTableCell>Branch</StyledTableCell>
-                <StyledTableCell>Allocate Gift</StyledTableCell>
-                <StyledTableCell>Redeem Gift</StyledTableCell>
-                <StyledTableCell>Allocate Voucher</StyledTableCell>
-                <StyledTableCell>Redeem Voucher</StyledTableCell>
-                <StyledTableCell>Approval Amount</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {employees.map((employee, index) => (
-                <ReportItem
-                  key={employee.id}
-                  employee={employee}
-                  reports={data}
-                  index={index}
-                />
-              ))}
-            </TableBody>
-          </Table>
+          <TableContainer>
+            <Table id="allocationReport">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Serial</StyledTableCell>
+                  <StyledTableCell>Branch</StyledTableCell>
+                  <StyledTableCell>Customer Name</StyledTableCell>
+                  <StyledTableCell>Customer Email</StyledTableCell>
+                  <StyledTableCell>Customer Phone</StyledTableCell>
+                  <StyledTableCell>SO</StyledTableCell>
+                  <StyledTableCell>Comment</StyledTableCell>
+                  <StyledTableCell>Gift Type</StyledTableCell>
+                  <StyledTableCell>Gift SKU</StyledTableCell>
+                  <StyledTableCell>Gift Quantity</StyledTableCell>
+                  <StyledTableCell>Voucher Code</StyledTableCell>
+                  <StyledTableCell>Voucher Amount</StyledTableCell>
+                  <StyledTableCell>Allocation Date</StyledTableCell>
+                  <StyledTableCell>Allocator</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data?.reports?.map((report, index) => (
+                  <StyledTableRow key={report.id}>
+                    <StyledTableCell>{index + 1}</StyledTableCell>
+                    <StyledTableCell>{report.branch}</StyledTableCell>
+                    <StyledTableCell>{report.cus_name}</StyledTableCell>
+                    <StyledTableCell>{report.cus_email}</StyledTableCell>
+                    <StyledTableCell>{report.cus_phone}</StyledTableCell>
+                    <StyledTableCell>{report.so}</StyledTableCell>
+                    <StyledTableCell>{report.comment}</StyledTableCell>
+                    <StyledTableCell>{report.gift_type}</StyledTableCell>
+                    <StyledTableCell>{report.gift_sku_code}</StyledTableCell>
+                    <StyledTableCell>{report.gift_quantity}</StyledTableCell>
+                    <StyledTableCell>{report.voucher_code}</StyledTableCell>
+                    <StyledTableCell>{report.voucher_amount}</StyledTableCell>
+                    <StyledTableCell>
+                      {moment(report.created_at).format("DD-MM-y")}
+                    </StyledTableCell>
+                    <StyledTableCell>{report.allocated_by}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <div className="pb-10 !mt-5 flex justify-center">
+            <Pagination
+              count={Math.ceil(data?.count / 50)}
+              page={parseInt(page)}
+              color="primary"
+              onChange={(_, val) =>
+                setSearch({ from_date, to_date, page: val.toString() })
+              }
+            />
+          </div>
         </>
       )}
     </div>

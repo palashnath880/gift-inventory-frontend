@@ -34,4 +34,20 @@ export const allocateApi = {
     instance.get(
       `admin/allocation-redemption-branch-report?from_date=${from_date}&to_date=${to_date}`
     ),
+  getAdminAllReport: (
+    page: string | undefined,
+    from_date: string,
+    to_date: string
+  ) =>
+    instance.get(
+      `admin/allocation-report?page=${page}&from_date=${from_date}&to_date=${to_date}`
+    ),
+  getAdminRedReport: (
+    page: string | undefined,
+    from_date: string,
+    to_date: string
+  ) =>
+    instance.get(
+      `admin/redemption-report?page=${page}&from_date=${from_date}&to_date=${to_date}`
+    ),
 };
