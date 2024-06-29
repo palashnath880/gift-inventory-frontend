@@ -21,13 +21,17 @@ import { useSearchParams } from "react-router-dom";
 import { approvalApi } from "../../api/approval";
 import type { ApprovalItem } from "../../types";
 import moment from "moment";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import ApproverTwoEdit from "../../components/Approval/ApproverTwoEdit";
 import ApprovalStatus from "../../components/Approval/ApprovalStatus";
+import { fetchEmployees } from "../../features/employees/employeesSlice";
+import { useEffect } from "react";
 
 export default function ReceiveApproval() {
   // react-redux
   const user = useAppSelector((state) => state.auth.user);
+  const employees = useAppSelector((state) => state.employees.employees);
+  const dispatch = useAppDispatch();
 
   // search params
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,6 +51,10 @@ export default function ReceiveApproval() {
       return res.data;
     },
   });
+
+  useEffect(() => {
+    dispatch(fetchEmployees());
+  }, []);
 
   return (
     <div>
@@ -109,12 +117,36 @@ export default function ReceiveApproval() {
                         : approval.approver_1_name}
                     </StyledTableCell>
                     <StyledTableCell>
-                      <ApproverTwoEdit refetch={refetch} approval={approval} />
+                      <span className="flex justify-between gap-2 items-center">
+                        {/* approver 2 name show */}
+                        {approval.approver_2 === user?.id ? (
+                          <span className="flex flex-col">
+                            <Typography className="max-w-[300px]">
+                              <strong>Transfer Reason: </strong>
+                              {approval.appro_1_note || "N/A"}
+                            </Typography>
+                            <Divider className="!my-2 !bg-primary" />
+                            <Typography>Me</Typography>
+                          </span>
+                        ) : (
+                          approval.approver_2_name || "N/A"
+                        )}
+
+                        {/* approver 2 edit popup */}
+                        {approval.approver_1 === user?.id &&
+                          approval.status === "open" &&
+                          !approval.transferred_date && (
+                            <ApproverTwoEdit
+                              refetch={refetch}
+                              approval={approval}
+                              employees={employees}
+                            />
+                          )}
+                      </span>
                     </StyledTableCell>
                     <StyledTableCell>
                       <ApprovalStatus approval={approval} />
                     </StyledTableCell>
-
                     <StyledTableCell>
                       <ActionMenu approval={approval} refetch={refetch} />
                     </StyledTableCell>
