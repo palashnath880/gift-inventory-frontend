@@ -117,7 +117,7 @@ const GiftAllocateInputs = ({
       />
 
       <Typography variant="body1" className="!pl-3 !text-primary">
-        Available Gift: <strong>{user?.availableGift}</strong>
+        My Gift Balance: <strong>{user?.availableGift}</strong>
       </Typography>
 
       {!isLoading && data && (
@@ -128,7 +128,7 @@ const GiftAllocateInputs = ({
               data?.quantity <= 0 ? "!text-red-500" : "!text-primary"
             } `}
           >
-            Available Gift in CSC: <strong>{data?.quantity}</strong>
+            Gift Stock of CSC: <strong>{data?.quantity}</strong>
           </Typography>
         </>
       )}
@@ -264,7 +264,7 @@ export default function Allocate() {
                       availableBal <= 0 ? "!text-red-500" : "!text-primary"
                     } `}
                   >
-                    Available Gift in CSC: <strong>{availableBal}</strong>
+                    Gift Stock of CSC: <strong>{availableBal}</strong>
                   </Typography>
                 </>
               )}
