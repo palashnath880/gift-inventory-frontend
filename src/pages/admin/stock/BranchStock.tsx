@@ -37,6 +37,7 @@ const StockItem = ({
       <StyledTableCell>{getBranch?.name}</StyledTableCell>
       <StyledTableCell>{stock.sku_code}</StyledTableCell>
       <StyledTableCell>{stock.type}</StyledTableCell>
+      <StyledTableCell>{stock.name}</StyledTableCell>
       <StyledTableCell>{stock.quantity}</StyledTableCell>
       <StyledTableCell>{stock.redeem_quantity}</StyledTableCell>
     </StyledTableRow>
@@ -121,6 +122,7 @@ export default function BranchStock() {
                 <StyledTableCell>CSC</StyledTableCell>
                 <StyledTableCell>SKU Code</StyledTableCell>
                 <StyledTableCell>Gift Type</StyledTableCell>
+                <StyledTableCell>Item Name</StyledTableCell>
                 <StyledTableCell>Quantity</StyledTableCell>
                 <StyledTableCell>Redeem Quantity</StyledTableCell>
               </TableRow>

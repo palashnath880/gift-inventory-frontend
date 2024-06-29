@@ -37,6 +37,7 @@ interface TransferList {
   skuCode: string;
   quantity: number;
   giftType: string | null;
+  itemName: string | null;
   remarks: string;
   branchId: number | string;
   branch: string;
@@ -69,6 +70,7 @@ export default function StockTransfer() {
       branch: data?.branch?.name,
       branchId: data?.branch?.id,
       giftType: data?.skuCode?.gift_type,
+      itemName: data?.skuCode?.item_name,
       quantity: data.quantity,
       remarks: data.remarks,
       skuCode: data.skuCode.name,
@@ -254,6 +256,7 @@ export default function StockTransfer() {
               <TableRow>
                 <StyledTableCell>SKU Code</StyledTableCell>
                 <StyledTableCell>Gift Type</StyledTableCell>
+                <StyledTableCell>Item Name</StyledTableCell>
                 <StyledTableCell>Quantity</StyledTableCell>
                 <StyledTableCell>Remarks</StyledTableCell>
                 <StyledTableCell>Branch</StyledTableCell>
@@ -265,6 +268,7 @@ export default function StockTransfer() {
                 <StyledTableRow key={index}>
                   <StyledTableCell>{list.skuCode}</StyledTableCell>
                   <StyledTableCell>{list.giftType}</StyledTableCell>
+                  <StyledTableCell>{list.itemName}</StyledTableCell>
                   <StyledTableCell>{list.quantity}</StyledTableCell>
                   <StyledTableCell>{list.remarks}</StyledTableCell>
                   <StyledTableCell>{list.branch}</StyledTableCell>

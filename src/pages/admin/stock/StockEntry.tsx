@@ -27,16 +27,15 @@ import toast from "react-hot-toast";
 import StockEntryList from "../../../components/admin/Stock/StockEntryList";
 
 interface Inputs {
-  name: string;
   skuCode: SKUCode;
   quantity: number;
   remarks: string;
 }
 
 interface EntryList {
-  name: string;
   skuCode: string | null;
   giftType: string | null;
+  itemName: string | null;
   quantity: number;
   remarks: string;
 }
@@ -64,6 +63,7 @@ export default function StockEntry() {
     const list: any = { ...data };
     list.skuCode = data.skuCode.name;
     list.giftType = data.skuCode.gift_type;
+    list.itemName = data.skuCode.item_name;
 
     setEntryList([...entryList, list]);
     reset();
@@ -103,12 +103,6 @@ export default function StockEntry() {
           <Divider className="!my-4 !bg-primary" />
           <form onSubmit={handleSubmit(addToEntryList)}>
             <div className="flex flex-col gap-4">
-              <TextField
-                fullWidth
-                label="Name"
-                error={Boolean(errors["name"])}
-                {...register("name", { required: true })}
-              />
               <Controller
                 control={control}
                 name="skuCode"
@@ -179,9 +173,9 @@ export default function StockEntry() {
           <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Name</StyledTableCell>
                 <StyledTableCell>SKU Code</StyledTableCell>
                 <StyledTableCell>Gift Type</StyledTableCell>
+                <StyledTableCell>Item Name</StyledTableCell>
                 <StyledTableCell>Quantity</StyledTableCell>
                 <StyledTableCell>Remarks</StyledTableCell>
                 <StyledTableCell></StyledTableCell>
@@ -190,9 +184,9 @@ export default function StockEntry() {
             <TableBody>
               {entryList?.map((list, index) => (
                 <StyledTableRow key={index}>
-                  <StyledTableCell>{list.name}</StyledTableCell>
                   <StyledTableCell>{list.skuCode}</StyledTableCell>
                   <StyledTableCell>{list.giftType}</StyledTableCell>
+                  <StyledTableCell>{list.itemName}</StyledTableCell>
                   <StyledTableCell>{list.quantity}</StyledTableCell>
                   <StyledTableCell>{list.remarks}</StyledTableCell>
                   <StyledTableCell>

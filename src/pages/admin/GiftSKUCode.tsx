@@ -33,6 +33,7 @@ import { AxiosError } from "axios";
 interface Inputs {
   name: string;
   giftType: string;
+  itemName: string;
 }
 
 export default function GiftSKUCode() {
@@ -128,27 +129,31 @@ export default function GiftSKUCode() {
                     <StyledTableCell></StyledTableCell>
                     <StyledTableCell>Name</StyledTableCell>
                     <StyledTableCell>Gift Type</StyledTableCell>
+                    <StyledTableCell>Gift Item Name</StyledTableCell>
                     <StyledTableCell>Created At</StyledTableCell>
                     <StyledTableCell></StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data?.map(({ id, createdAt, gift_type, name }, index) => (
-                    <StyledTableRow key={id}>
-                      <StyledTableCell>{index + 1}</StyledTableCell>
-                      <StyledTableCell>{name}</StyledTableCell>
-                      <StyledTableCell>{gift_type}</StyledTableCell>
-                      <StyledTableCell>{createdAt}</StyledTableCell>
-                      <StyledTableCell>
-                        <IconButton
-                          color="error"
-                          onClick={(e) => deleteHandler(e, id)}
-                        >
-                          <Delete />
-                        </IconButton>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
+                  {data?.map(
+                    ({ id, createdAt, gift_type, item_name, name }, index) => (
+                      <StyledTableRow key={id}>
+                        <StyledTableCell>{index + 1}</StyledTableCell>
+                        <StyledTableCell>{name}</StyledTableCell>
+                        <StyledTableCell>{gift_type}</StyledTableCell>
+                        <StyledTableCell>{item_name}</StyledTableCell>
+                        <StyledTableCell>{createdAt}</StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            color="error"
+                            onClick={(e) => deleteHandler(e, id)}
+                          >
+                            <Delete />
+                          </IconButton>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             </>
@@ -180,6 +185,12 @@ export default function GiftSKUCode() {
                 label="Gift Type"
                 error={Boolean(errors["giftType"])}
                 {...register("giftType", { required: true })}
+              />
+              <TextField
+                fullWidth
+                label="Gift Item Name"
+                error={Boolean(errors["itemName"])}
+                {...register("itemName", { required: true })}
               />
 
               {error && (
