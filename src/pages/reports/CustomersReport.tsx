@@ -101,7 +101,7 @@ export default function CustomersReport() {
                       <StyledTableCell>Name</StyledTableCell>
                       <StyledTableCell>Email</StyledTableCell>
                       <StyledTableCell>Phone</StyledTableCell>
-                      <StyledTableCell>Branch</StyledTableCell>
+                      <StyledTableCell>CSC</StyledTableCell>
                       <StyledTableCell>Project</StyledTableCell>
                       <StyledTableCell>Type</StyledTableCell>
                       <StyledTableCell>Remarks</StyledTableCell>

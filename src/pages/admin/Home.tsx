@@ -265,12 +265,12 @@ export default function Home() {
         </div>
         <div className="flex-1 bg-white px-4 py-5 rounded-md shadow-xl">
           <AssetsBox
-            title="Branch"
+            title="CSC"
             total={branches?.length}
             data={branches}
             dataLoading={loading}
             post_type="csc"
-            emptyMsg="Branch Not Found"
+            emptyMsg="CSC Not Found"
           />
         </div>
       </div>

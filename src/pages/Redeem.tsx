@@ -83,7 +83,7 @@ export default function Redeem() {
                 {redeemItem === "voucher" && (
                   <>
                     <MyRow label="Allocated By" value={data.allocated_by} />
-                    <MyRow label="Branch" value={data.branch} />
+                    <MyRow label="CSC" value={data.branch} />
                     <MyRow label="Voucher Code" value={data.voucher_code} />
                     <MyRow label="Voucher Amount" value={data.voucher_amount} />
                   </>

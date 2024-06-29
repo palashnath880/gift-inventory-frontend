@@ -140,7 +140,7 @@ export default function AddEmployee({ close }: { close: () => void }) {
                   <TextField
                     error={Boolean(error)}
                     {...params}
-                    label="Select Branch"
+                    label="Select CSC"
                   />
                 )}
               />

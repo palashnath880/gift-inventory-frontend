@@ -63,7 +63,7 @@ export default function GiftReceive() {
           <TableHead>
             <TableRow>
               <StyledTableCell></StyledTableCell>
-              <StyledTableCell>Branch Name</StyledTableCell>
+              <StyledTableCell>CSC Name</StyledTableCell>
               <StyledTableCell>SKU Code</StyledTableCell>
               <StyledTableCell>Type</StyledTableCell>
               <StyledTableCell>Quantity</StyledTableCell>

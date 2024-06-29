@@ -73,7 +73,7 @@ export default function Employees() {
                     <StyledTableCell>Employee ID</StyledTableCell>
                     <StyledTableCell>Email</StyledTableCell>
                     <StyledTableCell>Role</StyledTableCell>
-                    <StyledTableCell>Branch</StyledTableCell>
+                    <StyledTableCell>CSC</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

@@ -63,8 +63,8 @@ export default function CreateCustomer() {
     },
     {
       name: "csc",
-      label: "Select Branch",
-      noOptionText: "Sorry! No branch matching",
+      label: "Select CSC",
+      noOptionText: "Sorry! No CSC matching",
       options: branches,
     },
   ];

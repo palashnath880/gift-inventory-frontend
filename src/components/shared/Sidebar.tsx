@@ -160,7 +160,7 @@ export default function Sidebar() {
         },
         {
           href: "/gift-stock",
-          label: "Branch Stock",
+          label: "CSC Stock",
           icon: <BarChart fontSize="small" />,
         },
         // {
@@ -283,7 +283,7 @@ export default function Sidebar() {
         },
         {
           href: "/branch-stock",
-          label: "Branch Stock",
+          label: "CSC Stock",
           icon: "",
         },
       ],
@@ -296,7 +296,7 @@ export default function Sidebar() {
       menus: [
         {
           href: "/reports/branch",
-          label: "Branch",
+          label: "CSC",
           icon: "",
         },
         {

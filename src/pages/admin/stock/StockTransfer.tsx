@@ -159,7 +159,7 @@ export default function StockTransfer() {
                       <TextField
                         {...params}
                         error={Boolean(error)}
-                        label="Select Branch"
+                        label="Select CSC"
                       />
                     )}
                   />

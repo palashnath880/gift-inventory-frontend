@@ -8,7 +8,7 @@ export default function Topbar() {
   return (
     <div className="bg-white py-3 shadow-md flex justify-between px-5">
       <Typography variant="h6" className="!font-medium !text-primary">
-        <strong>Branch:</strong> {user?.branch}
+        <strong>CSC:</strong> {user?.branch}
       </Typography>
       <div className="flex items-center gap-3">
         <Typography variant="h6" className="!font-medium !text-primary">

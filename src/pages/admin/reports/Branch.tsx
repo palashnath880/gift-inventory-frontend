@@ -79,7 +79,7 @@ export default function Branch() {
 
   return (
     <div>
-      <PageHeader title="Branch Report" />
+      <PageHeader title="CSC Report" />
 
       <div className="flex justify-between gap-2 items-center">
         <ReportDateForm
@@ -109,7 +109,7 @@ export default function Branch() {
             <TableHead>
               <TableRow>
                 <StyledTableCell>Serial</StyledTableCell>
-                <StyledTableCell>Branch Name</StyledTableCell>
+                <StyledTableCell>CSC Name</StyledTableCell>
                 <StyledTableCell>Allocate Gift</StyledTableCell>
                 <StyledTableCell>Redeem Gift</StyledTableCell>
                 <StyledTableCell>Allocate Voucher</StyledTableCell>

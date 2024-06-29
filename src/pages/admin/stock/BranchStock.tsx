@@ -66,7 +66,7 @@ export default function BranchStock() {
 
   return (
     <div>
-      <PageHeader title="Branch Stock" />
+      <PageHeader title="CSC Stock" />
 
       <div className="flex justify-between items-center">
         <div className="flex gap-4 items-center">
@@ -77,9 +77,9 @@ export default function BranchStock() {
             getOptionLabel={(option) => option.name}
             isOptionEqualToValue={(option, val) => option.id === val.id}
             onChange={(_, value) => setSearch({ sku, branch: value?.id || "" })}
-            noOptionsText="No Branch Here"
+            noOptionsText="No CSC Here"
             renderInput={(params) => (
-              <TextField {...params} label="Search By Branch" />
+              <TextField {...params} label="Search By CSC" />
             )}
           />
           <Autocomplete
@@ -118,7 +118,7 @@ export default function BranchStock() {
           <Table id="branchStock" className="!mt-5">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Branch</StyledTableCell>
+                <StyledTableCell>CSC</StyledTableCell>
                 <StyledTableCell>SKU Code</StyledTableCell>
                 <StyledTableCell>Gift Type</StyledTableCell>
                 <StyledTableCell>Quantity</StyledTableCell>

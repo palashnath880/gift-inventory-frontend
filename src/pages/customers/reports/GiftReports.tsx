@@ -105,7 +105,7 @@ export default function GiftReports({
               <Table id="gift_reports">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Branch</StyledTableCell>
+                    <StyledTableCell>CSC</StyledTableCell>
                     <StyledTableCell>Creator Name</StyledTableCell>
                     <StyledTableCell>SO</StyledTableCell>
                     <StyledTableCell>Quantity</StyledTableCell>

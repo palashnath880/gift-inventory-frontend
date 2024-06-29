@@ -86,7 +86,7 @@ export default function AllocationReport() {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Serial</StyledTableCell>
-                  <StyledTableCell>Branch</StyledTableCell>
+                  <StyledTableCell>CSC</StyledTableCell>
                   <StyledTableCell>Customer Name</StyledTableCell>
                   <StyledTableCell>Customer Email</StyledTableCell>
                   <StyledTableCell>Customer Phone</StyledTableCell>

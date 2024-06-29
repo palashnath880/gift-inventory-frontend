@@ -128,7 +128,7 @@ const GiftAllocateInputs = ({
               data?.quantity <= 0 ? "!text-red-500" : "!text-primary"
             } `}
           >
-            Available Gift in Branch: <strong>{data?.quantity}</strong>
+            Available Gift in CSC: <strong>{data?.quantity}</strong>
           </Typography>
         </>
       )}
@@ -264,7 +264,7 @@ export default function Allocate() {
                       availableBal <= 0 ? "!text-red-500" : "!text-primary"
                     } `}
                   >
-                    Available Gift in Branch: <strong>{availableBal}</strong>
+                    Available Gift in CSC: <strong>{availableBal}</strong>
                   </Typography>
                 </>
               )}

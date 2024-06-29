@@ -133,7 +133,7 @@ export default function EmployeeReport() {
                 <StyledTableCell>Name</StyledTableCell>
                 <StyledTableCell>Email</StyledTableCell>
                 <StyledTableCell>Role</StyledTableCell>
-                <StyledTableCell>Branch</StyledTableCell>
+                <StyledTableCell>CSC</StyledTableCell>
                 <StyledTableCell>Allocate Gift</StyledTableCell>
                 <StyledTableCell>Redeem Gift</StyledTableCell>
                 <StyledTableCell>Allocate Voucher</StyledTableCell>

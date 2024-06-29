@@ -107,7 +107,7 @@ export default function ApprovalReports({
                 <Table id="approval_reports">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>Branch</StyledTableCell>
+                      <StyledTableCell>CSC</StyledTableCell>
                       <StyledTableCell>Send Date</StyledTableCell>
                       <StyledTableCell>Sender Name</StyledTableCell>
                       <StyledTableCell>Description</StyledTableCell>

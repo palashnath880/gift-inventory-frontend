@@ -93,7 +93,7 @@ export default function AllocatedItems() {
                       <StyledTableCell>Voucher Amount</StyledTableCell>
                       <StyledTableCell>Voucher Code</StyledTableCell>
                       <StyledTableCell>Allocated By</StyledTableCell>
-                      <StyledTableCell>Branch</StyledTableCell>
+                      <StyledTableCell>CSC</StyledTableCell>
                     </>
                   )}
 
