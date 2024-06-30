@@ -1,9 +1,11 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Alert, Button, TextField, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { authApi } from "../../api/auth";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../../components/shared/Loader";
 
 interface Inputs {
   password: string;
@@ -48,6 +50,32 @@ export default function ResetPWDUpdate({
       setLoading(false);
     }
   };
+
+  // verify token
+  const { isLoading, data } = useQuery({
+    queryKey: ["verifyToken", token],
+    queryFn: async () => {
+      const res = await authApi.verifyResetToken(token);
+      return res.data;
+    },
+  });
+
+  // loader
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!data?.id) {
+    return (
+      <div className="w-full h-screen grid place-items-center">
+        <Alert severity="error">
+          <Typography variant="h6" className="!font-semibold">
+            This URL is expired
+          </Typography>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-screen grid place-items-center">
