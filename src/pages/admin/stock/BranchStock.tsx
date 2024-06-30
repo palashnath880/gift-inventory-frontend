@@ -122,7 +122,7 @@ export default function BranchStock() {
                 <StyledTableCell>CSC</StyledTableCell>
                 <StyledTableCell>SKU Code</StyledTableCell>
                 <StyledTableCell>Gift Type</StyledTableCell>
-                <StyledTableCell>Item Name</StyledTableCell>
+                <StyledTableCell>Name</StyledTableCell>
                 <StyledTableCell>Quantity</StyledTableCell>
                 <StyledTableCell>Redeem Quantity</StyledTableCell>
               </TableRow>
