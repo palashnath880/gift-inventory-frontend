@@ -98,7 +98,7 @@ export default function GiftStock() {
             <TableHead>
               <TableRow>
                 <StyledTableCell></StyledTableCell>
-                {/* <StyledTableCell>Name</StyledTableCell> */}
+                <StyledTableCell>Name</StyledTableCell>
                 <StyledTableCell>SKU Code</StyledTableCell>
                 <StyledTableCell>Type</StyledTableCell>
                 <StyledTableCell>Quantity</StyledTableCell>
@@ -111,7 +111,7 @@ export default function GiftStock() {
                   <StyledTableCell>
                     <strong>{index + 1}</strong>
                   </StyledTableCell>
-                  {/* <StyledTableCell>{stock.name}</StyledTableCell> */}
+                  <StyledTableCell>{stock.name}</StyledTableCell>
                   <StyledTableCell>{stock.sku_code}</StyledTableCell>
                   <StyledTableCell>{stock.type}</StyledTableCell>
                   <StyledTableCell>{stock.quantity}</StyledTableCell>
@@ -119,7 +119,7 @@ export default function GiftStock() {
                 </StyledTableRow>
               ))}
               <StyledTableRow>
-                <StyledTableCell colSpan={3} className="!text-right">
+                <StyledTableCell colSpan={4} className="!text-right">
                   <strong>Total</strong>
                 </StyledTableCell>
                 <StyledTableCell>{totalQuantity}</StyledTableCell>
