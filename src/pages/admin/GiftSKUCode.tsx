@@ -127,9 +127,9 @@ export default function GiftSKUCode() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell></StyledTableCell>
-                    <StyledTableCell>Name</StyledTableCell>
-                    <StyledTableCell>Gift Type</StyledTableCell>
                     <StyledTableCell>Gift Item Name</StyledTableCell>
+                    <StyledTableCell>SKU Code</StyledTableCell>
+                    <StyledTableCell>Gift Type</StyledTableCell>
                     <StyledTableCell>Created At</StyledTableCell>
                     <StyledTableCell></StyledTableCell>
                   </TableRow>
@@ -139,9 +139,9 @@ export default function GiftSKUCode() {
                     ({ id, createdAt, gift_type, item_name, name }, index) => (
                       <StyledTableRow key={id}>
                         <StyledTableCell>{index + 1}</StyledTableCell>
+                        <StyledTableCell>{item_name}</StyledTableCell>
                         <StyledTableCell>{name}</StyledTableCell>
                         <StyledTableCell>{gift_type}</StyledTableCell>
-                        <StyledTableCell>{item_name}</StyledTableCell>
                         <StyledTableCell>{createdAt}</StyledTableCell>
                         <StyledTableCell>
                           <IconButton
