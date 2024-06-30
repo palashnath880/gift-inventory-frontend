@@ -144,7 +144,7 @@ export default function StockTransferList() {
                       <StyledTableCell>{list.remarks}</StyledTableCell>
                       <StyledTableCell>
                         {list.status === "open" ? (
-                          <Chip label="Open" color="info" />
+                          <Chip label="Part In Transit" color="info" />
                         ) : list.status === "received" ? (
                           <Chip label="Received" color="success" />
                         ) : (

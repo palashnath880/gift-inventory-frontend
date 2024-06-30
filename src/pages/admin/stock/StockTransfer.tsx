@@ -301,7 +301,7 @@ export default function StockTransfer() {
             onClick={transferStock}
             disabled={Boolean(transferList?.length <= 0) || loading}
           >
-            Add to Stock
+            Transfer to CSC
           </Button>
         </div>
       </div>
