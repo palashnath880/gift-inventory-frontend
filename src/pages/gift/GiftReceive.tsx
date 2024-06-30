@@ -63,7 +63,7 @@ export default function GiftReceive() {
           <TableHead>
             <TableRow>
               <StyledTableCell></StyledTableCell>
-              <StyledTableCell>CSC Name</StyledTableCell>
+              <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell>SKU Code</StyledTableCell>
               <StyledTableCell>Type</StyledTableCell>
               <StyledTableCell>Quantity</StyledTableCell>
@@ -78,7 +78,7 @@ export default function GiftReceive() {
                 <StyledTableCell>
                   <strong>{index + 1}</strong>
                 </StyledTableCell>
-                <StyledTableCell>{stock.sender_branch_name}</StyledTableCell>
+                <StyledTableCell>{stock.name}</StyledTableCell>
                 <StyledTableCell>{stock.sku_code}</StyledTableCell>
                 <StyledTableCell>{stock.type}</StyledTableCell>
                 <StyledTableCell>{stock.quantity}</StyledTableCell>
