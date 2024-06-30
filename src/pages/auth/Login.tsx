@@ -102,7 +102,6 @@ export default function Login() {
 
               <div className="flex justify-center">
                 <Typography
-                  variant="body2"
                   component={Link}
                   to={"/forgot-password"}
                   className="hover:!underline !font-medium"

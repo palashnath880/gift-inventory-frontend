@@ -4,7 +4,6 @@ import Topbar from "../components/shared/Topbar";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchMetaData } from "../features/inventory/inventorySlice";
-import { Toaster } from "react-hot-toast";
 import { fetchRoles } from "../features/employee-role/employeeRoleSlice";
 import { fetchVouchers } from "../features/voucher/voucherSlice";
 import { fetchAssets } from "../features/admin/adminSlice";
@@ -42,34 +41,6 @@ export default function Layout() {
           </div>
         </div>
       </div>
-
-      {/* toaster */}
-      <style>
-        {`
-        .myToast div {
-          justify-content: left !important;
-          font-size: 0.85rem !important;
-        }
-        `}
-      </style>
-      <Toaster
-        containerClassName="toastContainer"
-        position="top-right"
-        toastOptions={{
-          success: {
-            icon: null,
-            duration: 3000,
-            className:
-              "!bg-primary !rounded-md !min-w-[200px] !text-white !justify-left myToast",
-          },
-          error: {
-            icon: null,
-            duration: 3000,
-            className:
-              "!bg-red-500 !rounded-md !min-w-[200px] !text-white !justify-left myToast",
-          },
-        }}
-      />
     </>
   );
 }

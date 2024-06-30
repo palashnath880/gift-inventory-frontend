@@ -1,22 +1,22 @@
 import { Button, TextField, Typography } from "@mui/material";
+import { AxiosError } from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useSearchParams } from "react-router-dom";
-import { authApi } from "../../api/auth";
 import toast from "react-hot-toast";
-import { AxiosError } from "axios";
-import ResetPWDUpdate from "./ResetPWDUpdate";
+import { authApi } from "../../api/auth";
 
 interface Inputs {
-  login: string;
+  password: string;
+  confirmPassword: string;
 }
-
-export default function ForgotPass() {
+export default function ResetPWDUpdate({
+  token,
+}: {
+  token: string | undefined;
+}) {
   // states
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [search] = useSearchParams();
-  const token = search.get("token");
 
   // react-hook-form
   const {
@@ -26,12 +26,19 @@ export default function ForgotPass() {
     reset,
   } = useForm<Inputs>();
 
-  // login handler
-  const loginHandler: SubmitHandler<Inputs> = async (data): Promise<void> => {
+  // password update handler
+  const passwordUpdateHandler: SubmitHandler<Inputs> = async (
+    data
+  ): Promise<void> => {
+    if (data?.confirmPassword !== data?.password) {
+      setError("Password does not matched");
+      return;
+    }
+
     try {
       setLoading(true);
       setError("");
-      await authApi.sendResetLink(data.login);
+      await authApi.updateResetPWD(token, data.password);
       toast.success("Your password reset link was sent successfully.");
       reset();
     } catch (err) {
@@ -42,35 +49,31 @@ export default function ForgotPass() {
     }
   };
 
-  if (token) {
-    return <ResetPWDUpdate token={token} />;
-  }
-
   return (
     <div className="w-full h-screen grid place-items-center">
       <div className="bg-white shadow-md max-w-[95%] sm:w-[400px]">
         <div className="px-5 pb-10 pt-5">
           <Typography variant="h6" className="!text-primary !font-semibold">
-            Forgot Password
+            Set New Password
           </Typography>
-          <form onSubmit={handleSubmit(loginHandler)} className="!mt-5">
+          <form
+            onSubmit={handleSubmit(passwordUpdateHandler)}
+            className="!mt-5"
+          >
             <div className="flex flex-col gap-5">
               <TextField
                 fullWidth
-                error={Boolean(errors["login"])}
-                {...register("login", { required: true })}
-                label="Employee ID / Email"
+                error={Boolean(errors["password"])}
+                {...register("password", { required: true })}
+                label="Password"
+              />
+              <TextField
+                fullWidth
+                error={Boolean(errors["confirmPassword"])}
+                {...register("confirmPassword", { required: true })}
+                label="Confirm Password"
               />
 
-              <div className="flex justify-center">
-                <Typography
-                  component={Link}
-                  to={"/login"}
-                  className="!underline !font-medium"
-                >
-                  Login Here
-                </Typography>
-              </div>
               {error && (
                 <Typography className="!text-center !text-red-500">
                   {error}
@@ -83,7 +86,7 @@ export default function ForgotPass() {
                 variant="contained"
                 className="!py-3 !text-sm !capitalize"
               >
-                Send Reset Link
+                Update Password
               </Button>
             </div>
           </form>
