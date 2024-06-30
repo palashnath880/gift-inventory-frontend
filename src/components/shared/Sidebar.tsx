@@ -7,6 +7,7 @@ import {
   ExpandMore,
   Home,
   InsertDriveFile,
+  Lock,
   Logout,
   Paid,
   People,
@@ -27,6 +28,8 @@ import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 import logo from "../../assets/logo.webp";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { logOut } from "../../features/auth/authSlice";
+import { bindTrigger, usePopupState } from "material-ui-popup-state/hooks";
+import PasswordChangeDialog from "./PasswordChangeDialog";
 
 interface NavMenuType {
   href: string;
@@ -118,6 +121,9 @@ const NavMenuItem = ({
 };
 
 export default function Sidebar() {
+  // change password popup
+  const changePwd = usePopupState({ variant: "popover", popupId: "pwdChange" });
+
   // react-redux
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
@@ -324,46 +330,59 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="w-64 !bg-white h-screen relative">
-      <div className="absolute top-0 left-0 w-full h-full flex flex-col py-4 overflow-y-auto">
-        <div className="flex flex-col items-center pb-2">
-          <img src={logo} className="w-24 h-auto" />
-          <Typography variant="h6" className="!font-bold !text-primary">
-            CSAT Portal
-          </Typography>
-        </div>
-        <div className="flex-1">
-          <List component="div" className="!px-4">
-            {/* employee menus */}
-            {!user?.isAdmin && (
-              <>
-                {employeeMenus.map((menu, index) => (
-                  <NavMenuItem key={index} menu={menu} />
-                ))}
-              </>
-            )}
+    <>
+      {/* sidebar */}
+      <div className="w-64 !bg-white h-screen relative">
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col py-4 overflow-y-auto">
+          <div className="flex flex-col items-center pb-2">
+            <img src={logo} className="w-24 h-auto" />
+            <Typography variant="h6" className="!font-bold !text-primary">
+              CSAT Portal
+            </Typography>
+          </div>
+          <div className="flex-1">
+            <List component="div" className="!px-4">
+              {/* employee menus */}
+              {!user?.isAdmin && (
+                <>
+                  {employeeMenus.map((menu, index) => (
+                    <NavMenuItem key={index} menu={menu} />
+                  ))}
+                </>
+              )}
 
-            {/* admin menus */}
-            {user?.isAdmin && (
-              <>
-                {adminMenus.map((menu, index) => (
-                  <NavMenuItem key={index} menu={menu} />
-                ))}
-              </>
-            )}
-          </List>
-        </div>
-        <div className="px-3 mt-4">
-          <Divider className="!bg-primary" />
-          <div
-            onClick={() => dispatch(logOut())}
-            className="rounded-md mt-4 flex cursor-pointer items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 bg-primary text-white hover:text-primary"
-          >
-            <Logout fontSize="small" />
-            <Typography variant="body1">Logout</Typography>
+              {/* admin menus */}
+              {user?.isAdmin && (
+                <>
+                  {adminMenus.map((menu, index) => (
+                    <NavMenuItem key={index} menu={menu} />
+                  ))}
+                </>
+              )}
+            </List>
+          </div>
+          <div className="px-3 mt-4">
+            <Divider className="!bg-primary" />
+            <div
+              {...bindTrigger(changePwd)}
+              className="rounded-md mt-4 flex cursor-pointer items-center gap-4 py-3 duration-200 px-2.5 bg-opacity-15 bg-primary text-primary"
+            >
+              <Lock fontSize="small" />
+              <Typography variant="body1">Change Password</Typography>
+            </div>
+            <div
+              onClick={() => dispatch(logOut())}
+              className="rounded-md mt-2 flex cursor-pointer items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 bg-primary text-white hover:text-primary"
+            >
+              <Logout fontSize="small" />
+              <Typography variant="body1">Logout</Typography>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* password change dialog */}
+      <PasswordChangeDialog popupState={changePwd} />
+    </>
   );
 }
