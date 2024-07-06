@@ -96,7 +96,10 @@ export default function CreateCustomer() {
               fullWidth
               label="Name"
               error={Boolean(errors["name"])}
-              {...register("name", { required: true })}
+              {...register("name", {
+                required: true,
+                validate: (val) => !/\d/.test(val),
+              })}
             />
 
             <TextField
