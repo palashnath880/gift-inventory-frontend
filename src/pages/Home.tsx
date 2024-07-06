@@ -50,7 +50,7 @@ export default function Home() {
         <Card
           image={img2}
           subtitle={user?.assignedBal}
-          title="Assigned Balance"
+          title="Consumed Balance"
           currency
         />
         <Card image={img1} subtitle={user?.issuedGift} title="Issued Gift" />
