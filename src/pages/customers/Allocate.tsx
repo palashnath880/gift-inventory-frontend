@@ -202,7 +202,9 @@ export default function Allocate() {
 
   return (
     <div>
-      <PageHeader title="Gift Allocate" />
+      <PageHeader
+        title={allocateItem === "gift" ? "Gift Allocate" : "Voucher Allocate"}
+      />
       <div className="grid grid-cols-2 gap-7">
         <div className="bg-white px-5 py-7 rounded-lg shadow-md">
           <Typography variant="h6" className="!text-primary !font-semibold">
@@ -264,7 +266,7 @@ export default function Allocate() {
                       availableBal <= 0 ? "!text-red-500" : "!text-primary"
                     } `}
                   >
-                    Gift Stock of CSC: <strong>{availableBal}</strong>
+                    My Available Balance: <strong>{availableBal}</strong>
                   </Typography>
                 </>
               )}

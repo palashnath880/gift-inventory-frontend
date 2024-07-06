@@ -78,6 +78,7 @@ export default function Redeem() {
                     <MyRow label="Gift SKU" value={data.gift_sku_code} />
                     <MyRow label="Gift Type" value={data.gift_type} />
                     <MyRow label="Gift Quantity" value={data.gift_quantity} />
+                    <MyRow label="Comment" value={data.comment} />
                   </>
                 )}
                 {redeemItem === "voucher" && (
