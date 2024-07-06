@@ -262,6 +262,11 @@ export default function Sidebar() {
       icon: <People fontSize="small" />,
     },
     {
+      href: "/customers",
+      label: "Customers",
+      icon: <People fontSize="small" />,
+    },
+    {
       href: "/gift-sku-code",
       label: "Gift SKU Code",
       icon: <QrCode2 fontSize="small" />,
@@ -306,8 +311,8 @@ export default function Sidebar() {
           icon: "",
         },
         {
-          href: "/reports/customer",
-          label: "Customer",
+          href: "/customers",
+          label: "Customers",
           icon: "",
         },
         {

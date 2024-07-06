@@ -2,6 +2,7 @@ import { instance } from "./config";
 
 export const customerApi = {
   create: (data: any) => instance.post(`/customer/create`, data),
+  update: (id: number, data: any) => instance.put(`admin/customer/${id}`, data),
   getAll: (page: number, search: string) =>
     instance.get(`/customer/get-all?page=${page}&search=${search}`),
   getCustomerById: (customerId: string | undefined) =>

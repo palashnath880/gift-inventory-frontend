@@ -211,11 +211,11 @@ export default function Routes() {
           element: <Admin.BranchReport />,
         },
         {
-          path: "reports/customer",
+          path: "/customers",
           element: <Admin.Customers />,
         },
         {
-          path: "reports/customer/:customerId/:reportType?",
+          path: "/customers/reports/:customerId/:reportType?",
           element: <Admin.CustomerReport />,
         },
         {

@@ -2,7 +2,7 @@ import Employees from "./Employees";
 import GiftSKUCode from "./GiftSKUCode";
 import Home from "./Home";
 import EmployeeReport from "./reports/Employee";
-import Customers from "./reports/customer/Customers";
+import Customers from "./Customers";
 import Branch from "./reports/Branch";
 import RedemptionReport from "./reports/Redemption";
 import BranchStock from "./stock/BranchStock";
