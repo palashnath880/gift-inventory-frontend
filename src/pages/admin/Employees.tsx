@@ -2,10 +2,12 @@ import {
   Alert,
   Button,
   Dialog,
+  IconButton,
   Table,
   TableBody,
   TableHead,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import Loader from "../../components/shared/Loader";
 import PageHeader from "../../components/shared/PageHeader";
@@ -16,17 +18,19 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from "../../components/shared/MUITable";
-import { PersonAdd } from "@mui/icons-material";
+import { Edit, PersonAdd } from "@mui/icons-material";
 import {
   bindDialog,
   bindTrigger,
   usePopupState,
 } from "material-ui-popup-state/hooks";
 import AddEmployee from "../../components/admin/Employees/AddEmployee";
+import EditEmployee from "../../components/admin/Employees/EditEmployee";
+import PopupState from "material-ui-popup-state";
 
 export default function Employees() {
   // popup state
-  const popupState = usePopupState({
+  const addPopupState = usePopupState({
     variant: "popover",
     popupId: "addEmployee",
   });
@@ -47,7 +51,7 @@ export default function Employees() {
         variant="contained"
         className="!text-sm !capitalize !py-3 !px-7"
         startIcon={<PersonAdd />}
-        {...bindTrigger(popupState)}
+        {...bindTrigger(addPopupState)}
       >
         Add Employee
       </Button>
@@ -74,6 +78,7 @@ export default function Employees() {
                     <StyledTableCell>Email</StyledTableCell>
                     <StyledTableCell>Role</StyledTableCell>
                     <StyledTableCell>CSC</StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -85,6 +90,31 @@ export default function Employees() {
                       <StyledTableCell>{employee.email}</StyledTableCell>
                       <StyledTableCell>{employee.role}</StyledTableCell>
                       <StyledTableCell>{employee.branch}</StyledTableCell>
+                      <StyledTableCell>
+                        <PopupState variant="popover">
+                          {(popupState) => (
+                            <>
+                              <Tooltip title={`Edit ${employee.name}`}>
+                                <IconButton
+                                  color="primary"
+                                  {...bindTrigger(popupState)}
+                                >
+                                  <Edit />
+                                </IconButton>
+                              </Tooltip>
+
+                              {/* edit employee dialog */}
+                              <Dialog {...bindDialog(popupState)}>
+                                <EditEmployee
+                                  close={popupState.close}
+                                  employee={employee}
+                                  refetch={() => dispatch(fetchEmployees())}
+                                />
+                              </Dialog>
+                            </>
+                          )}
+                        </PopupState>
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -95,8 +125,8 @@ export default function Employees() {
       )}
 
       {/* add employee dialog */}
-      <Dialog {...bindDialog(popupState)}>
-        <AddEmployee close={popupState.close} />
+      <Dialog {...bindDialog(addPopupState)}>
+        <AddEmployee close={addPopupState.close} />
       </Dialog>
     </div>
   );

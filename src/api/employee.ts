@@ -6,4 +6,6 @@ export const employeeApi = {
   getMyBranchEmployees: () => instance.get(`employee/get-my-employees`),
   getEmployeeById: (employeeId: string | undefined) =>
     instance.get(`employee/get-by-id?employee_id=${employeeId}`),
+  updateEmployee: (id: number, data: any) =>
+    instance.put(`admin/employee/${id}`, data),
 };
