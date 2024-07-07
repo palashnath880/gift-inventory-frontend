@@ -87,9 +87,9 @@ export default function AllocationReport() {
                 <TableRow>
                   <StyledTableCell>Serial</StyledTableCell>
                   <StyledTableCell>CSC</StyledTableCell>
-                  <StyledTableCell>Customer Name</StyledTableCell>
-                  <StyledTableCell>Customer Email</StyledTableCell>
-                  <StyledTableCell>Customer Phone</StyledTableCell>
+                  <StyledTableCell>Name</StyledTableCell>
+                  <StyledTableCell>Email</StyledTableCell>
+                  <StyledTableCell>Phone</StyledTableCell>
                   <StyledTableCell>SO</StyledTableCell>
                   <StyledTableCell>Comment</StyledTableCell>
                   <StyledTableCell>Gift Type</StyledTableCell>
@@ -99,6 +99,11 @@ export default function AllocationReport() {
                   <StyledTableCell>Voucher Amount</StyledTableCell>
                   <StyledTableCell>Allocation Date</StyledTableCell>
                   <StyledTableCell>Allocator</StyledTableCell>
+                  <StyledTableCell>Redemption Date</StyledTableCell>
+                  <StyledTableCell>Redeem Type</StyledTableCell>
+                  <StyledTableCell>Manual Reason</StyledTableCell>
+                  <StyledTableCell>Redeemer</StyledTableCell>
+                  <StyledTableCell>Status</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -120,6 +125,20 @@ export default function AllocationReport() {
                       {moment(report.created_at).format("DD-MM-y")}
                     </StyledTableCell>
                     <StyledTableCell>{report.allocated_by}</StyledTableCell>
+                    <StyledTableCell>
+                      {report.end_date &&
+                        moment(report.end_date).format("DD-MM-y")}
+                    </StyledTableCell>
+                    <StyledTableCell>{report.redeem_by}</StyledTableCell>
+                    <StyledTableCell>{report.manual_reason}</StyledTableCell>
+                    <StyledTableCell>{report.redeemer_name}</StyledTableCell>
+                    <StyledTableCell>
+                      {report.status === "open"
+                        ? "Open"
+                        : report.status === "closed"
+                        ? "Redeemed"
+                        : "Rejected"}
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

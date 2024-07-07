@@ -322,12 +322,7 @@ export default function Sidebar() {
         },
         {
           href: "/reports/allocation",
-          label: "Allocation",
-          icon: "",
-        },
-        {
-          href: "/reports/redemption",
-          label: "Redemption",
+          label: "Allocation / Redemption",
           icon: "",
         },
       ],

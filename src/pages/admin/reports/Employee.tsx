@@ -21,6 +21,10 @@ interface ReportItemType {
   creator_id: number;
   allocate_gift: number;
   allocate_voucher: number;
+  pending_gift: number;
+  pending_voucher: number;
+  reject_gift: number;
+  reject_voucher: number;
   redeem_gift: number;
   redeem_voucher: number;
   approval_amount: number;
@@ -56,10 +60,22 @@ const ReportItem = ({
         {report?.redeem_gift || 0}
       </StyledTableCell>
       <StyledTableCell className="!text-center">
+        {report?.pending_gift || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
+        {report?.reject_gift || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
         {report?.allocate_voucher || 0}
       </StyledTableCell>
       <StyledTableCell className="!text-center">
         {report?.redeem_voucher || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
+        {report?.pending_voucher || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
+        {report?.reject_voucher || 0}
       </StyledTableCell>
       <StyledTableCell className="!text-center">
         {report?.approval_amount || 0}
@@ -136,8 +152,12 @@ export default function EmployeeReport() {
                 <StyledTableCell>CSC</StyledTableCell>
                 <StyledTableCell>Allocate Gift</StyledTableCell>
                 <StyledTableCell>Redeem Gift</StyledTableCell>
+                <StyledTableCell>Pending Gift</StyledTableCell>
+                <StyledTableCell>Reject Gift</StyledTableCell>
                 <StyledTableCell>Allocate Voucher</StyledTableCell>
                 <StyledTableCell>Redeem Voucher</StyledTableCell>
+                <StyledTableCell>Pending Voucher</StyledTableCell>
+                <StyledTableCell>Reject Voucher</StyledTableCell>
                 <StyledTableCell>Approval Amount</StyledTableCell>
               </TableRow>
             </TableHead>
