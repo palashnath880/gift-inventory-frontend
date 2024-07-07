@@ -89,7 +89,19 @@ export default function EditCustomer({
     try {
       setLoading(true);
       setError("");
-      await customerApi.update(customer?.id, data);
+
+      const newData: any = { ...data };
+      const newCus: any = { ...customer };
+
+      const formData: any = {};
+      const keys = Object.keys(data);
+      for (const key of keys) {
+        if (newData[key] != newCus[key]) {
+          formData[key] = newData[key];
+        }
+      }
+
+      await customerApi.update(customer?.id, formData);
       toast.success(`${customer?.name} updated successfully`);
       refetch();
     } catch (err) {
