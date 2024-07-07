@@ -20,6 +20,8 @@ import type { AllocateFormInputs, SKUCode, StockType } from "../../types";
 import { useQuery } from "@tanstack/react-query";
 import { stockApi } from "../../api/stock";
 import { loadUser } from "../../features/auth/authSlice";
+import { messageApi } from "../../api/message";
+import { customerApi } from "../../api/customer";
 
 const GiftAllocateInputs = ({
   control,
@@ -188,6 +190,12 @@ export default function Allocate() {
       toast.success(
         `${allocateItem === "gift" ? "Gift" : "Voucher"} Allocated Successfully`
       );
+      if (allocateItem === "voucher") {
+        let customer: any = await customerApi.getCustomerById(customerId);
+        customer = customer.data;
+        const message: string = `Enjoy ${data?.voucherCode?.amount} Tk. discount on your next purchase / service. Reward code: ${data?.voucherCode?.name}. Validity till ${data?.voucherCode?.expDays} days. Thank you, www.1000fix.com`;
+        await messageApi.send(customer?.phoneNo, message);
+      }
       reset();
       dispatch(loadUser());
     } catch (err) {
