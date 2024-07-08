@@ -1,113 +1,29 @@
-import { Button, Table, TableBody, TableHead, TableRow } from "@mui/material";
+import { Button } from "@mui/material";
 import PageHeader from "../../../components/shared/PageHeader";
 import ReportDateForm from "../../../components/shared/ReportDateForm";
 import { Download } from "@mui/icons-material";
 import { downloadExcel } from "../../../utility/utility";
-import { useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
-import Loader from "../../../components/shared/Loader";
-import { allocateApi } from "../../../api/allocate";
-import {
-  StyledTableCell,
-  StyledTableRow,
-} from "../../../components/shared/MUITable";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { fetchEmployees } from "../../../features/employees/employeesSlice";
 import { useEffect } from "react";
-import type { Employee } from "../../../types";
-
-interface ReportItemType {
-  creator_id: number;
-  allocate_gift: number;
-  allocate_voucher: number;
-  pending_gift: number;
-  pending_voucher: number;
-  reject_gift: number;
-  reject_voucher: number;
-  redeem_gift: number;
-  redeem_voucher: number;
-  approval_amount: number;
-}
-
-const ReportItem = ({
-  employee,
-  reports,
-  index,
-}: {
-  employee: Employee;
-  reports: ReportItemType[];
-  index: number;
-}) => {
-  // get report
-  const report =
-    (Array.isArray(reports) &&
-      reports.find((i) => i.creator_id === employee.id)) ||
-    null;
-
-  return (
-    <StyledTableRow>
-      <StyledTableCell>{index + 1}</StyledTableCell>
-      <StyledTableCell>{employee.employeeId}</StyledTableCell>
-      <StyledTableCell>{employee.name}</StyledTableCell>
-      <StyledTableCell>{employee.email}</StyledTableCell>
-      <StyledTableCell>{employee.role}</StyledTableCell>
-      <StyledTableCell>{employee.branch}</StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.allocate_gift || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.redeem_gift || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.pending_gift || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.reject_gift || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.allocate_voucher || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.redeem_voucher || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.pending_voucher || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.reject_voucher || 0}
-      </StyledTableCell>
-      <StyledTableCell className="!text-center">
-        {report?.approval_amount || 0}
-      </StyledTableCell>
-    </StyledTableRow>
-  );
-};
+import EmployeeApproval from "../../../components/admin/Reports/EmployeeApproval";
+import EmployeeGiftVou from "../../../components/admin/Reports/EmployeeGiftVou";
 
 export default function EmployeeReport() {
+  const { reportOf } = useParams<{ reportOf: "gift-voucher" | "approval" }>();
   // params
   const [search, setSearch] = useSearchParams();
-  const { from_date, to_date } = {
+  const { from_date, to_date, page, filter } = {
     from_date: search.get("from_date") || "",
     to_date: search.get("to_date") || "",
+    page: search.get("page") || "1",
+    filter: search.get("filter") || "0",
   };
 
   // redux
   const { employees } = useAppSelector((state) => state.employees);
   const dispatch = useAppDispatch();
-
-  // report-react-query
-  const { data, isLoading, isSuccess } = useQuery<ReportItemType[]>({
-    queryKey: ["allocationRedemptionReport", from_date, to_date],
-    queryFn: async () => {
-      if (!from_date || !to_date) {
-        return [];
-      }
-      const addOneDay = moment(to_date).add(1, "days").format("y-MM-DD");
-      const res = await allocateApi.getAdminAloRemReport(from_date, addOneDay);
-      return res.data;
-    },
-  });
 
   useEffect(() => {
     dispatch(fetchEmployees());
@@ -117,9 +33,28 @@ export default function EmployeeReport() {
     <div>
       <PageHeader title="Employee Wise Report" />
 
+      <div className="flex items-center gap-4 mb-5">
+        <Button
+          variant={reportOf !== "approval" ? "contained" : "outlined"}
+          className="!px-7 !text-sm !normal-case !py-3"
+          component={Link}
+          to={`/reports/employee/gift-voucher`}
+        >
+          Gift & Voucher
+        </Button>
+        <Button
+          variant={reportOf === "approval" ? "contained" : "outlined"}
+          className="!px-7 !text-sm !normal-case !py-3"
+          component={Link}
+          to={`/reports/employee/approval`}
+        >
+          Approval
+        </Button>
+      </div>
+
       <div className="flex justify-between gap-2 items-center">
         <ReportDateForm
-          loading={isLoading}
+          loading={false}
           values={{ fromDate: from_date, toDate: to_date }}
           onSearch={(from_date, to_date) => setSearch({ from_date, to_date })}
         />
@@ -128,51 +63,37 @@ export default function EmployeeReport() {
           variant="contained"
           startIcon={<Download />}
           className="!px-7 !text-sm !normal-case !py-3"
-          // disabled={Boolean(data?.data && data?.data?.length <= 0)}
-          onClick={() => downloadExcel("allocationReport", "Allocation Report")}
+          onClick={() =>
+            downloadExcel(
+              "report",
+              reportOf === "approval" ? "Employee Approval" : "Gift Voucher"
+            )
+          }
         >
           Export as Excel
         </Button>
       </div>
 
-      {/* loader  */}
-      {isLoading && <Loader dataLoading />}
-
-      {/* data display */}
-      {isSuccess && from_date && to_date && (
-        <>
-          <Table id="allocationReport" className="!mt-5">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell></StyledTableCell>
-                <StyledTableCell>Employee ID</StyledTableCell>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell>Email</StyledTableCell>
-                <StyledTableCell>Role</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>Allocate Gift</StyledTableCell>
-                <StyledTableCell>Redeem Gift</StyledTableCell>
-                <StyledTableCell>Pending Gift</StyledTableCell>
-                <StyledTableCell>Reject Gift</StyledTableCell>
-                <StyledTableCell>Allocate Voucher</StyledTableCell>
-                <StyledTableCell>Redeem Voucher</StyledTableCell>
-                <StyledTableCell>Pending Voucher</StyledTableCell>
-                <StyledTableCell>Reject Voucher</StyledTableCell>
-                <StyledTableCell>Approval Amount</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {employees.map((employee, index) => (
-                <ReportItem
-                  key={employee.id}
-                  employee={employee}
-                  reports={data}
-                  index={index}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </>
+      {reportOf === "approval" ? (
+        <EmployeeApproval
+          from_date={from_date}
+          to_date={to_date}
+          page={page}
+          filter={filter}
+          employees={employees}
+          onFilterChange={(id) =>
+            setSearch({ from_date, to_date, page: "1", filter: id })
+          }
+          onPageChange={(newPage) =>
+            setSearch({ from_date, to_date, page: newPage })
+          }
+        />
+      ) : (
+        <EmployeeGiftVou
+          from_date={from_date}
+          to_date={to_date}
+          employees={employees}
+        />
       )}
     </div>
   );

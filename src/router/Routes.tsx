@@ -227,7 +227,7 @@ export default function Routes() {
           element: <Admin.RedemptionReport />,
         },
         {
-          path: "reports/employee",
+          path: "reports/employee/:reportOf?",
           element: <Admin.EmployeeReport />,
         },
         {

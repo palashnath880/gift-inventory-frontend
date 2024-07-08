@@ -11,9 +11,14 @@ export const approvalApi = {
     instance.put(`/approval/${approvalId}`, data),
   redeemApproval: (id: string | undefined, data: any) =>
     instance.put(`/approval/redeem/${id}`, data),
-  getApprovalReport: (page: string, fromDate: string, toDate: string) =>
+  getApprovalReport: (
+    page: string,
+    fromDate: string,
+    toDate: string,
+    filter?: string
+  ) =>
     instance.get(
-      `/approval/report?page=${page}&from_date=${fromDate}&to_date=${toDate}`
+      `/approval/report?page=${page}&from_date=${fromDate}&to_date=${toDate}&filter=${filter}`
     ),
   getByEmployee: (
     userId: number | undefined,
