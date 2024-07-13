@@ -129,7 +129,9 @@ export default function AllocationReport() {
                       {report.end_date &&
                         moment(report.end_date).format("DD-MM-y")}
                     </StyledTableCell>
-                    <StyledTableCell>{report.redeem_by}</StyledTableCell>
+                    <StyledTableCell>
+                      {report.status === "closed" && report.redeem_by}
+                    </StyledTableCell>
                     <StyledTableCell>{report.manual_reason}</StyledTableCell>
                     <StyledTableCell>{report.redeemer_name}</StyledTableCell>
                     <StyledTableCell>
@@ -137,6 +139,8 @@ export default function AllocationReport() {
                         ? "Open"
                         : report.status === "closed"
                         ? "Redeemed"
+                        : report.status === "expired"
+                        ? "Expired"
                         : "Rejected"}
                     </StyledTableCell>
                   </StyledTableRow>

@@ -2,7 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { allocateApi } from "../../../api/allocate";
 import Loader from "../../shared/Loader";
-import { Table, TableBody, TableHead, TableRow } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { StyledTableCell, StyledTableRow } from "../../shared/MUITable";
 import type { Employee } from "../../../types";
 
@@ -23,6 +29,7 @@ interface ReportItemType {
   redeem_gift: number;
   redeem_voucher: number;
   approval_amount: number;
+  expired_voucher: number;
 }
 
 const ReportItem = ({
@@ -73,6 +80,9 @@ const ReportItem = ({
         {report?.reject_voucher || 0}
       </StyledTableCell>
       <StyledTableCell className="!text-center">
+        {report?.expired_voucher || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
         {report?.approval_amount || 0}
       </StyledTableCell>
     </StyledTableRow>
@@ -105,37 +115,40 @@ export default function EmployeeGiftVou({
       {/* data display */}
       {isSuccess && from_date && to_date && (
         <>
-          <Table id="report" className="!mt-5">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell></StyledTableCell>
-                <StyledTableCell>Employee ID</StyledTableCell>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell>Email</StyledTableCell>
-                <StyledTableCell>Role</StyledTableCell>
-                <StyledTableCell>CSC</StyledTableCell>
-                <StyledTableCell>Allocate Gift</StyledTableCell>
-                <StyledTableCell>Redeem Gift</StyledTableCell>
-                <StyledTableCell>Pending Gift</StyledTableCell>
-                <StyledTableCell>Reject Gift</StyledTableCell>
-                <StyledTableCell>Allocate Voucher</StyledTableCell>
-                <StyledTableCell>Redeem Voucher</StyledTableCell>
-                <StyledTableCell>Pending Voucher</StyledTableCell>
-                <StyledTableCell>Reject Voucher</StyledTableCell>
-                <StyledTableCell>Approval Amount</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {employees.map((employee, index) => (
-                <ReportItem
-                  key={employee.id}
-                  employee={employee}
-                  reports={data}
-                  index={index}
-                />
-              ))}
-            </TableBody>
-          </Table>
+          <TableContainer>
+            <Table id="report" className="!mt-5">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell></StyledTableCell>
+                  <StyledTableCell>Employee ID</StyledTableCell>
+                  <StyledTableCell>Name</StyledTableCell>
+                  <StyledTableCell>Email</StyledTableCell>
+                  <StyledTableCell>Role</StyledTableCell>
+                  <StyledTableCell>CSC</StyledTableCell>
+                  <StyledTableCell>Allocate Gift</StyledTableCell>
+                  <StyledTableCell>Redeem Gift</StyledTableCell>
+                  <StyledTableCell>Pending Gift</StyledTableCell>
+                  <StyledTableCell>Reject Gift</StyledTableCell>
+                  <StyledTableCell>Allocate Voucher</StyledTableCell>
+                  <StyledTableCell>Redeem Voucher</StyledTableCell>
+                  <StyledTableCell>Pending Voucher</StyledTableCell>
+                  <StyledTableCell>Reject Voucher</StyledTableCell>
+                  <StyledTableCell>Expired Voucher</StyledTableCell>
+                  <StyledTableCell>Approval Amount</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {employees.map((employee, index) => (
+                  <ReportItem
+                    key={employee.id}
+                    employee={employee}
+                    reports={data}
+                    index={index}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </>
       )}
     </>

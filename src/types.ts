@@ -82,7 +82,13 @@ export type ApprovalItem = {
   sender_name: string;
   branch_id: number;
   branch_name: string;
-  status: "open" | "approved" | "rejected" | "transferred" | "redeemed";
+  status:
+    | "open"
+    | "approved"
+    | "rejected"
+    | "transferred"
+    | "redeemed"
+    | "expired";
   voucher_amount: number;
   voucher_code: string;
   transferred_date: string;
@@ -162,7 +168,7 @@ export type AllocateItem = {
   redeem_by: "otp" | "manual";
   redeemer_name: string;
   so: string;
-  status: "open" | "rejected" | "closed";
+  status: "open" | "rejected" | "closed" | "expired";
   voucher_amount: number;
   voucher_code: string;
 };
@@ -224,7 +230,7 @@ export type AllocatedItem = {
   so: string;
   comment: string;
   manual_reason: string;
-  status: "open" | "rejected" | "closed";
+  status: "open" | "rejected" | "closed" | "expired";
   voucher_amount: number;
   voucher_code: string;
   branch: string;
