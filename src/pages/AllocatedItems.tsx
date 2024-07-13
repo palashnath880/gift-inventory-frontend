@@ -142,6 +142,8 @@ export default function AllocatedItems() {
                         <Chip color="primary" label="Allocated" />
                       ) : item.status === "rejected" ? (
                         <Chip label="Canceled" color="error" />
+                      ) : item.status === "expired" ? (
+                        <Chip label="Expired" color="error" />
                       ) : (
                         <Chip label="Redeemed" color="success" />
                       )}
