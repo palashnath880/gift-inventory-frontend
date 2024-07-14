@@ -28,8 +28,11 @@ interface ReportItemType {
   reject_voucher: number;
   redeem_gift: number;
   redeem_voucher: number;
-  approval_amount: number;
   expired_voucher: number;
+  approval_amount: number;
+  pending_approval: number;
+  reject_approval: number;
+  redeem_approval: number;
 }
 
 const ReportItem = ({
@@ -85,6 +88,15 @@ const ReportItem = ({
       <StyledTableCell className="!text-center">
         {report?.approval_amount || 0}
       </StyledTableCell>
+      <StyledTableCell className="!text-center">
+        {report?.pending_approval || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
+        {report?.reject_approval || 0}
+      </StyledTableCell>
+      <StyledTableCell className="!text-center">
+        {report?.redeem_approval || 0}
+      </StyledTableCell>
     </StyledTableRow>
   );
 };
@@ -135,6 +147,9 @@ export default function EmployeeGiftVou({
                   <StyledTableCell>Reject Voucher</StyledTableCell>
                   <StyledTableCell>Expired Voucher</StyledTableCell>
                   <StyledTableCell>Approval Amount</StyledTableCell>
+                  <StyledTableCell>Pending Approval</StyledTableCell>
+                  <StyledTableCell>Reject Approval</StyledTableCell>
+                  <StyledTableCell>Redeem Approval</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
