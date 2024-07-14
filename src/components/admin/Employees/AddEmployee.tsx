@@ -94,7 +94,14 @@ export default function AddEmployee({ close }: { close: () => void }) {
             fullWidth
             error={Boolean(errors["email"])}
             label="Email"
-            {...register("email", { required: false })}
+            {...register("email", {
+              required: true,
+              pattern: {
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message: "Invalid Email",
+              },
+            })}
           />
           <TextField
             fullWidth
