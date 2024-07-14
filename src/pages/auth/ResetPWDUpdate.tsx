@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { authApi } from "../../api/auth";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/shared/Loader";
+import { useNavigate } from "react-router-dom";
 
 interface Inputs {
   password: string;
@@ -19,6 +20,7 @@ export default function ResetPWDUpdate({
   // states
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
 
   // react-hook-form
   const {
@@ -41,7 +43,8 @@ export default function ResetPWDUpdate({
       setLoading(true);
       setError("");
       await authApi.updateResetPWD(token, data.password);
-      toast.success("Your password reset link was sent successfully.");
+      toast.success("Your password updated successfully.");
+      navigate("/", { replace: true });
       reset();
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
