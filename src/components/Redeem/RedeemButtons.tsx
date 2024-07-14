@@ -176,58 +176,61 @@ export default function RedeemButtons({
       </div>
 
       <Divider className="!my-5 !bg-primary" />
-      <div className="">
-        <PopupState variant="popover">
-          {(popupState) => (
-            <>
-              <Button
-                {...bindTrigger(popupState)}
-                variant="contained"
-                className="flex-1 !py-3 !text-sm !capitalize"
-                color="success"
-              >
-                Redeem Manually
-              </Button>
 
-              <Dialog {...bindDialog(popupState)}>
-                <div className="w-[400px] px-5 py-4">
-                  <div className="flex justify-between items-center">
-                    <Typography
-                      variant="h5"
-                      className="!text-primary !font-semibold"
-                    >
-                      Redeem manually
-                    </Typography>
-                    <IconButton onClick={popupState.close}>
-                      <Close />
-                    </IconButton>
+      {item?.redeem_type === "voucher" && (
+        <div className="">
+          <PopupState variant="popover">
+            {(popupState) => (
+              <>
+                <Button
+                  {...bindTrigger(popupState)}
+                  variant="contained"
+                  className="flex-1 !py-3 !text-sm !capitalize"
+                  color="success"
+                >
+                  Redeem Manually
+                </Button>
+
+                <Dialog {...bindDialog(popupState)}>
+                  <div className="w-[400px] px-5 py-4">
+                    <div className="flex justify-between items-center">
+                      <Typography
+                        variant="h5"
+                        className="!text-primary !font-semibold"
+                      >
+                        Redeem manually
+                      </Typography>
+                      <IconButton onClick={popupState.close}>
+                        <Close />
+                      </IconButton>
+                    </div>
+                    <div className="flex flex-col gap-5 mt-3">
+                      <TextField
+                        fullWidth
+                        label="Reason"
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                      />
+                      <Button
+                        variant="contained"
+                        color="success"
+                        className="flex-1 !py-3 !capitalize !text-sm"
+                        disabled={!value}
+                        onClick={() => {
+                          redeemItem("manual");
+                          popupState.close();
+                        }}
+                      >
+                        Redeem
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-5 mt-3">
-                    <TextField
-                      fullWidth
-                      label="Reason"
-                      value={value}
-                      onChange={(e) => setValue(e.target.value)}
-                    />
-                    <Button
-                      variant="contained"
-                      color="success"
-                      className="flex-1 !py-3 !capitalize !text-sm"
-                      disabled={!value}
-                      onClick={() => {
-                        redeemItem("manual");
-                        popupState.close();
-                      }}
-                    >
-                      Redeem
-                    </Button>
-                  </div>
-                </div>
-              </Dialog>
-            </>
-          )}
-        </PopupState>
-      </div>
+                </Dialog>
+              </>
+            )}
+          </PopupState>
+        </div>
+      )}
     </div>
   );
 }
