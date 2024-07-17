@@ -230,6 +230,7 @@ export type AllocatedItem = {
   so: string;
   comment: string;
   manual_reason: string;
+  cancel_reason: string;
   status: "open" | "rejected" | "closed" | "expired";
   voucher_amount: number;
   voucher_code: string;

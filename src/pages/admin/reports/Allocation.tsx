@@ -99,9 +99,10 @@ export default function AllocationReport() {
                   <StyledTableCell>Voucher Amount</StyledTableCell>
                   <StyledTableCell>Allocation Date</StyledTableCell>
                   <StyledTableCell>Allocator</StyledTableCell>
-                  <StyledTableCell>Redemption Date</StyledTableCell>
+                  <StyledTableCell>Redemption / Cancel Date</StyledTableCell>
                   <StyledTableCell>Redeem Type</StyledTableCell>
                   <StyledTableCell>Manual Reason</StyledTableCell>
+                  <StyledTableCell>Cancel Reason</StyledTableCell>
                   <StyledTableCell>Redeemer</StyledTableCell>
                   <StyledTableCell>Status</StyledTableCell>
                 </TableRow>
@@ -133,6 +134,7 @@ export default function AllocationReport() {
                       {report.status === "closed" && report.redeem_by}
                     </StyledTableCell>
                     <StyledTableCell>{report.manual_reason}</StyledTableCell>
+                    <StyledTableCell>{report.cancel_reason}</StyledTableCell>
                     <StyledTableCell>{report.redeemer_name}</StyledTableCell>
                     <StyledTableCell>
                       {report.status === "open"
