@@ -111,6 +111,8 @@ export default function CusGiftVoucher({
                       <StyledTableCell>Allocation Date</StyledTableCell>
                       <StyledTableCell>Allocator</StyledTableCell>
                       <StyledTableCell>Status</StyledTableCell>
+                      <StyledTableCell>Manual Reason</StyledTableCell>
+                      <StyledTableCell>Cancel Reason</StyledTableCell>
                       <StyledTableCell>Redeemed Date</StyledTableCell>
                       <StyledTableCell>Redeemer</StyledTableCell>
                     </TableRow>
@@ -142,6 +144,12 @@ export default function CusGiftVoucher({
                             : report.status === "closed"
                             ? "Redeemed"
                             : "Reject"}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {report?.manual_reason}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {report?.cancel_reason}
                         </StyledTableCell>
                         <StyledTableCell>
                           {report.end_date &&
