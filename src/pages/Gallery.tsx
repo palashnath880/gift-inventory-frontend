@@ -1,8 +1,22 @@
-import { Alert, ImageList, ImageListItem, Typography } from "@mui/material";
+import {
+  Alert,
+  // Button,
+  Dialog,
+  ImageList,
+  ImageListItem,
+  Typography,
+} from "@mui/material";
 import PageHeader from "../components/shared/PageHeader";
 import { useQuery } from "@tanstack/react-query";
 import { inventoryApi } from "../api/inventory";
 import Loader from "../components/shared/Loader";
+// import { Add } from "@mui/icons-material";
+import {
+  bindDialog,
+  // bindTrigger,
+  usePopupState,
+} from "material-ui-popup-state/hooks";
+// import GalleryImageUpload from "../components/shared/GalleryImageUpload";
 
 interface Image {
   title: string;
@@ -20,9 +34,24 @@ export default function Gallery() {
     },
   });
 
+  // dialog
+  const addPopup = usePopupState({
+    variant: "popover",
+    popupId: "uploadImage",
+  });
+
   return (
     <div className="!pb-5">
       <PageHeader title="CSAT Gallery" />
+
+      {/* <Button
+        variant="contained"
+        {...bindTrigger(addPopup)}
+        className="!px-8 !py-2.5 !capitalize !text-sm"
+        startIcon={<Add />}
+      >
+        Add Image
+      </Button> */}
 
       {/* loader  */}
       {isLoading && <Loader dataLoading />}
@@ -40,9 +69,11 @@ export default function Gallery() {
                 alt={title}
                 className="!w-full !h-auto"
               />
-              <div className="py-2 px-3">
-                <Typography className="!text-primary">{caption}</Typography>
-              </div>
+              {caption && (
+                <div className="py-2 px-3 text-center">
+                  <Typography className="!opacity-70">{caption}</Typography>
+                </div>
+              )}
             </ImageListItem>
           ))}
         </ImageList>
@@ -57,6 +88,9 @@ export default function Gallery() {
           </Alert>
         </div>
       )}
+
+      {/* upload dialog */}
+      <Dialog {...bindDialog(addPopup)}>{/* <GalleryImageUpload */}</Dialog>
     </div>
   );
 }
