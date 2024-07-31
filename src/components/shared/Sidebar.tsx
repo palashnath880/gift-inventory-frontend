@@ -17,6 +17,7 @@ import {
   Redeem,
   Remove,
   Send,
+  Star,
   Wc,
 } from "@mui/icons-material";
 import { Divider, Typography } from "@mui/material";
@@ -54,7 +55,7 @@ const NavItem = ({
   return (
     <MenuItem component={<NavLink to={href} />} key={href}>
       <Typography variant="body1" className="!flex gap-2 items-center">
-        {icon}
+        {icon || <Star fontSize="small" />}
         {label}
       </Typography>
     </MenuItem>
