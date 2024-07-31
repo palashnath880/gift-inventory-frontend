@@ -231,6 +231,10 @@ export default function Routes() {
           element: <Admin.EmployeeReport />,
         },
         {
+          path: "gallery",
+          element: <Gallery />,
+        },
+        {
           path: "stock",
           element: <Admin.Stock />,
         },

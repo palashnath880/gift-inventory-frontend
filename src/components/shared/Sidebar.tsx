@@ -245,6 +245,11 @@ export default function Sidebar() {
       ],
     },
     {
+      href: "/gallery",
+      label: "Gallery",
+      icon: <PermMedia fontSize="small" />,
+    },
+    {
       href: "",
       label: "Reports",
       icon: <Assessment fontSize="small" />,
