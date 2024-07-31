@@ -115,6 +115,7 @@ export default function GiftVoucherReport({
                       <StyledTableCell>Redeem / Reject Date</StyledTableCell>
                       <StyledTableCell>Redeem Type</StyledTableCell>
                       <StyledTableCell>Manual Reason</StyledTableCell>
+                      <StyledTableCell>Cancel Reason</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -154,6 +155,9 @@ export default function GiftVoucherReport({
                         <StyledTableCell>{report.redeem_by}</StyledTableCell>
                         <StyledTableCell>
                           {report.manual_reason}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {report.cancel_reason}
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
