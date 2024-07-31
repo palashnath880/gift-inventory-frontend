@@ -3,8 +3,6 @@ import {
   Approval,
   Assessment,
   BarChart,
-  ExpandLess,
-  ExpandMore,
   Home,
   InsertDriveFile,
   Lock,
@@ -19,17 +17,22 @@ import {
   Redeem,
   Remove,
   Send,
-  Star,
   Wc,
 } from "@mui/icons-material";
-import { Collapse, Divider, List, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
+import { Divider, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import logo from "../../assets/logo.webp";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { logOut } from "../../features/auth/authSlice";
 import { bindTrigger, usePopupState } from "material-ui-popup-state/hooks";
 import PasswordChangeDialog from "./PasswordChangeDialog";
+import {
+  Menu,
+  MenuItem,
+  Sidebar as ReactSidebar,
+  SubMenu,
+} from "react-pro-sidebar";
+import { NavLink } from "react-router-dom";
 
 interface NavMenuType {
   href: string;
@@ -43,80 +46,18 @@ const NavItem = ({
   href,
   icon,
   label,
-  onActive,
 }: {
   href: string;
   icon: React.ReactNode;
   label: string;
-  onActive?: (isActive: boolean) => void;
 }) => {
-  // state
-  const resolve = useResolvedPath(href);
-  const match = useMatch({ path: resolve.pathname });
-
-  useEffect(() => {
-    if (typeof onActive === "function") {
-      onActive(!!match);
-    }
-  }, [match]);
-
   return (
-    <NavLink
-      to={href}
-      className={({ isActive }) =>
-        `rounded-md flex items-center gap-4 py-3 duration-200 px-2.5 hover:bg-opacity-15 hover:bg-primary hover:text-primary ${
-          isActive && "bg-primary bg-opacity-20"
-        }`
-      }
-    >
-      {icon}
-      <Typography variant="body1">{label}</Typography>
-    </NavLink>
-  );
-};
-
-const NavMenuItem = ({
-  menu: { icon, href, label, group, menus },
-}: {
-  menu: NavMenuType;
-}) => {
-  // states
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  return (
-    <>
-      {group ? (
-        <>
-          <li
-            onClick={() => setIsOpen(!isOpen)}
-            className="rounded-md flex items-center cursor-pointer justify-between gap-2 py-3 duration-200 px-2.5 hover:bg-opacity-15 hover:bg-primary hover:text-primary"
-          >
-            <span className="flex items-center gap-4">
-              {icon}
-              <Typography variant="body1">{label}</Typography>
-            </span>
-            {isOpen ? <ExpandLess /> : <ExpandMore />}
-          </li>
-
-          {/* collapse sub menu  */}
-          <Collapse in={isOpen} className="!pl-4">
-            <List component="div" disablePadding>
-              {menus?.map((submenu, index) => (
-                <NavItem
-                  href={submenu.href}
-                  icon={submenu.icon || <Star fontSize="small" />}
-                  label={submenu.label}
-                  key={index}
-                  onActive={(isActive) => setIsOpen(isActive)}
-                />
-              ))}
-            </List>
-          </Collapse>
-        </>
-      ) : (
-        <NavItem href={href} icon={icon} label={label} />
-      )}
-    </>
+    <MenuItem component={<NavLink to={href} />} key={href}>
+      <Typography variant="body1" className="!flex gap-2 items-center">
+        {icon}
+        {label}
+      </Typography>
+    </MenuItem>
   );
 };
 
@@ -127,6 +68,9 @@ export default function Sidebar() {
   // react-redux
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+
+  // mui theme
+  const theme = useTheme();
 
   // nav menus
   const employeeMenus: NavMenuType[] = [
@@ -329,38 +273,82 @@ export default function Sidebar() {
     },
   ];
 
+  const menusArr = user?.isAdmin ? adminMenus : employeeMenus;
+
   return (
     <>
       {/* sidebar */}
       <div className="w-64 !bg-white h-screen relative">
-        <div className="absolute top-0 left-0 w-full h-full flex flex-col py-4 overflow-y-auto">
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col py-4 scrollbar overflow-y-auto">
           <div className="flex flex-col items-center pb-2">
             <img src={logo} className="w-24 h-auto" />
             <Typography variant="h6" className="!font-bold !text-primary">
               CSAT Portal
             </Typography>
           </div>
-          <div className="flex-1">
-            <List component="div" className="!px-4">
-              {/* employee menus */}
-              {!user?.isAdmin && (
-                <>
-                  {employeeMenus.map((menu, index) => (
-                    <NavMenuItem key={index} menu={menu} />
-                  ))}
-                </>
-              )}
-
-              {/* admin menus */}
-              {user?.isAdmin && (
-                <>
-                  {adminMenus.map((menu, index) => (
-                    <NavMenuItem key={index} menu={menu} />
-                  ))}
-                </>
-              )}
-            </List>
+          <div className="flex-1 px-4">
+            <ReactSidebar
+              style={{
+                width: "100%",
+                minWidth: "100%",
+                borderWidth: 0,
+              }}
+              rootStyles={{
+                ["& .ps-sidebar-container"]: {
+                  backgroundColor: "transparent",
+                },
+                ["& .ps-submenu-content"]: {
+                  paddingLeft: 15,
+                },
+              }}
+            >
+              <Menu
+                menuItemStyles={{
+                  button: {
+                    [`&.active`]: {
+                      backgroundColor: theme.palette.primary.main,
+                      color: "#f2f2f2",
+                    },
+                    borderRadius: 7,
+                  },
+                }}
+                rootStyles={{
+                  ["& .ps-submenu-expand-icon"]: { display: "flex" },
+                  ["& .ps-menu-button"]: {
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    height: 45,
+                  },
+                }}
+              >
+                {menusArr.map((menu, index) => (
+                  <>
+                    {menu?.group ? (
+                      <SubMenu
+                        label={
+                          <Typography
+                            variant="body1"
+                            className="!flex gap-2 items-center"
+                          >
+                            {menu.icon}
+                            {menu.label}
+                          </Typography>
+                        }
+                        key={index}
+                      >
+                        {menu?.menus?.map((item, menuIndex) => (
+                          <NavItem key={menuIndex} {...item} />
+                        ))}
+                      </SubMenu>
+                    ) : (
+                      <NavItem key={index} {...menu} />
+                    )}
+                  </>
+                ))}
+              </Menu>
+            </ReactSidebar>
           </div>
+
           <div className="px-3 mt-4">
             <Divider className="!bg-primary" />
             <div
