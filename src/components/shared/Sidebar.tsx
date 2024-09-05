@@ -327,30 +327,28 @@ export default function Sidebar() {
                   },
                 }}
               >
-                {menusArr.map((menu, index) => (
-                  <>
-                    {menu?.group ? (
-                      <SubMenu
-                        label={
-                          <Typography
-                            variant="body1"
-                            className="!flex gap-2 items-center"
-                          >
-                            {menu.icon}
-                            {menu.label}
-                          </Typography>
-                        }
-                        key={index}
-                      >
-                        {menu?.menus?.map((item, menuIndex) => (
-                          <NavItem key={menuIndex} {...item} />
-                        ))}
-                      </SubMenu>
-                    ) : (
-                      <NavItem key={index} {...menu} />
-                    )}
-                  </>
-                ))}
+                {menusArr.map((menu, index) =>
+                  menu?.group ? (
+                    <SubMenu
+                      label={
+                        <Typography
+                          variant="body1"
+                          className="!flex gap-2 items-center"
+                        >
+                          {menu.icon}
+                          {menu.label}
+                        </Typography>
+                      }
+                      key={index}
+                    >
+                      {menu?.menus?.map((item, menuIndex) => (
+                        <NavItem key={menuIndex} {...item} />
+                      ))}
+                    </SubMenu>
+                  ) : (
+                    <NavItem key={index} {...menu} />
+                  )
+                )}
               </Menu>
             </ReactSidebar>
           </div>
