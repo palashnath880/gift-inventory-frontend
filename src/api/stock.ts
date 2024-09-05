@@ -39,4 +39,8 @@ export const stockApi = {
     instance.get(
       `admin/stock-transfer-list?page=${page}&from_date=${fromDate}&to_date=${toDate}`
     ),
+  downloadTransferReport: (fromDate: string = "", toDate: string = "") =>
+    instance.get(
+      `admin/download-stock-transfer-list?from_date=${fromDate}&to_date=${toDate}`
+    ),
 };

@@ -40,6 +40,45 @@ export const downloadExcel = (tableId: string, filename: string = "") => {
   writeFile(wb, filename);
 };
 
+export const arrayToExcel = (header: any, rows: any, filename: string = "") => {
+  filename = filename ? filename + ".xls" : "excel_data.xls";
+
+  if (typeof header !== "object") {
+    throw new Error(`Please provide valid object for the excel header`);
+  }
+  if (!Array.isArray(rows)) {
+    throw new Error(`Please provide valid array of object for the excel body`);
+  }
+
+  const headerRow: any[] = [];
+  for (const value of Object.values(header)) {
+    headerRow.push(value);
+  }
+
+  const content: any[][] = [];
+  for (const row of rows) {
+    const rowData = [];
+    const keys = Object.keys(header);
+    for (const key of keys) {
+      rowData.push(row[key]);
+    }
+    content.push(rowData);
+  }
+
+  const data = [headerRow, ...content];
+
+  const ws = utils.json_to_sheet(data, { skipHeader: true });
+  const wb = utils.book_new();
+
+  utils.sheet_add_aoa(ws, [headerRow], { origin: "A1" });
+  utils.book_append_sheet(wb, ws, "Data");
+
+  ws["!cols"] = [{ width: 10 }];
+
+  /* export to XLSX */
+  writeFile(wb, filename);
+};
+
 export const generateOTP = (length = 4) => {
   const digits = "0123456789";
   let otp = "";

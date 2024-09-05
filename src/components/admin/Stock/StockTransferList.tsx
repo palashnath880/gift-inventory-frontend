@@ -18,7 +18,8 @@ import { useSearchParams } from "react-router-dom";
 import Loader from "../../shared/Loader";
 import { StyledTableCell, StyledTableRow } from "../../shared/MUITable";
 import moment from "moment";
-import { downloadExcel } from "../../../utility/utility";
+import { arrayToExcel } from "../../../utility/utility";
+import toast from "react-hot-toast";
 
 interface TransferListItem {
   name: string;
@@ -60,6 +61,42 @@ export default function StockTransferList() {
     },
   });
 
+  // report download handler
+  const handleReport = async () => {
+    const headerObj = {
+      created_at: "Transfer Date",
+      receiver_branch_name: "Transfer To",
+      name: "Name",
+      sku_code: "SKU Code",
+      type: "Gift Type",
+      quantity: "Quantity",
+      remarks: "Remarks",
+      status: "Status",
+    };
+    try {
+      const res = await stockApi.downloadTransferReport(from_date, to_date);
+      let data: any[] = res.data;
+      if (Array.isArray(data)) {
+        data = data.map((i: TransferListItem) => ({
+          ...i,
+          created_at: moment(i.created_at).format("ll"),
+          status:
+            i.status === "open"
+              ? "Part In Transit"
+              : i.status === "received"
+              ? "Received"
+              : "Rejected",
+        }));
+
+        arrayToExcel(headerObj, data, "Transfer Report");
+      } else {
+        toast.error("Sorry! No data available");
+      }
+    } catch (err) {
+      toast.error("Sorry! Something went wrong");
+    }
+  };
+
   return (
     <div className="mt-6 bg-white px-5 py-5 mb-10 shadow-xl rounded-xl">
       <Typography variant="h6" className="!text-primary !font-semibold">
@@ -88,7 +125,7 @@ export default function StockTransferList() {
             variant="contained"
             color="primary"
             className="!px-7 !py-3 !text-sm !capitalize"
-            onClick={() => downloadExcel("transferList", "Transfer List")}
+            onClick={handleReport}
             startIcon={<Download />}
             disabled={Boolean(data?.data && data?.data?.length <= 0)}
           >
