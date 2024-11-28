@@ -61,7 +61,7 @@ export default function RedeemButtons({
       setSending(true);
 
       if (item?.redeem_type === "gift") {
-        const message: string = `Hello Sir/Madam, \nThank you for being a valued customer. As a token of our appreciation, we have a special gift for you. Please collect our gift from our front executive. Thank you for your continued trust in us. \nBest wishes, \n1000FiX Services Limited`;
+        const message: string = `Hello Sir/Madam, \nThank you for being a valued customer. As a token of our appreciation, we have a special gift for you. Please collect your gift from our front executive. Thank you for your continued trust in us. \nBest wishes, \n1000FiX Services Limited`;
         await messageApi.send(item?.cus_phone, message);
         await redeemItem("otp");
         toast.success("Notification sent successfully");
